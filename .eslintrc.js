@@ -38,6 +38,7 @@ module.exports = {
     quotes: [2, 'single', 'avoid-escape'],
     // needed for NextJS's jsx without react import
     'react/react-in-jsx-scope': 'off',
+    '@typescript-eslint/no-var-requires': 'off',
   },
   globals: { React: 'writable' },
 };
