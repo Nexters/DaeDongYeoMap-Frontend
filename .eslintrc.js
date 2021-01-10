@@ -39,6 +39,10 @@ module.exports = {
     // needed for NextJS's jsx without react import
     'react/react-in-jsx-scope': 'off',
     '@typescript-eslint/no-var-requires': 'off',
+    '@typescript-eslint/no-unused-vars': [
+      'error',
+      { varsIgnorePattern: '[_]+' },
+    ],
   },
   globals: { React: 'writable' },
 };
