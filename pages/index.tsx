@@ -1,5 +1,6 @@
 import Head from 'next/head';
-import ApolloQueryDummy from '../components/ApolloQueryDummy';
+import FetchButton from '../components/FetchButton';
+import FetchResult from '../components/FetchResult';
 import styles from '../styles/Home.module.css';
 
 const Home: React.FC = () => {
@@ -20,7 +21,9 @@ const Home: React.FC = () => {
         <p className={styles.description}>Team Oh! When?</p>
       </main>
 
-      <ApolloQueryDummy />
+      <FetchButton />
+      <FetchResult />
+
       <footer className={styles.footer}>
         <a
           href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"

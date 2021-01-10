@@ -6,8 +6,19 @@ declare interface CustomQueryHook<Data, Variables = undefined> {
   };
 }
 
+declare interface CustomLazyQueryHook<Data, Variables = undefined> {
+  (variables?: Variables): [
+    () => void,
+    {
+      loading: boolean;
+      error?: ApolloError;
+      data: Data;
+    }
+  ];
+}
+
 declare namespace GQL {
-  export namespace GetSpaceXCeoName {
+  export namespace GetSpaceXCEO {
     export interface Data {
       company: {
         ceo: string;
