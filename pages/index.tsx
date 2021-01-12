@@ -1,7 +1,9 @@
 import Head from 'next/head';
+import FetchButton from '../components/FetchButton';
+import FetchResult from '../components/FetchResult';
 import styles from '../styles/Home.module.css';
 
-export default function Home() {
+const Home: React.FC = () => {
   return (
     <div className={styles.container}>
       <Head>
@@ -19,6 +21,9 @@ export default function Home() {
         <p className={styles.description}>Team Oh! When?</p>
       </main>
 
+      <FetchButton />
+      <FetchResult />
+
       <footer className={styles.footer}>
         <a
           href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
@@ -31,4 +36,6 @@ export default function Home() {
       </footer>
     </div>
   );
-}
+};
+
+export default Home;
