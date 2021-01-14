@@ -1,6 +1,5 @@
 import Head from 'next/head';
-import FetchButton from '../components/FetchButton';
-import FetchResult from '../components/FetchResult';
+import SpotGenerator from '../components/Home/SpotGenerator';
 import styles from '../styles/Home.module.css';
 
 const Home: React.FC = () => {
@@ -21,8 +20,7 @@ const Home: React.FC = () => {
         <p className={styles.description}>Team Oh! When?</p>
       </main>
 
-      <FetchButton />
-      <FetchResult />
+      <SpotGenerator />
 
       <footer className={styles.footer}>
         <a

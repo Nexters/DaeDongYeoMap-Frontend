@@ -41,7 +41,7 @@ module.exports = {
     '@typescript-eslint/no-var-requires': 'off',
     '@typescript-eslint/no-unused-vars': [
       'error',
-      { varsIgnorePattern: '[_]+' },
+      { varsIgnorePattern: '[_]+|React' },
     ],
   },
   globals: { React: 'writable' },
