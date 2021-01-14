@@ -1,10 +1,13 @@
 import React from 'react';
+import { useRecoilState } from 'recoil';
+import { pageState } from '../SpotGeneratorState';
 import emojis from '../../../../constants/emojis';
 import themes from '../../../../constants/themes';
 import type { Emoji } from '../../../../constants/emojis';
 import * as $ from './PageStickerView';
 
 const PageSticker: React.FC = () => {
+  const [_, setPage] = useRecoilState(pageState);
   // @see Flex로 Flexible Grid 정렬을 하기 위한, 더미 아이템 요소를 4n개에 맞게 추가
   const emojisToGrid: Emoji[] = [null, null, null, null].reduce(
     (emojisToGrid, dummy) => {
@@ -13,6 +16,8 @@ const PageSticker: React.FC = () => {
     },
     emojis
   );
+
+  const handleClickNextButton = () => setPage(2);
 
   return (
     <$.PageSticker>
@@ -43,7 +48,7 @@ const PageSticker: React.FC = () => {
         </$.EmojiList>
       </$.AreaEmoji>
       <$.AreaButton>
-        <$.NextButton>다음으로</$.NextButton>
+        <$.NextButton onClick={handleClickNextButton}>다음으로</$.NextButton>
       </$.AreaButton>
     </$.PageSticker>
   );
