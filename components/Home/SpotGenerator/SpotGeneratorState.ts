@@ -23,11 +23,6 @@ const defaultPlace: GQL.GetPlace.Data = {
   y: null,
 };
 
-export const pageState: RecoilState<number> = atom({
-  key: 'pageState',
-  default: 1,
-});
-
 export const placeState: (
   placeId: string
 ) => RecoilState<GQL.GetPlace.Data> = atomFamily({
