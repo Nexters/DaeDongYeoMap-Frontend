@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Head from 'next/head';
 import SpotGenerator from '../components/Home/SpotGenerator';
 import styles from '../styles/Home.module.css';
+import MainPage from '../components/Home/MainMapPage/MainPage';
 
 const Home: React.FC = () => {
   // 스팟찍기 레이어를 띄우기 위한 임시 상태 (추후 지도와 연동시 변경)
@@ -10,18 +11,12 @@ const Home: React.FC = () => {
   return (
     <div className={styles.container}>
       <Head>
-        <title>데동여지도</title>
+        <title>데동여지도 Deji</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>
-          데동여지도
-          <br />
-          DaeDongYeoMap
-        </h1>
-
-        <p className={styles.description}>Team Oh! When?</p>
+        <MainPage />
       </main>
 
       {isShownSpotGenerator && <SpotGenerator />}
