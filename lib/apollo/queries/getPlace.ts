@@ -28,9 +28,8 @@ const getPlace = async (placeId: string): Promise<GQL.GetPlace.Data> => {
       placeId,
     },
   });
-  const place = response?.data?.getPlace;
 
-  return place;
+  return response?.data?.getPlace;
 };
 
 export default getPlace;
