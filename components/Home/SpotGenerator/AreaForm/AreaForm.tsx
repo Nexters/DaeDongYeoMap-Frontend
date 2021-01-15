@@ -1,10 +1,18 @@
 import React from 'react';
+import createSpot from '../../../../lib/apollo/mutations/createSpot';
+import { useRecoilValue } from 'recoil';
+import { currentPlaceQuery, emojiState } from '../SpotGeneratorState';
 import * as $ from './AreaFormView';
 
 const AreaForm: React.FC = () => {
+  const place = useRecoilValue(currentPlaceQuery);
+  const emojiId = useRecoilValue(emojiState);
   const handleClickSubmit = (e) => {
     e.preventDefault();
-    // submit 로직
+    createSpot(place, emojiId).then((spot) => {
+      console.log(spot);
+      // TODO: 지도에 Spot 렌더링
+    });
   };
 
   return (
