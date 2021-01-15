@@ -1,5 +1,6 @@
 import { gql } from '@apollo/client';
 import client from '../client';
+import emojis from '../../../constants/emojis';
 
 const CREATE_SPOT = gql`
   mutation createSpot($createSpotInput: CreateSpotInput!) {
@@ -30,10 +31,11 @@ const createSpot = async (
 
   delete placeData.__typename;
 
+  const emoji = emojis[Number(emojiId)].imageUrl.split('_')[1].split('.')[0];
   const response = await client.mutate({
     mutation: CREATE_SPOT,
     variables: {
-      createSpotInput: { ...placeData, x, y, emoji: 'happy' },
+      createSpotInput: { ...placeData, x, y, emoji },
     },
   });
 
