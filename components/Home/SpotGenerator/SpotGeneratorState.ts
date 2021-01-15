@@ -51,3 +51,8 @@ export const currentPlaceQuery = selector({
   key: 'currentPlaceQuery',
   get: ({ get }) => get(placeQuery(get(currentPlaceIdState))),
 });
+
+export const emojiState = atom({
+  key: 'emojiState',
+  default: null,
+});

@@ -1,9 +1,12 @@
 import React from 'react';
+import { useRecoilState } from 'recoil';
 import emojis from '../../../../constants/emojis';
+import { emojiState } from '../SpotGeneratorState';
 import * as $ from './AreaEmojiView';
 import type { Emoji } from '../../../../constants/emojis';
 
 const AreaEmoji: React.FC = () => {
+  const [selectedEmoji, setSelectedEmoji] = useRecoilState(emojiState);
   // @see Flex로 Flexible Grid 정렬을 하기 위한, 더미 아이템 요소를 4n개에 맞게 추가
   const emojisToGrid: Emoji[] = [null, null, null, null].reduce(
     (emojisToGrid, dummy) => {
@@ -12,9 +15,9 @@ const AreaEmoji: React.FC = () => {
     },
     emojis
   );
-  const handleClickEmoji = (e) => {
+  const handleClickEmoji = (e: React.MouseEvent, emojiId: number) => {
     e.preventDefault();
-    // TODO: Emoji 선택
+    setSelectedEmoji(emojiId);
   };
 
   return (
@@ -23,7 +26,12 @@ const AreaEmoji: React.FC = () => {
         {emojisToGrid.map((emoji, i) => (
           <$.EmojiItem key={`emoji-button-${i}`}>
             {emoji && (
-              <$.EmojiButton onClick={handleClickEmoji}>
+              <$.EmojiButton
+                onClick={(e) => handleClickEmoji(e, emoji.id)}
+                style={{
+                  transform: emoji.id === selectedEmoji ? 'scale(1.3)' : '',
+                }}
+              >
                 <$.EmojiImage src={emoji.imageUrl} />
               </$.EmojiButton>
             )}
