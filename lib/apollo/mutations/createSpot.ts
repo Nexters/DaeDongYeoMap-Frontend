@@ -2,7 +2,7 @@ import { gql } from '@apollo/client';
 import client from '../client';
 
 const CREATE_SPOT = gql`
-  query createSpot($createSpotInput: CreateSpotInput!) {
+  mutation createSpot($createSpotInput: CreateSpotInput!) {
     createSpot(createSpotInput: $createSpotInput) {
       id
       place_name
@@ -21,13 +21,17 @@ const CREATE_SPOT = gql`
 `;
 
 const createSpot = async (
-  place: GQL.Place,
+  place: GQL.Place & { __typename?: string },
   emojiId: string
 ): Promise<GQL.CreateSpot.Data> => {
+  const placeData = { ...place };
+
+  delete placeData.__typename;
+
   const response = await client.mutate({
     mutation: CREATE_SPOT,
     variables: {
-      createSpotInput: place,
+      createSpotInput: placeData,
     },
   });
 
