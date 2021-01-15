@@ -4,6 +4,7 @@ import { useRecoilState } from 'recoil';
 import sidebarIcons from '../../../../constants/sidebarIcons';
 import IconSelector from '../IconSelector';
 import { sidebarState } from '../MainMapPageState';
+import MapArea from '../MapArea';
 
 const MainPage: React.FC = () => {
   const [selectedState, setSelectedState] = useRecoilState(sidebarState);
@@ -29,7 +30,9 @@ const MainPage: React.FC = () => {
           onClick={() => handleClickSelectedIcon('setting')}
         />
       </$.LeftSideBar>
-      <$.Content />
+      <$.Content>
+        <MapArea />
+      </$.Content>
     </$.MainPage>
   );
 };
