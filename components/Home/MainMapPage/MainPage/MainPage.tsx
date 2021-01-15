@@ -46,7 +46,7 @@ const MainPage: React.FC = () => {
       {isShownSpotGenerator && (
         <ErrorBoundary>
           <React.Suspense fallback={<div></div>}>
-            <SpotGenerator placeId="13114982" />
+            <SpotGenerator placeId="19555624" />
           </React.Suspense>
         </ErrorBoundary>
       )}
