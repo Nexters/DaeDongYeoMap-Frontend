@@ -1,7 +1,7 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 
 const client = new ApolloClient({
-  uri: 'https://api.spacex.land/graphql/', // TODO: 우리 API 서버 URI로
+  uri: 'https://korean-date-map.herokuapp.com/graphql',
   cache: new InMemoryCache(),
 });
 
