@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Head from 'next/head';
 import SpotGenerator from '../components/Home/SpotGenerator';
 import styles from '../styles/Home.module.css';
+import ErrorBoundary from '../components/_common/ErrorBoundary';
 
 const Home: React.FC = () => {
   // 스팟찍기 레이어를 띄우기 위한 임시 상태 (추후 지도와 연동시 변경)
@@ -24,7 +25,13 @@ const Home: React.FC = () => {
         <p className={styles.description}>Team Oh! When?</p>
       </main>
 
-      {isShownSpotGenerator && <SpotGenerator />}
+      {isShownSpotGenerator && (
+        <ErrorBoundary>
+          <React.Suspense fallback={<div></div>}>
+            <SpotGenerator placeId="13114982" />
+          </React.Suspense>
+        </ErrorBoundary>
+      )}
       <button
         type="button"
         style={{ border: '1px solid #000', padding: '10px 20px' }}
