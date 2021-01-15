@@ -22,7 +22,9 @@ const CREATE_SPOT = gql`
 
 const createSpot = async (
   place: GQL.Place & { __typename?: string },
-  emojiId: string
+  emojiId: string,
+  x: number,
+  y: number
 ): Promise<GQL.CreateSpot.Data> => {
   const placeData = { ...place };
 
@@ -31,7 +33,7 @@ const createSpot = async (
   const response = await client.mutate({
     mutation: CREATE_SPOT,
     variables: {
-      createSpotInput: placeData,
+      createSpotInput: { ...placeData, x, y, emoji: 'happy' },
     },
   });
 
