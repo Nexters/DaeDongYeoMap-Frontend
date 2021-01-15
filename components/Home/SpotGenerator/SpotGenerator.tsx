@@ -1,12 +1,22 @@
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import Title from './Title';
 import PageSticker from './PageSticker';
 import PageForm from './PageForm';
-import { pageState } from './SpotGeneratorState';
+import { currentPlaceIdState, pageState } from './SpotGeneratorState';
 import * as $ from './SpotGeneratorView';
+import { useEffect } from 'react';
 
-const SpotGenerator: React.FC = () => {
+type Props = {
+  placeId: string;
+};
+
+const SpotGenerator: React.FC<Props> = ({ placeId }) => {
   const page = useRecoilValue(pageState);
+  const setCurrentPlaceId = useSetRecoilState(currentPlaceIdState);
+
+  useEffect(() => {
+    setCurrentPlaceId(placeId);
+  }, [placeId]);
 
   return (
     <$.SpotGenerator>
