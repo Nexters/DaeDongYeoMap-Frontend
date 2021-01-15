@@ -1,6 +1,7 @@
 import { ApolloProvider } from '@apollo/client';
 import { RecoilRoot } from 'recoil';
 import apolloClient from '../lib/apollo/client';
+import '../styles/reset.css';
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 
