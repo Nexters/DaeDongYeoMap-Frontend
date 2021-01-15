@@ -3,7 +3,10 @@ import * as $ from './MapAreaView';
 import emojis from '../../../../constants/emojis';
 import { useRecoilState } from 'recoil';
 import { spotGeneratorShowState } from '../MainMapPageState';
-import { emojiState } from '../../SpotGenerator/SpotGeneratorState';
+import {
+  currentLatLng,
+  emojiState,
+} from '../../SpotGenerator/SpotGeneratorState';
 
 declare global {
   interface Window {
@@ -120,10 +123,9 @@ const dummySpots = [
 ];
 
 const MapArea: React.FC = () => {
-  const [isShownSpotGenerator, setIsShownSpotGenerator] = useRecoilState(
-    spotGeneratorShowState
-  );
-  const [selectedEmoji, setSelectedEmoji] = useRecoilState(emojiState);
+  const [isShownSpotGenerator, _] = useRecoilState(spotGeneratorShowState);
+  const [selectedEmoji, __] = useRecoilState(emojiState);
+  const [___, setCurLatLng] = useRecoilState(currentLatLng);
 
   useEffect(() => {
     const script = document.createElement('script');
@@ -213,6 +215,10 @@ const MapArea: React.FC = () => {
             const latlng = mouseEvent.latLng;
             if (isShownSpotGenerator && selectedEmoji !== null) {
               marker.setPosition(latlng);
+              setCurLatLng({
+                lat: latlng.getLat(),
+                lng: latlng.getLng(),
+              });
               // 지도에 스팟 이모지를 표시합니다
               const spotEmoji = {
                 pos: new (window as any).kakao.maps.LatLng(
