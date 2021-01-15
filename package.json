@@ -16,6 +16,7 @@
     "next": "10.0.5",
     "react": "17.0.1",
     "react-dom": "17.0.1",
+    "react-toastify": "^6.2.0",
     "recoil": "^0.1.2",
     "styled-components": "^5.2.1"
   },
