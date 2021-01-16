@@ -1,6 +1,12 @@
 import React, { useEffect } from 'react';
 import * as $ from './MapAreaView';
 import emojis from '../../../../constants/emojis';
+import { useRecoilState } from 'recoil';
+import { spotGeneratorShowState } from '../MainMapPageState';
+import {
+  currentLatLng,
+  emojiState,
+} from '../../SpotGenerator/SpotGeneratorState';
 
 declare global {
   interface Window {
@@ -117,6 +123,10 @@ const dummySpots = [
 ];
 
 const MapArea: React.FC = () => {
+  const [isShownSpotGenerator, _] = useRecoilState(spotGeneratorShowState);
+  const [selectedEmoji, __] = useRecoilState(emojiState);
+  const [___, setCurLatLng] = useRecoilState(currentLatLng);
+
   useEffect(() => {
     const script = document.createElement('script');
     script.async = true;
@@ -191,13 +201,56 @@ const MapArea: React.FC = () => {
 
         circle.setMap(map);
         circle2.setMap(map);
+
+        // 지도를 클릭한 위치에 표출할 마커입니다
+        const marker = new (window as any).kakao.maps.Marker({
+          position: map.getCenter(),
+        });
+
+        (window as any).kakao.maps.event.addListener(
+          map,
+          'mouseup',
+          function (mouseEvent) {
+            // 클릭한 위도, 경도 정보를 가져옵니다
+            const latlng = mouseEvent.latLng;
+            if (isShownSpotGenerator && selectedEmoji !== null) {
+              marker.setPosition(latlng);
+              setCurLatLng({
+                lat: latlng.getLat(),
+                lng: latlng.getLng(),
+              });
+              // 지도에 스팟 이모지를 표시합니다
+              const spotEmoji = {
+                pos: new (window as any).kakao.maps.LatLng(
+                  latlng.getLat(),
+                  latlng.getLng()
+                ),
+                imgSrc: emojis[selectedEmoji].imageUrl,
+                imgSize: new (window as any).kakao.maps.Size(50, 50),
+                imgOptions: {
+                  spriteOrigin: new (window as any).kakao.maps.Point(0, 0),
+                  spriteSize: new (window as any).kakao.maps.Size(50, 50),
+                },
+              };
+              const emojiImg = new (window as any).kakao.maps.MarkerImage(
+                spotEmoji.imgSrc,
+                spotEmoji.imgSize,
+                spotEmoji.imgOptions
+              );
+              const emoji = new (window as any).kakao.maps.Marker({
+                position: spotEmoji.pos,
+                image: emojiImg,
+              });
+              emoji.setMap(map);
+            }
+          }
+        );
       });
     };
-
     return () => {
       document.head.removeChild(script);
     };
-  }, []);
+  }, [isShownSpotGenerator, selectedEmoji]);
 
   return <$.MapArea />;
 };
