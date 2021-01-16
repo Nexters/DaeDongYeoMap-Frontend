@@ -56,3 +56,11 @@ export const emojiState = atom({
   key: 'emojiState',
   default: null,
 });
+
+export const currentLatLng = atom({
+  key: 'currentLatLng',
+  default: {
+    lat: null,
+    lng: null,
+  },
+});
