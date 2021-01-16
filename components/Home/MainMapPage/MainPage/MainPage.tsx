@@ -6,6 +6,7 @@ import IconSelector from '../IconSelector';
 import { sidebarState, spotGeneratorShowState } from '../MainMapPageState';
 import MapArea from '../MapArea';
 import ErrorBoundary from '../../../_common/ErrorBoundary';
+import ScriptLoader from '../../../_common/ScriptLoader';
 import SpotGenerator from '../../SpotGenerator';
 
 const MainPage: React.FC = () => {
@@ -41,7 +42,9 @@ const MainPage: React.FC = () => {
         />
       </$.LeftSideBar>
       <$.Content>
-        <MapArea />
+        <ScriptLoader src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=0e6db48d0c7634cd2e3eec3354bd4145&autoload=false">
+          {({ isScriptLoaded }) => isScriptLoaded && <MapArea />}
+        </ScriptLoader>
       </$.Content>
       {isShownSpotGenerator && (
         <ErrorBoundary>
