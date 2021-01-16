@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import * as $ from './MapAreaView';
 import emojis from '../../../../constants/emojis';
+import SearchPlace from '../../SearchPlace/SearchPlace';
+import MainMood from '../../Mood/MainMood';
 
 declare global {
   interface Window {
@@ -199,7 +201,12 @@ const MapArea: React.FC = () => {
     };
   }, []);
 
-  return <$.MapArea />;
+  return (
+  <$.MapArea>
+    <SearchPlace />
+    <MainMood />
+  </$.MapArea>
+  );
 };
 
 export default MapArea;

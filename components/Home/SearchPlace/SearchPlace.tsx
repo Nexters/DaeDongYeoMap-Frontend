@@ -18,7 +18,7 @@ const PlaceList: PlaceType[] = [
 
 export default function SearchPlace() {
   return (
-    <div style={{ width: 300 }}>
+    <div style={{ width: 300, position:"absolute", top: "10px", left: "50px" }}>
       <Autocomplete
         freeSolo
         id="search-place"
