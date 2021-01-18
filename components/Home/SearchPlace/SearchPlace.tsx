@@ -1,39 +1,42 @@
 import React from "react";
-import TextField from "@material-ui/core/TextField";
-import { Autocomplete } from '@material-ui/lab';
+import * as $ from './SearchPlaceView';
+import { useRecoilState } from 'recoil';
+import { searchValueState } from '../SearchPlace/SearchPlaceState'
 
-//지도 데이터 정보 받아오기
-interface PlaceType {
-  name: string;
-  category: string;
-  address: string;
-}
+const SearchPlace: React.FC = () => {
+  const [searchValue, setSearchValue] = useRecoilState(searchValueState); //useState와 비슷한 useRecoilState
 
-const PlaceList: PlaceType[] = [
-  { name: "에버랜드", category: "테마파크", address: "경기도 용인시" },
-  { name: "롯데월드", category: "테마파크", address: "서울특별시" },
-  { name: "서울랜드", category: "테마파크", address: "서울특별시" },
-  //searchPlacesByKeywordId 리턴값을 PlaceList에 넣어주기
-];
+  const onChangeInput = (e: any) => {
+    setSearchValue(e.target.value);
+  }
 
-export default function SearchPlace() {
+  const submitValue = (e: any) => {
+    e.preventDefault();
+    //조건문 달고 요청보내기
+    if (!searchValue) {
+      alert('장소 입력ㄱㄱ')
+    }else {
+      console.log(searchValue);
+    }
+  }
+
   return (
-    <div style={{ width: 300, position:"absolute", top: "10px", left: "50px" }}>
-      <Autocomplete
-        freeSolo
-        id="search-place"
-        disableClearable
-        options={PlaceList.map((option) => option.name)}
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            label="장소 검색하고 스팟찍기"
-            margin="normal"
-            variant="outlined"
-            InputProps={{ ...params.InputProps, type: "search" }}
-          />
-        )}
-      />
-    </div>
-  );
-}
+    <$.SearchDiv>
+      <$.SearchForm onSubmit={submitValue}>
+        <$.TempImg />
+        <$.InputField 
+          type="text"
+          name="searchValue"
+          placeholder={"장소를 검색하세요"}
+          value={searchValue}
+          onChange={onChangeInput}
+        />
+      </$.SearchForm>
+      <$.SpotButton>
+        <$.SpotButtonImg />
+      </$.SpotButton>
+    </$.SearchDiv>
+    );
+};
+
+export default SearchPlace;
