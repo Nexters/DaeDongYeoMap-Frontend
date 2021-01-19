@@ -1,5 +1,5 @@
 import React from 'react';
-import { SidebarIcons } from '../../../../constants/sidebarIcons';
+import { SidebarIcons } from '~/constants/sidebarIcons';
 import { IconImg, IconText, Wrapper } from './IconSelectorView';
 
 interface IProps {

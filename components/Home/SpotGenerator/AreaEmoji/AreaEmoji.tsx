@@ -1,9 +1,9 @@
 import React from 'react';
 import { useRecoilState } from 'recoil';
-import emojis from '../../../../constants/emojis';
-import { emojiState } from '../SpotGeneratorState';
+import emojis from '~/constants/emojis';
+import { emojiState } from '~/components/Home/SpotGenerator/SpotGeneratorState';
 import * as $ from './AreaEmojiView';
-import type { Emoji } from '../../../../constants/emojis';
+import type { Emoji } from '~/constants/emojis';
 
 const AreaEmoji: React.FC = () => {
   const [selectedEmoji, setSelectedEmoji] = useRecoilState(emojiState);

@@ -1,13 +1,16 @@
 import React, { useEffect } from 'react';
 import * as $ from './MainPageView';
 import { useRecoilState } from 'recoil';
-import sidebarIcons from '../../../../constants/sidebarIcons';
-import IconSelector from '../IconSelector';
-import { sidebarState, spotGeneratorShowState } from '../MainMapPageState';
-import MapArea from '../MapArea';
-import ErrorBoundary from '../../../_common/ErrorBoundary';
-import ScriptLoader from '../../../_common/ScriptLoader';
-import SpotGenerator from '../../SpotGenerator';
+import sidebarIcons from '~/constants/sidebarIcons';
+import IconSelector from '~/components/Home/MainMapPage/IconSelector';
+import {
+  sidebarState,
+  spotGeneratorShowState,
+} from '~/components/Home/MainMapPage/MainMapPageState';
+import MapArea from '~/components/Home/MainMapPage/MapArea';
+import ErrorBoundary from '~/components/_common/ErrorBoundary';
+import ScriptLoader from '~/components/_common/ScriptLoader';
+import SpotGenerator from '~/components/Home/SpotGenerator';
 
 const MainPage: React.FC = () => {
   const [isShownSpotGenerator, setIsShownSpotGenerator] = useRecoilState(
