@@ -130,128 +130,118 @@ const MapArea: React.FC = () => {
   const [___, setCurLatLng] = useRecoilState(currentLatLng);
 
   useEffect(() => {
-    const script = document.createElement('script');
-    script.async = true;
-    script.src =
-      'https://dapi.kakao.com/v2/maps/sdk.js?appkey=0e6db48d0c7634cd2e3eec3354bd4145&autoload=false';
-    document.head.appendChild(script);
+    (window as any).kakao.maps.load(() => {
+      const el = document.getElementById('map');
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const map = new (window as any).kakao.maps.Map(el, {
+        center: new (window as any).kakao.maps.LatLng(
+          33.2588962209144,
+          126.40716457908
+        ),
+        level: 5,
+      });
 
-    script.onload = () => {
-      (window as any).kakao.maps.load(() => {
-        const el = document.getElementById('map');
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const map = new (window as any).kakao.maps.Map(el, {
-          center: new (window as any).kakao.maps.LatLng(
-            33.2588962209144,
-            126.40716457908
-          ),
-          level: 5,
-        });
+      const circle = new (window as any).kakao.maps.Circle({
+        center: new (window as any).kakao.maps.LatLng(
+          33.2588962209144,
+          126.40716457908
+        ), // 원의 중심좌표 입니다
+        radius: 500,
+        strokeWeight: 1, // 선의 두께입니다
+        strokeColor: '#73E2A0', // 선의 색깔입니다
+        strokeOpacity: 0, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+        strokeStyle: 'solid',
+        fillColor: '#73E2A0',
+        fillOpacity: 0.3,
+      });
 
-        const circle = new (window as any).kakao.maps.Circle({
-          center: new (window as any).kakao.maps.LatLng(
-            33.2588962209144,
-            126.40716457908
-          ), // 원의 중심좌표 입니다
-          radius: 500,
-          strokeWeight: 1, // 선의 두께입니다
-          strokeColor: '#73E2A0', // 선의 색깔입니다
-          strokeOpacity: 0, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
-          strokeStyle: 'solid',
-          fillColor: '#73E2A0',
-          fillOpacity: 0.3,
-        });
+      const circle2 = new (window as any).kakao.maps.Circle({
+        center: new (window as any).kakao.maps.LatLng(
+          33.2588962209144,
+          126.40716457908
+        ), // 원의 중심좌표 입니다
+        radius: 1000,
+        strokeWeight: 1, // 선의 두께입니다
+        strokeColor: '#73E2A0', // 선의 색깔입니다
+        strokeOpacity: 0, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+        strokeStyle: 'solid',
+        fillColor: '#73E2A0',
+        fillOpacity: 0.12,
+      });
 
-        const circle2 = new (window as any).kakao.maps.Circle({
-          center: new (window as any).kakao.maps.LatLng(
-            33.2588962209144,
-            126.40716457908
-          ), // 원의 중심좌표 입니다
-          radius: 1000,
-          strokeWeight: 1, // 선의 두께입니다
-          strokeColor: '#73E2A0', // 선의 색깔입니다
-          strokeOpacity: 0, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
-          strokeStyle: 'solid',
-          fillColor: '#73E2A0',
-          fillOpacity: 0.12,
-        });
+      dummySpots
+        .map((spot) => {
+          const emojiObj = {
+            pos: new (window as any).kakao.maps.LatLng(spot.y, spot.x),
+            imgSrc: emojis[spot.emoji].imageUrl,
+            imgSize: new (window as any).kakao.maps.Size(50, 50),
+            imgOptions: {
+              spriteOrigin: new (window as any).kakao.maps.Point(0, 0),
+              spriteSize: new (window as any).kakao.maps.Size(50, 50),
+            },
+          };
 
-        dummySpots
-          .map((spot) => {
-            const emojiObj = {
-              pos: new (window as any).kakao.maps.LatLng(spot.y, spot.x),
-              imgSrc: emojis[spot.emoji].imageUrl,
+          const markerImg = new (window as any).kakao.maps.MarkerImage(
+            emojiObj.imgSrc,
+            emojiObj.imgSize,
+            emojiObj.imgOptions
+          );
+          const marker = new (window as any).kakao.maps.Marker({
+            position: emojiObj.pos,
+            image: markerImg,
+          });
+          return marker;
+        })
+        .forEach((spot) => spot.setMap(map));
+
+      circle.setMap(map);
+      circle2.setMap(map);
+
+      // 지도를 클릭한 위치에 표출할 마커입니다
+      const marker = new (window as any).kakao.maps.Marker({
+        position: map.getCenter(),
+      });
+
+      (window as any).kakao.maps.event.addListener(
+        map,
+        'mouseup',
+        function (mouseEvent) {
+          // 클릭한 위도, 경도 정보를 가져옵니다
+          const latlng = mouseEvent.latLng;
+          if (isShownSpotGenerator && selectedEmoji !== null) {
+            marker.setPosition(latlng);
+            setCurLatLng({
+              lat: latlng.getLat(),
+              lng: latlng.getLng(),
+            });
+            // 지도에 스팟 이모지를 표시합니다
+            const spotEmoji = {
+              pos: new (window as any).kakao.maps.LatLng(
+                latlng.getLat(),
+                latlng.getLng()
+              ),
+              imgSrc: emojis[selectedEmoji].imageUrl,
               imgSize: new (window as any).kakao.maps.Size(50, 50),
               imgOptions: {
                 spriteOrigin: new (window as any).kakao.maps.Point(0, 0),
                 spriteSize: new (window as any).kakao.maps.Size(50, 50),
               },
             };
-
-            const markerImg = new (window as any).kakao.maps.MarkerImage(
-              emojiObj.imgSrc,
-              emojiObj.imgSize,
-              emojiObj.imgOptions
+            const emojiImg = new (window as any).kakao.maps.MarkerImage(
+              spotEmoji.imgSrc,
+              spotEmoji.imgSize,
+              spotEmoji.imgOptions
             );
-            const marker = new (window as any).kakao.maps.Marker({
-              position: emojiObj.pos,
-              image: markerImg,
+            const emoji = new (window as any).kakao.maps.Marker({
+              position: spotEmoji.pos,
+              image: emojiImg,
             });
-            return marker;
-          })
-          .forEach((spot) => spot.setMap(map));
 
-        circle.setMap(map);
-        circle2.setMap(map);
-
-        // 지도를 클릭한 위치에 표출할 마커입니다
-        const marker = new (window as any).kakao.maps.Marker({
-          position: map.getCenter(),
-        });
-
-        (window as any).kakao.maps.event.addListener(
-          map,
-          'mouseup',
-          function (mouseEvent) {
-            // 클릭한 위도, 경도 정보를 가져옵니다
-            const latlng = mouseEvent.latLng;
-            if (isShownSpotGenerator && selectedEmoji !== null) {
-              marker.setPosition(latlng);
-              setCurLatLng({
-                lat: latlng.getLat(),
-                lng: latlng.getLng(),
-              });
-              // 지도에 스팟 이모지를 표시합니다
-              const spotEmoji = {
-                pos: new (window as any).kakao.maps.LatLng(
-                  latlng.getLat(),
-                  latlng.getLng()
-                ),
-                imgSrc: emojis[selectedEmoji].imageUrl,
-                imgSize: new (window as any).kakao.maps.Size(50, 50),
-                imgOptions: {
-                  spriteOrigin: new (window as any).kakao.maps.Point(0, 0),
-                  spriteSize: new (window as any).kakao.maps.Size(50, 50),
-                },
-              };
-              const emojiImg = new (window as any).kakao.maps.MarkerImage(
-                spotEmoji.imgSrc,
-                spotEmoji.imgSize,
-                spotEmoji.imgOptions
-              );
-              const emoji = new (window as any).kakao.maps.Marker({
-                position: spotEmoji.pos,
-                image: emojiImg,
-              });
-              emoji.setMap(map);
-            }
+            emoji.setMap(map);
           }
-        );
-      });
-    };
-    return () => {
-      document.head.removeChild(script);
-    };
+        }
+      );
+    });
   }, [isShownSpotGenerator, selectedEmoji]);
 
   return (
