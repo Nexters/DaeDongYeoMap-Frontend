@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import * as $ from './MainPageView';
 import { useRecoilState } from 'recoil';
 import sidebarIcons from '~/constants/sidebarIcons';
@@ -13,20 +13,13 @@ import ScriptLoader from '~/components/_common/ScriptLoader';
 import SpotGenerator from '~/components/Home/SpotGenerator';
 
 const MainPage: React.FC = () => {
-  const [isShownSpotGenerator, setIsShownSpotGenerator] = useRecoilState(
-    spotGeneratorShowState
-  );
+  const [isShownSpotGenerator] = useRecoilState(spotGeneratorShowState);
   const [selectedState, setSelectedState] = useRecoilState(sidebarState);
 
   const handleClickSelectedIcon = (label: string) => {
     console.log(label);
     setSelectedState(label);
   };
-
-  // [임시] 더미 마커 생기기 전까지는 3초 후에 레이어 뜨는 것으로
-  useEffect(() => {
-    setTimeout(() => setIsShownSpotGenerator(true), 3000);
-  }, []);
 
   return (
     <$.MainPage>
