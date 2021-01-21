@@ -1,5 +1,5 @@
 import React from 'react';
-import moods from '../../../../constants/moods';
+import moods from '~/constants/moods';
 import * as $ from './AreaFilterView';
 
 const AreaFilter: React.FC = () => {
