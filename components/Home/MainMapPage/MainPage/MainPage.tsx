@@ -3,17 +3,11 @@ import * as $ from './MainPageView';
 import { useRecoilState } from 'recoil';
 import sidebarIcons from '~/constants/sidebarIcons';
 import IconSelector from '~/components/Home/MainMapPage/IconSelector';
-import {
-  sidebarState,
-  spotGeneratorShowState,
-} from '~/components/Home/MainMapPage/MainMapPageState';
+import { sidebarState } from '~/components/Home/MainMapPage/MainMapPageState';
 import MapArea from '~/components/Home/MainMapPage/MapArea';
-import ErrorBoundary from '~/components/_common/ErrorBoundary';
 import ScriptLoader from '~/components/_common/ScriptLoader';
-import SpotGenerator from '~/components/Home/SpotGenerator';
 
 const MainPage: React.FC = () => {
-  const [isShownSpotGenerator] = useRecoilState(spotGeneratorShowState);
   const [selectedState, setSelectedState] = useRecoilState(sidebarState);
 
   const handleClickSelectedIcon = (label: string) => {
@@ -44,13 +38,6 @@ const MainPage: React.FC = () => {
           </ScriptLoader>
         )}
       </$.Content>
-      {isShownSpotGenerator && (
-        <ErrorBoundary>
-          <React.Suspense fallback={<div></div>}>
-            <SpotGenerator placeId="19555624" />
-          </React.Suspense>
-        </ErrorBoundary>
-      )}
     </$.MainPage>
   );
 };
