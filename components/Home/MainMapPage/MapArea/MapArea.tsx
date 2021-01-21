@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import * as $ from './MapAreaView';
 import emojis from '~/constants/emojis';
+import SearchPlace from '../../SearchPlace';
+import MainMood from '../../../Home/Mood';
 import { useRecoilState } from 'recoil';
 import { spotGeneratorShowState } from '~/components/Home/MainMapPage/MainMapPageState';
 import {
@@ -241,7 +243,12 @@ const MapArea: React.FC = () => {
     });
   }, [isShownSpotGenerator, selectedEmoji]);
 
-  return <$.MapArea />;
+  return (
+    <$.MapArea>
+      <SearchPlace />
+      <MainMood />
+    </$.MapArea>
+  );
 };
 
 export default MapArea;
