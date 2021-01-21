@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import * as $ from './MapAreaView';
-import emojis from '../../../../constants/emojis';
+import emojis from '~/constants/emojis';
 import { useRecoilState } from 'recoil';
-import { spotGeneratorShowState } from '../MainMapPageState';
+import { spotGeneratorShowState } from '~/components/Home/MainMapPage/MainMapPageState';
 import {
   currentLatLng,
   emojiState,
-} from '../../SpotGenerator/SpotGeneratorState';
+} from '~/components/Home/SpotGenerator/SpotGeneratorState';
 
 declare global {
   interface Window {

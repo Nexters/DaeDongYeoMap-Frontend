@@ -1,7 +1,10 @@
 import React from 'react';
 import { useResetRecoilState, useSetRecoilState } from 'recoil';
-import { emojiState, currentPlaceIdState } from '../SpotGeneratorState';
-import { spotGeneratorShowState } from '../../MainMapPage/MainMapPageState';
+import {
+  emojiState,
+  currentPlaceIdState,
+} from '~/components/Home/SpotGenerator/SpotGeneratorState';
+import { spotGeneratorShowState } from '~/components/Home/MainMapPage/MainMapPageState';
 import * as $ from './TitleView';
 
 const Title: React.FC = () => {

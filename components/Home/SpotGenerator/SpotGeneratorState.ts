@@ -6,7 +6,7 @@ import {
   selector,
   atomFamily,
 } from 'recoil';
-import getPlace from '../../../lib/apollo/queries/getPlace';
+import getPlace from '~/lib/apollo/queries/getPlace';
 
 const defaultPlace: GQL.GetPlace.Data = {
   id: null,
