@@ -1,10 +1,16 @@
 import React from 'react';
 import * as $ from './SearchPlaceView';
-import { useRecoilState } from 'recoil';
-import { searchValueState } from '../SearchPlace/SearchPlaceState';
+import { useRecoilState, useSetRecoilState, useRecoilValue } from 'recoil';
+import {
+  searchValueState,
+  submitValueState,
+  submitValueQuery,
+} from '../SearchPlace/SearchPlaceState';
 
 const SearchPlace: React.FC = () => {
   const [searchValue, setSearchValue] = useRecoilState(searchValueState);
+  const submit = useSetRecoilState(submitValueState);
+  const Places = useRecoilValue(submitValueQuery);
 
   const onChangeInput = (e: any) => {
     setSearchValue(e.target.value);
@@ -13,9 +19,10 @@ const SearchPlace: React.FC = () => {
   const submitValue = (e: any) => {
     e.preventDefault();
     if (!searchValue) {
-      alert('장소 입력ㄱㄱ');
+      alert('장소를 입력해주세요!');
     } else {
-      console.log(searchValue);
+      submit(searchValue);
+      console.log(Places);
     }
   };
 
