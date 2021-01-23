@@ -3,7 +3,7 @@ import * as $ from './MapAreaView';
 import emojis from '~/constants/emojis';
 import SearchPlace from '../../SearchPlace';
 import MainMood from '../../../Home/Mood';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { spotGeneratorShowState } from '~/components/Home/MainMapPage/MainMapPageState';
 import {
   currentLatLng,
@@ -125,7 +125,7 @@ const dummySpots = [
 ];
 
 const MapArea: React.FC = () => {
-  const [isShownSpotGenerator, _] = useRecoilState(spotGeneratorShowState);
+  const isShownSpotGenerator = useRecoilValue(spotGeneratorShowState);
   const [selectedEmoji, __] = useRecoilState(emojiState);
   const [___, setCurLatLng] = useRecoilState(currentLatLng);
 
