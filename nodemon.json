@@ -1,7 +1,0 @@
-{
-  "verbose": true,
-  "ignore": ["*.spec.js", "fixtures/*"],
-  "watch": ["*.ts", "*.tsx"],
-  "exec": "next dev",
-  "ext": "js json jsx ts tsx"
-}
