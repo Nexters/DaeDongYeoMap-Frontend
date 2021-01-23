@@ -6,13 +6,17 @@ import Title from './Title';
 import { currentPlaceIdState } from './SpotGeneratorState';
 import * as $ from './SpotGeneratorView';
 import { useEffect } from 'react';
-import type { LayerCommonProps } from '~/@types/layer';
+import type { LayerChildProps } from '~/@types/layer';
 
-export type Props = LayerCommonProps & {
+export type Props = LayerChildProps & {
   placeId: string;
 };
 
-const SpotGenerator: React.FC<Props> = ({ placeId, zIndex }) => {
+const SpotGenerator: React.FC<Props> = ({
+  placeId,
+  zIndex,
+  onClickCloseButton,
+}) => {
   const setCurrentPlaceId = useSetRecoilState(currentPlaceIdState);
 
   useEffect(() => {
@@ -21,7 +25,7 @@ const SpotGenerator: React.FC<Props> = ({ placeId, zIndex }) => {
 
   return (
     <$.SpotGenerator zIndex={zIndex}>
-      <Title />
+      <Title onClickCloseButton={onClickCloseButton} />
       <$.Inner>
         <$.AreaText>
           <$.HelpTitle>스티커를 원하는 장소에 붙여보세요</$.HelpTitle>

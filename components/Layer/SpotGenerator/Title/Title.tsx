@@ -1,21 +1,23 @@
 import React from 'react';
-import { useResetRecoilState, useSetRecoilState } from 'recoil';
+import { useResetRecoilState } from 'recoil';
 import {
   emojiState,
   currentPlaceIdState,
 } from '~/components/Layer/SpotGenerator/SpotGeneratorState';
-import { spotGeneratorShowState } from '~/components/Home/MainMapPage/MainMapPageState';
 import * as $ from './TitleView';
 
-const Title: React.FC = () => {
-  const setIsShownSpotGenerator = useSetRecoilState(spotGeneratorShowState);
+type Props = {
+  onClickCloseButton?: () => void;
+};
+
+const Title: React.FC<Props> = ({ onClickCloseButton }) => {
   const resetPlaceState = useResetRecoilState(currentPlaceIdState);
   const resetEmojiState = useResetRecoilState(emojiState);
 
   const handleClickCloseLayerButton = () => {
-    setIsShownSpotGenerator(false);
     resetPlaceState();
     resetEmojiState();
+    onClickCloseButton();
   };
 
   return (
