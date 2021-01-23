@@ -1,31 +1,16 @@
 import { atom, selector, selectorFamily, RecoilValueReadOnly } from 'recoil';
-import placesByKeyword from '~/lib/apollo/queries/placesByKeyword';
+import placesAndSpotsByKeyword from '~/lib/apollo/queries/placesAndSpotsByKeyword';
 
-const defaultPlace: GQL.GetPlace.Data = {
-  id: null,
-  place_name: null,
-  category_name: null,
-  category_group_code: null,
-  category_group_name: null,
-  phone: null,
-  address_name: null,
-  road_address_name: null,
-  place_url: null,
-  distance: null,
-  x: null,
-  y: null,
-};
-
-export const searchPlaceQuery: (
+export const getPlacesAndSpotsQuery: (
   query: string
-) => RecoilValueReadOnly<GQL.GetPlace.Data> = selectorFamily({
-  key: 'searchPlaceQuery',
+) => RecoilValueReadOnly<GQL.GetPlacesAndSpots.Data> = selectorFamily({
+  key: 'getPlacesAndSpotsQuery',
   get: (query) => async () => {
     console.log('들어옴?');
     if (!query) {
-      return defaultPlace;
+      return { places: [], spots: [] };
     }
-    return await placesByKeyword(query);
+    return placesAndSpotsByKeyword(query);
   },
 });
 
@@ -41,5 +26,5 @@ export const submitValueState = atom({
 
 export const submitValueQuery = selector({
   key: 'submitValueQuery',
-  get: ({ get }) => get(searchPlaceQuery(get(submitValueState))), //submitValueState에 의존적인 쿼리
+  get: ({ get }) => get(getPlacesAndSpotsQuery(get(submitValueState))), //submitValueState에 의존적인 쿼리
 });

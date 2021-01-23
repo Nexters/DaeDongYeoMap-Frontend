@@ -22,7 +22,7 @@ const SearchPlace: React.FC = () => {
       alert('장소를 입력해주세요!');
     } else {
       submit(searchValue);
-      console.log(Places);
+      // console.log(Places);
     }
   };
 
