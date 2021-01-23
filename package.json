@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "nodemon": "nodemon",
     "build": "next build",
     "start": "next start",
     "lint": "eslint pages --ext .ts,.tsx",
@@ -37,6 +38,7 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "husky": "^4.3.7",
     "lint-staged": "^10.5.3",
+    "nodemon": "^2.0.7",
     "prettier": "^2.2.1",
     "typescript": "^4.1.3"
   },
