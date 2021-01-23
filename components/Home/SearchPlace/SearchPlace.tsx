@@ -10,7 +10,7 @@ import {
 const SearchPlace: React.FC = () => {
   const [searchValue, setSearchValue] = useRecoilState(searchValueState);
   const submit = useSetRecoilState(submitValueState);
-  const Places = useRecoilValue(submitValueQuery);
+  const places = useRecoilValue(submitValueQuery);
 
   const onChangeInput = (e: any) => {
     setSearchValue(e.target.value);
@@ -18,11 +18,12 @@ const SearchPlace: React.FC = () => {
 
   const submitValue = (e: any) => {
     e.preventDefault();
+
     if (!searchValue) {
       alert('장소를 입력해주세요!');
     } else {
       submit(searchValue);
-      // console.log(Places);
+      console.log(places);
     }
   };
 
