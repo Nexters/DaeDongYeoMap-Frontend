@@ -8,9 +8,4 @@ module.exports = {
 
     return config;
   },
-  webpackDevMiddleware: (config) => {
-    config.watchOptions = config.watchOptions || {};
-    config.watchOptions.ignored = [/.*/];
-    return config;
-  },
 };
