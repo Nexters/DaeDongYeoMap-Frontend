@@ -3,7 +3,7 @@ import { useResetRecoilState, useSetRecoilState } from 'recoil';
 import {
   emojiState,
   currentPlaceIdState,
-} from '~/components/Home/SpotGenerator/SpotGeneratorState';
+} from '~/components/Layer/SpotGenerator/SpotGeneratorState';
 import { spotGeneratorShowState } from '~/components/Home/MainMapPage/MainMapPageState';
 import * as $ from './TitleView';
 

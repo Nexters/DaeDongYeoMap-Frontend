@@ -6,12 +6,13 @@ import Title from './Title';
 import { currentPlaceIdState } from './SpotGeneratorState';
 import * as $ from './SpotGeneratorView';
 import { useEffect } from 'react';
+import type { LayerCommonProps } from '~/@types/layer';
 
-type Props = {
+export type Props = LayerCommonProps & {
   placeId: string;
 };
 
-const SpotGenerator: React.FC<Props> = ({ placeId }) => {
+const SpotGenerator: React.FC<Props> = ({ placeId, zIndex }) => {
   const setCurrentPlaceId = useSetRecoilState(currentPlaceIdState);
 
   useEffect(() => {
@@ -19,7 +20,7 @@ const SpotGenerator: React.FC<Props> = ({ placeId }) => {
   }, [placeId]);
 
   return (
-    <$.SpotGenerator>
+    <$.SpotGenerator zIndex={zIndex}>
       <Title />
       <$.Inner>
         <$.AreaText>

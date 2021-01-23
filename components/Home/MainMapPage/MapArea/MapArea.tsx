@@ -8,7 +8,7 @@ import { spotGeneratorShowState } from '~/components/Home/MainMapPage/MainMapPag
 import {
   currentLatLng,
   emojiState,
-} from '~/components/Home/SpotGenerator/SpotGeneratorState';
+} from '~/components/Layer/SpotGenerator/SpotGeneratorState';
 
 declare global {
   interface Window {
