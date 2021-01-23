@@ -7,8 +7,8 @@ import { sidebarState } from '~/components/Home/MainMapPage/MainMapPageState';
 import { spotGeneratorShowState } from '../MainMapPageState';
 import MapArea from '~/components/Home/MainMapPage/MapArea';
 import ScriptLoader from '~/components/_common/ScriptLoader';
-import Layer from '~/components/Layer';
-import { LayerType } from '~/@types/layer.d';
+import Popup from '~/components/Popup';
+import { PopupType } from '~/@types/popup.d';
 
 const MainPage: React.FC = () => {
   const [isShownSpotGenerator, setIsShownSpotGenerator] = useRecoilState(
@@ -48,9 +48,9 @@ const MainPage: React.FC = () => {
           {({ isScriptLoaded }) => isScriptLoaded && <MapArea />}
         </ScriptLoader>
         {isShownSpotGenerator && (
-          <Layer
-            layerType={LayerType.SPOT_GENERATOR}
-            layerProps={{ placeId: 'dummyPlaceId' }}
+          <Popup
+            popupType={PopupType.SPOT_GENERATOR}
+            popupProps={{ placeId: 'dummyPlaceId' }}
             onClickCloseButton={() => setIsShownSpotGenerator(false)}
           />
         )}

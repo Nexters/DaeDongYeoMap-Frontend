@@ -8,7 +8,7 @@ import { spotGeneratorShowState } from '~/components/Home/MainMapPage/MainMapPag
 import {
   currentLatLng,
   emojiState,
-} from '~/components/Layer/SpotGenerator/SpotGeneratorState';
+} from '~/components/Popup/SpotGenerator/SpotGeneratorState';
 import ErrorBoundary from '~/components/_common/ErrorBoundary';
 
 declare global {
