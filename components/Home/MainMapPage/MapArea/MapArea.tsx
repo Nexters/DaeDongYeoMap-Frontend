@@ -9,6 +9,7 @@ import {
   currentLatLng,
   emojiState,
 } from '~/components/Layer/SpotGenerator/SpotGeneratorState';
+import ErrorBoundary from '~/components/_common/ErrorBoundary';
 
 declare global {
   interface Window {
@@ -245,7 +246,11 @@ const MapArea: React.FC = () => {
 
   return (
     <$.MapArea>
-      <SearchPlace />
+      <ErrorBoundary>
+        <React.Suspense fallback={<div>오류</div>}>
+          <SearchPlace />
+        </React.Suspense>
+      </ErrorBoundary>
       <MainMood />
     </$.MapArea>
   );

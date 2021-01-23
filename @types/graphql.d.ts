@@ -56,6 +56,12 @@ declare namespace GQL {
   export namespace GetPlace {
     export type Data = Place;
   }
+  export namespace GetPlacesAndSpots {
+    export type Data = {
+      places: Place[];
+      spots: Spot[];
+    };
+  }
   export namespace CreateSpot {
     export type Variables = Place;
     export type Data = Spot;
