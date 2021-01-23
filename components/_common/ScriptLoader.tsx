@@ -1,4 +1,5 @@
 import React, { ReactElement } from 'react';
+import browserOnly from './hoc/browserOnly';
 
 type Props = {
   src: string;
@@ -45,4 +46,4 @@ class ScriptLoader extends React.Component<Props, State> {
   }
 }
 
-export default ScriptLoader;
+export default browserOnly<Props>(ScriptLoader);
