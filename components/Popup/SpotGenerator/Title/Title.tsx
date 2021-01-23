@@ -3,7 +3,7 @@ import { useResetRecoilState } from 'recoil';
 import {
   emojiState,
   currentPlaceIdState,
-} from '~/components/Layer/SpotGenerator/SpotGeneratorState';
+} from '~/components/Popup/SpotGenerator/SpotGeneratorState';
 import * as $ from './TitleView';
 
 type Props = {

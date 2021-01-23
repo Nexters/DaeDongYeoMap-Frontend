@@ -6,9 +6,9 @@ import Title from './Title';
 import { currentPlaceIdState } from './SpotGeneratorState';
 import * as $ from './SpotGeneratorView';
 import { useEffect } from 'react';
-import type { LayerChildProps } from '~/@types/layer';
+import type { PopupChildProps } from '~/@types/popup.d';
 
-export type Props = LayerChildProps & {
+export type Props = PopupChildProps & {
   placeId: string;
 };
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRecoilState } from 'recoil';
 import emojis from '~/constants/emojis';
-import { emojiState } from '~/components/Layer/SpotGenerator/SpotGeneratorState';
+import { emojiState } from '~/components/Popup/SpotGenerator/SpotGeneratorState';
 import * as $ from './AreaEmojiView';
 import type { Emoji } from '~/constants/emojis';
 

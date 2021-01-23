@@ -1,6 +1,6 @@
 import React from 'react';
 import SpotGenerator, { Props as SpotGeneratorProps } from './SpotGenerator';
-import { LayerType, LayerProps } from '~/@types/layer.d';
+import { PopupType, PopupProps } from '~/@types/popup.d';
 import Modal from '~/components/_common/Modal';
 
 /**
@@ -8,11 +8,11 @@ import Modal from '~/components/_common/Modal';
  * App 전체의 Stacking Context(zIndex)를 일괄적으로 관리하고,
  * 모달 통합관리를 위한 모듈
  */
-const Layer: React.FC<LayerProps> = (props) => {
-  const { layerType, layerProps, onClickCloseButton } = props;
+const Popup: React.FC<PopupProps> = (props) => {
+  const { popupType, popupProps, onClickCloseButton } = props;
 
-  if (layerType === LayerType.SPOT_GENERATOR) {
-    const props = (layerProps || {}) as SpotGeneratorProps;
+  if (popupType === PopupType.SPOT_GENERATOR) {
+    const props = (popupProps || {}) as SpotGeneratorProps;
 
     return (
       <Modal>
@@ -28,4 +28,4 @@ const Layer: React.FC<LayerProps> = (props) => {
   return null;
 };
 
-export default Layer;
+export default Popup;
