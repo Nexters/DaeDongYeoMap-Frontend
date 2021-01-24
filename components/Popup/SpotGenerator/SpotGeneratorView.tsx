@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 
-export const SpotGenerator = styled.div`
+export const SpotGenerator = styled.div<{ zIndex: string }>`
   position: fixed;
-  z-index: 10000;
+  z-index: ${(props) => props.zIndex || '10000'};
   top: 0;
   right: 0;
   bottom: 0;

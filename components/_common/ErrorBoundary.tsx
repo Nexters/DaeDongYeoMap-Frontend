@@ -19,6 +19,7 @@ export default class ErrorBoundary extends React.Component<Props, State> {
     return { hasError: true };
   }
 
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   componentDidCatch(error, errorInfo): void {
     // You can also log the error to an error reporting service
     console.log(error, errorInfo);
