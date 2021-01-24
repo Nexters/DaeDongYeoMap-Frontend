@@ -6,12 +6,17 @@ import Title from './Title';
 import { currentPlaceIdState } from './SpotGeneratorState';
 import * as $ from './SpotGeneratorView';
 import { useEffect } from 'react';
+import type { PopupChildProps } from '~/@types/popup.d';
 
-type Props = {
+export type Props = PopupChildProps & {
   placeId: string;
 };
 
-const SpotGenerator: React.FC<Props> = ({ placeId }) => {
+const SpotGenerator: React.FC<Props> = ({
+  placeId,
+  zIndex,
+  onClickCloseButton,
+}) => {
   const setCurrentPlaceId = useSetRecoilState(currentPlaceIdState);
 
   useEffect(() => {
@@ -19,8 +24,8 @@ const SpotGenerator: React.FC<Props> = ({ placeId }) => {
   }, [placeId]);
 
   return (
-    <$.SpotGenerator>
-      <Title />
+    <$.SpotGenerator zIndex={zIndex}>
+      <Title onClickCloseButton={onClickCloseButton} />
       <$.Inner>
         <$.AreaText>
           <$.HelpTitle>스티커를 원하는 장소에 붙여보세요</$.HelpTitle>
