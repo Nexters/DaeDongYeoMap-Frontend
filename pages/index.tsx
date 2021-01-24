@@ -2,6 +2,7 @@ import React from 'react';
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
 import MainPage from '../components/Home/MainMapPage/MainPage';
+import DummyToRecoil from '~/components/DummyToRecoil';
 
 const Home: React.FC = () => {
   return (
@@ -14,6 +15,8 @@ const Home: React.FC = () => {
       <main className={styles.main}>
         <MainPage />
       </main>
+
+      <DummyToRecoil />
 
       <footer className={styles.footer}>
         <a
