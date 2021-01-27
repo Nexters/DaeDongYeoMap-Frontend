@@ -31,5 +31,5 @@ export const SugarButton = styled.a.attrs({ href: '#', role: 'button' })`
   font-size: 16px;
   line-height: 16px;
   background-color: ${painter.basic.white};
-  color: ${(props) => painter.secondary[props.color]};
+  color: ${(props) => painter.secondary[props.color](props)};
 `;
