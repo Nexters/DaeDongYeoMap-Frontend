@@ -1,32 +1,35 @@
 import React from 'react';
 import styled from 'styled-components';
+import painter from '~/styles/theme/painter';
 
 export const AreaFilter = styled.div`
   flex-grow: 0;
   flex-shrink: 0;
 `;
 
-export const MoodList = styled.ul`
-  margin-top: 1.875rem;
+export const SugarList = styled.ul`
+  margin-top: 30px;
   font-size: 0;
+  white-space: nowrap;
 `;
 
-export const MoodItem = styled.li`
+export const SugarItem = styled.li`
   display: inline-block;
   vertical-align: top;
   & + & {
-    margin-left: 0.75rem;
+    margin-left: 8px;
   }
 `;
 
-export const MoodButton = styled.a.attrs({ href: '#', role: 'button' })`
+export const SugarButton = styled.a.attrs({ href: '#', role: 'button' })`
   display: block;
-  height: 2.5rem;
-  border-radius: 1.25rem;
-  border: 0.0625rem solid #d0d0d0;
-  padding: 0 1.25rem;
-  font-size: 1rem;
-  line-height: ${2.5 - 0.0625}rem;
-  background-color: #fff;
-  color: ${(props) => props.color};
+  height: 42px;
+  border-radius: 21px;
+  border: 1px solid #d0d0d0;
+  padding: 12px 16px 12px 20px;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 16px;
+  background-color: ${painter.basic.white};
+  color: ${(props) => painter.secondary[props.color]};
 `;
