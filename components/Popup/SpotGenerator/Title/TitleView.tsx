@@ -11,7 +11,6 @@ export const Title = styled.div`
 
 export const Text = styled.h3`
   padding-left: 40px;
-  font-weight: normal;
   font-size: 32px;
   line-height: 112px;
   color: ${painter.basic.white};
