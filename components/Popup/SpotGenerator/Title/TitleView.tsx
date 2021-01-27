@@ -1,26 +1,28 @@
 import React from 'react';
 import styled from 'styled-components';
+import painter from '~/styles/theme/painter';
 
 export const Title = styled.div`
   position: relative;
-  height: 7rem;
-  border-top-left-radius: 2.5rem;
-  background-color: #01e3ab;
+  height: 112px;
+  border-top-left-radius: 40px;
+  background-color: ${painter.primary.basic};
 `;
 
 export const Text = styled.h3`
-  padding-left: 2.5rem;
-  font-size: 2rem;
-  line-height: 7rem;
-  color: #fff;
+  padding-left: 40px;
+  font-weight: normal;
+  font-size: 32px;
+  line-height: 112px;
+  color: ${painter.basic.white};
 `;
 
-export const CloseLayerButton = styled.a`
+export const CloseLayerButton = styled.a.attrs({ href: '#', role: 'button' })`
   position: absolute;
   top: 0;
   right: 0;
-  width: 7rem;
-  height: 7rem;
+  width: 112px;
+  height: 112px;
   outline: none;
   cursor: pointer;
   &::before,
@@ -31,10 +33,10 @@ export const CloseLayerButton = styled.a`
     right: 0;
     bottom: 0;
     left: 0;
-    width: 1.68rem;
-    height: 0.18rem;
+    width: 27px;
+    height: 3px;
     margin: auto;
-    background-color: #fff;
+    background-color: ${painter.basic.white};
   }
   &::before {
     transform: rotate(45deg);

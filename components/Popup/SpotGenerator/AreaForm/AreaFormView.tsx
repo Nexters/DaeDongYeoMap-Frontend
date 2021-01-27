@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import painter from '~/styles/theme/painter';
 
 export const AreaForm = styled.div`
   flex-shrink: 0;
@@ -8,11 +9,12 @@ export const AreaForm = styled.div`
 
 export const SubmitButton = styled.a.attrs({ href: '#', role: 'button' })`
   display: block;
-  height: 4rem;
-  border-radius: 0.75rem;
+  height: 64px;
+  border-radius: 12px;
   background-color: #101721;
-  font-size: 1.25rem;
-  line-height: 4rem;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 64px;
   text-align: center;
-  color: #fff;
+  color: ${painter.basic.white};
 `;

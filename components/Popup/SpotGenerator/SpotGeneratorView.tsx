@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import painter from '~/styles/theme/painter';
 
 export const SpotGenerator = styled.div<{ zIndex: string }>`
   position: fixed;
@@ -7,18 +8,18 @@ export const SpotGenerator = styled.div<{ zIndex: string }>`
   top: 0;
   right: 0;
   bottom: 0;
-  width: 31.25rem;
-  border-top-left-radius: 2.5rem;
-  box-shadow: 0 0 0.75rem 0.13rem #ddd;
-  background-color: #f6f8f9;
+  width: 500px;
+  border-top-left-radius: 40px;
+  box-shadow: 0 0 14px 1px ${painter.grayscale['6']};
+  background-color: ${painter.grayscale['10']};
 `;
 
 export const Inner = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: calc(100% - 7rem);
-  padding: 2.5rem 2rem 3rem;
+  height: calc(100% - 112px);
+  padding: 40px 32px 48px;
 `;
 
 export const AreaText = styled.div`
@@ -28,13 +29,14 @@ export const AreaText = styled.div`
 
 export const HelpTitle = styled.strong`
   display: block;
-  font-size: 1.5rem;
-  color: #666;
+  font-size: 24px;
+  line-height: 25px;
+  color: ${painter.grayscale['2']};
 `;
 
 export const HelpText = styled.p`
-  margin-top: 0.5rem;
-  padding-left: 0.2rem;
-  font-size: 1.125rem;
-  color: #a6a6a6;
+  margin-top: 4px;
+  font-size: 18px;
+  line-height: 25px;
+  color: ${painter.grayscale['5']};
 `;
