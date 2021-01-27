@@ -28,9 +28,7 @@ const AreaEmoji: React.FC = () => {
             {emoji && (
               <$.EmojiButton
                 onClick={(e) => handleClickEmoji(e, emoji.id)}
-                style={{
-                  transform: emoji.id === selectedEmoji ? 'scale(1.3)' : '',
-                }}
+                aria-selected={emoji.id === selectedEmoji}
               >
                 <$.EmojiImage src={emoji.imageUrl} />
               </$.EmojiButton>
