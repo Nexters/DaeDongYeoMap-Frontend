@@ -1,5 +1,4 @@
 import React from 'react';
-import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import GNB from '~/components/_layout/GNB';
 import Wrap from '~/components/_layout/Wrap';
@@ -16,9 +15,7 @@ export const getStaticProps: GetStaticProps = async () => {
   });
 };
 
-const Home = dynamic(() => import('~/components/Home'), { ssr: false });
-
-const HomePage: React.FC = () => {
+const SettingPage: React.FC = () => {
   return (
     <>
       <Head>
@@ -27,12 +24,10 @@ const HomePage: React.FC = () => {
       </Head>
       <Wrap>
         <GNB />
-        <Main>
-          <Home />
-        </Main>
+        <Main></Main>
       </Wrap>
     </>
   );
 };
 
-export default HomePage;
+export default SettingPage;
