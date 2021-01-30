@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import browserOnly from '~/components/_common/hoc/browserOnly';
 
 type ModalProps = {
   children: JSX.Element;
@@ -29,4 +28,4 @@ class Modal extends React.Component<ModalProps> {
   }
 }
 
-export default browserOnly<ModalProps>(Modal);
+export default Modal;

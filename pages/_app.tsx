@@ -7,7 +7,7 @@ import type { AppProps } from 'next/app';
 import { ThemeProvider } from 'styled-components';
 
 const App: React.FC<AppProps> = ({ Component, pageProps }) => {
-  const client = useApollo(pageProps.initialApolloState);
+  const client = useApollo(pageProps);
 
   return (
     <ThemeProvider theme={theme}>
