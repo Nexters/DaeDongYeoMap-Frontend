@@ -53,18 +53,13 @@ export default class Calendar {
         target,
         dateOption
       );
-      const lastWebDate: CalendarDate = CalendarDate.createLastDate(
-        target,
-        dateOption
-      );
-      const lastDate: number = lastWebDate.getDate();
-      console.log(lastWebDate);
-      let cursorDate: number = cursor.getDate();
+      const currentMonth: number = cursor.getMonth();
+      let cursorMonth: number = cursor.getMonth();
 
-      while (cursorDate <= lastDate) {
+      while (cursorMonth === currentMonth) {
         matrix[matrix.length - 1].push(cursor.clone());
         cursor.mutateToNextDate();
-        cursorDate = cursor.getDate();
+        cursorMonth = cursor.getMonth();
 
         if (matrix[matrix.length - 1].length > 6) {
           matrix.push([]);
