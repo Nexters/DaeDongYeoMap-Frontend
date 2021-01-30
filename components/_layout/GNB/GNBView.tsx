@@ -8,11 +8,12 @@ export const GNB = styled.div`
 `;
 
 export const GNBInner = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: auto;
   width: 100%;
   height: 100%;
+  padding: 184px 0 50px;
   background-color: rgba(0, 0, 0, 0.04);
 `;
 
