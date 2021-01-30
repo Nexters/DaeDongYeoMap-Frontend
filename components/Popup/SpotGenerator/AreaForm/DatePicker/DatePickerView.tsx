@@ -6,7 +6,8 @@ export const DatePicker = styled.div`
   width: 100%;
   padding: 10px;
   border: 1px slid rgba(0, 0, 0, 0.08);
-  box-shadow: 0 0 10px 1px ${painter.grayscale[6]};
+  border-radius: 8px;
+  box-shadow: 0 0 8px 1px ${painter.grayscale[7]};
   background-color: #fff;
 `;
 
@@ -35,9 +36,9 @@ export const PrevMonthButton = styled.a.attrs({ href: '#', role: 'button' })`
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 14px;
-    height: 14px;
-    margin: -7px 0 0 -4px;
+    width: 8px;
+    height: 8px;
+    margin: -5px 0 0 -3px;
     border: solid ${painter.primary.basic};
     border-width: 0 0 2px 2px;
     transform: rotate(45deg);
@@ -55,9 +56,9 @@ export const NextMonthButton = styled.a.attrs({ href: '#', role: 'button' })`
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 14px;
-    height: 14px;
-    margin: -7px 0 0 -13px;
+    width: 8px;
+    height: 8px;
+    margin: -5px 0 0 -7px;
     border: solid ${painter.primary.basic};
     border-width: 0 2px 2px 0;
     transform: rotate(-45deg);
@@ -86,12 +87,36 @@ export const Day = styled.div`
   height: 48px;
   font-weight: 700;
   font-size: 12px;
+  line-height: 48px;
+  text-align: center;
   color: ${painter.grayscale[6]};
 `;
 
-export const Date = styled.div`
+export const DateButton = styled.a.attrs({ href: '#', role: 'button' })`
+  display: block;
+  position: relative;
+  z-index: 0;
   height: 48px;
   font-family: ${painter.font.roboto};
   font-size: 12px;
+  line-height: 48px;
+  text-align: center;
   color: ${painter.grayscale[2]};
+  ${(props) =>
+    props['aria-selected'] &&
+    `
+  font-weight: 700;
+  color: ${props.theme.basic.white};
+  &::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: 24px;
+    background-color: ${props.theme.primary.light};
+  }
+  `}
 `;

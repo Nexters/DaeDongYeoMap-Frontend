@@ -139,6 +139,8 @@ export default class CalendarDate {
   }: LiteralDate): Date {
     const webDate = new Date();
 
+    webDate.setDate(1);
+
     if (year !== undefined) webDate.setFullYear(year);
     if (month !== undefined) webDate.setMonth(month - 1);
     if (date !== undefined) webDate.setDate(date);

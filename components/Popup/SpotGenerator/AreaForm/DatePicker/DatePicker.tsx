@@ -21,6 +21,14 @@ const DatePicker: React.FC = () => {
     selected: null,
   });
 
+  const handleClickDate = (date: number) => (e: React.MouseEvent) => {
+    e.preventDefault();
+    setState({
+      ...state,
+      selected: [state.cursor[0], state.cursor[1], date],
+    });
+  };
+
   useEffect(() => {
     const now = new Date();
     const lastLimit = new Date(4102444800000); // 2100-01-01
@@ -42,6 +50,9 @@ const DatePicker: React.FC = () => {
     return null;
   }
 
+  const isSelectedMonth: boolean =
+    state.selected[0] === state.cursor[0] &&
+    state.selected[1] === state.cursor[1];
   const title = `${toDigit(state.cursor[0], 2)}.${toDigit(state.cursor[1], 2)}`;
   const dateMatrix = state.calendar.getMatrix(
     CalendarDate.createWebDateByLiteral({
@@ -49,8 +60,6 @@ const DatePicker: React.FC = () => {
       month: state.cursor[1],
     })
   );
-
-  console.log(dateMatrix);
 
   return (
     <$.DatePicker>
@@ -63,9 +72,11 @@ const DatePicker: React.FC = () => {
         <$.Table>
           <$.TableHead>
             <$.TableRow>
-              {dayStamps.map((day) => {
-                <$.TableDay key={`day-${day}`}>{day}</$.TableDay>;
-              })}
+              {dayStamps.map((day) => (
+                <$.TableDay key={`day-${day}`}>
+                  <$.Day>{day}</$.Day>
+                </$.TableDay>
+              ))}
             </$.TableRow>
           </$.TableHead>
           <$.TableBody>
@@ -76,7 +87,14 @@ const DatePicker: React.FC = () => {
 
                   return (
                     <$.TableDate key={`calendar-date-${date}`}>
-                      {date}
+                      <$.DateButton
+                        onClick={handleClickDate(date)}
+                        aria-selected={
+                          isSelectedMonth && state.selected[2] === date
+                        }
+                      >
+                        {date}
+                      </$.DateButton>
                     </$.TableDate>
                   );
                 })}
