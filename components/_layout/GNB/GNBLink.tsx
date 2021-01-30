@@ -2,9 +2,9 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import * as $ from './GNBView';
-import SpotSvg from '~/components/_assets/gnb/spot.svg';
-import CourseSvg from '~/components/_assets/gnb/course.svg';
-import SettingSvg from '~/components/_assets/gnb/setting.svg';
+import SpotIcon from '~/components/_assets/gnb/SpotIcon';
+import CourseIcon from '~/components/_assets/gnb/CourseIcon';
+import SettingIcon from '~/components/_assets/gnb/SettingIcon';
 
 type Props = {
   href: string;
@@ -12,15 +12,15 @@ type Props = {
 
 const map = {
   '/': {
-    Icon: SpotSvg,
+    Icon: $.IconImg(SpotIcon),
     label: 'Spot',
   },
   '/course': {
-    Icon: CourseSvg,
+    Icon: $.IconImg(CourseIcon),
     label: 'Course',
   },
   '/setting': {
-    Icon: SettingSvg,
+    Icon: $.IconImg(SettingIcon),
     label: 'Setting',
   },
 };
@@ -29,12 +29,11 @@ const GNBLink: React.FC<Props> = ({ href }) => {
   const { pathname } = useRouter();
   const { Icon, label } = map[href];
   const isSelected: boolean = href === pathname;
-  const IconImage = $.IconImg({ Icon, isSelected });
 
   return (
     <Link href={href}>
       <$.GNBLink>
-        <IconImage />
+        <Icon isSelected={isSelected} />
         <$.IconText isSelected={isSelected}>{label}</$.IconText>
       </$.GNBLink>
     </Link>

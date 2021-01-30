@@ -5,9 +5,11 @@ import GNBLink from './GNBLink';
 const GNB: React.FC = () => {
   return (
     <$.GNB>
-      <GNBLink href="/" />
-      <GNBLink href="/course" />
-      <GNBLink href="/setting" />
+      <$.GNBInner>
+        <GNBLink href="/" />
+        <GNBLink href="/course" />
+        <GNBLink href="/setting" />
+      </$.GNBInner>
     </$.GNB>
   );
 };
