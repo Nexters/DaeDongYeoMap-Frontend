@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import painter from '~/styles/theme/painter';
 
 export const MainMood = styled.div`
   display: inline-block;
@@ -14,22 +15,16 @@ export const MoodButton = styled.button`
   outline: none;
   padding: 8px 16px;
   margin-right: 10px;
-  border: 1px solid #d0d0d0;
+  border: 1px solid ${painter.grayscale['3']};
   border-radius: 16px;
   cursor: pointer;
   font-weight: 600;
-  background-color: #fff;
-  color: ${(props) => props.color || 'black'};
-  &:hover {
-    background: ${(props) => props.color || 'black'};
-    color: #fff;
-  }
+  transition: 0.25s;
+  background-color: ${painter.basic.white};
+  color: ${(props) => painter.secondary[props.color]};
+  &:hover,
   &:focus {
-    background-color: ${(props) => props.color || 'black'};
-    color: #fff;
-  }
-  &:active {
-    background-color: ${(props) => props.color || 'black'};
-    color: #fff;
+    background-color: ${(props) => painter.secondary[props.color]};
+    color: ${painter.basic.white};
   }
 `;
