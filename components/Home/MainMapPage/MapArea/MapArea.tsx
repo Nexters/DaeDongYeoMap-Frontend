@@ -3,13 +3,6 @@ import * as $ from './MapAreaView';
 import emojis from '~/constants/emojis';
 import SearchPlace from '../../SearchPlace';
 import MainMood from '../../../Home/Mood';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { spotGeneratorShowState } from '~/components/Home/MainMapPage/MainMapPageState';
-import {
-  currentLatLng,
-  emojiState,
-} from '~/components/Popup/SpotGenerator/SpotGeneratorState';
-import ErrorBoundary from '~/components/_common/ErrorBoundary';
 
 declare global {
   interface Window {
@@ -126,10 +119,6 @@ const dummySpots = [
 ];
 
 const MapArea: React.FC = () => {
-  const isShownSpotGenerator = useRecoilValue(spotGeneratorShowState);
-  const [selectedEmoji, __] = useRecoilState(emojiState);
-  const [___, setCurLatLng] = useRecoilState(currentLatLng);
-
   useEffect(() => {
     (window as any).kakao.maps.load(() => {
       const el = document.getElementById('map');
@@ -209,19 +198,19 @@ const MapArea: React.FC = () => {
         function (mouseEvent) {
           // 클릭한 위도, 경도 정보를 가져옵니다
           const latlng = mouseEvent.latLng;
-          if (isShownSpotGenerator && selectedEmoji !== null) {
+          if (false) {
             marker.setPosition(latlng);
-            setCurLatLng({
-              lat: latlng.getLat(),
-              lng: latlng.getLng(),
-            });
+            // setCurLatLng({
+            //   lat: latlng.getLat(),
+            //   lng: latlng.getLng(),
+            // });
             // 지도에 스팟 이모지를 표시합니다
             const spotEmoji = {
               pos: new (window as any).kakao.maps.LatLng(
                 latlng.getLat(),
                 latlng.getLng()
               ),
-              imgSrc: emojis[selectedEmoji].imageUrl,
+              imgSrc: '',
               imgSize: new (window as any).kakao.maps.Size(50, 50),
               imgOptions: {
                 spriteOrigin: new (window as any).kakao.maps.Point(0, 0),
@@ -242,15 +231,11 @@ const MapArea: React.FC = () => {
         }
       );
     });
-  }, [isShownSpotGenerator, selectedEmoji]);
+  }, []);
 
   return (
     <$.MapArea>
-      <ErrorBoundary>
-        <React.Suspense fallback={<div>오류</div>}>
-          <SearchPlace />
-        </React.Suspense>
-      </ErrorBoundary>
+      <SearchPlace />
       <MainMood />
     </$.MapArea>
   );

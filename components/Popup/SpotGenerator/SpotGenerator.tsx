@@ -1,4 +1,3 @@
-import { useSetRecoilState } from 'recoil';
 import AreaEmoji from './AreaEmoji';
 import AreaFilter from './AreaFilter';
 import AreaForm from './AreaForm';
@@ -17,11 +16,7 @@ const SpotGenerator: React.FC<Props> = ({
   zIndex,
   onClickCloseButton,
 }) => {
-  const setCurrentPlaceId = useSetRecoilState(currentPlaceIdState);
-
-  useEffect(() => {
-    setCurrentPlaceId(placeId);
-  }, [placeId]);
+  console.log(placeId);
 
   return (
     <$.SpotGenerator zIndex={zIndex}>

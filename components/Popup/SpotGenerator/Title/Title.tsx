@@ -1,9 +1,4 @@
 import React from 'react';
-import { useResetRecoilState } from 'recoil';
-import {
-  emojiState,
-  currentPlaceIdState,
-} from '~/components/Popup/SpotGenerator/SpotGeneratorState';
 import * as $ from './TitleView';
 
 type Props = {
@@ -11,12 +6,7 @@ type Props = {
 };
 
 const Title: React.FC<Props> = ({ onClickCloseButton }) => {
-  const resetPlaceState = useResetRecoilState(currentPlaceIdState);
-  const resetEmojiState = useResetRecoilState(emojiState);
-
   const handleClickCloseLayerButton = () => {
-    resetPlaceState();
-    resetEmojiState();
     onClickCloseButton();
   };
 

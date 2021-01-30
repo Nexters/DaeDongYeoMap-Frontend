@@ -1,5 +1,4 @@
 import { ApolloProvider } from '@apollo/client';
-import { RecoilRoot } from 'recoil';
 import apolloClient from '../lib/apollo/client';
 import theme from '../styles/theme';
 import '../styles/reset.css';
@@ -11,9 +10,7 @@ const App: React.FC<AppProps> = ({ Component, pageProps }) => {
   return (
     <ThemeProvider theme={theme}>
       <ApolloProvider client={apolloClient}>
-        <RecoilRoot>
-          <Component {...pageProps} />
-        </RecoilRoot>
+        <Component {...pageProps} />
       </ApolloProvider>
     </ThemeProvider>
   );
