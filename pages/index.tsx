@@ -24,9 +24,7 @@ const Home: React.FC = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
-        <MainPage />
-      </main>
+      <main className={styles.main}>{process.browser && <MainPage />}</main>
 
       <footer className={styles.footer}>
         <a
