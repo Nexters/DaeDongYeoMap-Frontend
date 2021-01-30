@@ -11,6 +11,7 @@ declare module 'styled-components' {
       dark: string;
     };
     secondary: {
+      all: string;
       sugar0: string;
       sugar30: string;
       sugar50: string;

@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import painter from '~/styles/theme/painter';
 
 export const SearchDiv = styled.div`
   position: absolute;
@@ -11,7 +12,7 @@ export const SearchDiv = styled.div`
 
 export const SearchForm = styled.form`
   display: flex;
-  border: 2px solid #58ecc7;
+  border: none;
   border-radius: 6px;
   outline: none;
   box-sizing: border-box;
@@ -21,36 +22,36 @@ export const SearchForm = styled.form`
 export const InputField = styled.input`
   width: 270px;
   height: 40px;
-  font-size: 17px;
+  font-size: 18px;
   padding: 10px;
   border: none;
   outline: none;
+  font-family: ${painter.font.roboto};
+  font-weight: bold;
+  color: ${painter.grayscale['9']};
   ::placeholder {
-    color: #93a2ae;
+    color: ${painter.grayscale['6']};
   }
 `;
 
 export const TempImg = styled.img.attrs({
-  src: '/temp_img.png',
+  src: '/search.png',
 })`
-  width: 25px;
-  height: 25px;
+  width: 32px;
+  height: 32px;
   margin: 8px 7px 0 15px;
 `;
 
 export const SpotButton = styled.button`
   outline: none;
   border: none;
-  border-radius: 6px;
-  background-color: #58ecc7;
+  border-radius: 9px;
+  background-color: ${painter.primary.basic};
   padding: 10px;
   margin-left: 7px;
   cursor: pointer;
 `;
 
 export const SpotButtonImg = styled.img.attrs({
-  src: '/home_default.png',
-})`
-  width: 25px;
-  height: 25px;
-`;
+  src: '/createSpot.png',
+})``;
