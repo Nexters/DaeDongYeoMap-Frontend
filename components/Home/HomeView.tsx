@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-export const MainPage = styled.div`
+export const Home = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;

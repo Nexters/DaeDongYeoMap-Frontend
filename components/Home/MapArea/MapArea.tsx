@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import * as $ from './MapAreaView';
 import emojis from '~/constants/emojis';
-import SearchPlace from '../../SearchPlace';
-import MainMood from '../../../Home/Mood';
+import SearchPlace from '../SearchPlace';
+import MainMood from '../Mood';
 
 declare global {
   interface Window {
