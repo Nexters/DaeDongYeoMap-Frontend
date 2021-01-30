@@ -10,10 +10,10 @@ import Modal from '~/components/_common/Modal';
  * App 전체의 Stacking Context(zIndex)를 일괄적으로 관리하고,
  * 모달 통합관리를 위한 모듈
  */
-const Popup: React.FC<PopupProps> = () => {
-  const { popupType, popupProps, onClickCloseButton } = useReactiveVar(
-    popupState
-  );
+const Popup: React.FC = () => {
+  const { popupType, popupProps } = useReactiveVar(popupState);
+
+  console.log('POPUP: ', popupType, popupProps);
 
   if (popupType === null) {
     return null;
@@ -24,11 +24,7 @@ const Popup: React.FC<PopupProps> = () => {
 
     return (
       <Modal>
-        <SpotGenerator
-          zIndex="10000"
-          onClickCloseButton={onClickCloseButton}
-          {...props}
-        />
+        <SpotGenerator zIndex="10000" {...props} />
       </Modal>
     );
   }

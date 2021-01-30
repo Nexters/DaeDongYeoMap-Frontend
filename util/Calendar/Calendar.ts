@@ -53,10 +53,12 @@ export default class Calendar {
         target,
         dateOption
       );
-      const lastDate: number = CalendarDate.createLastDate(
+      const lastWebDate: CalendarDate = CalendarDate.createLastDate(
         target,
         dateOption
-      ).getDate();
+      );
+      const lastDate: number = lastWebDate.getDate();
+      console.log(lastWebDate);
       let cursorDate: number = cursor.getDate();
 
       while (cursorDate <= lastDate) {

@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
+import DatePicker from './DatePicker';
 import * as $ from './AreaFormView';
 
 const AreaForm: React.FC = () => {
+  const [isDatePickerShown, setIsDatePickerShown] = useState(false);
+
   return (
     <$.AreaForm>
       <$.FieldSet>
@@ -14,8 +17,15 @@ const AreaForm: React.FC = () => {
         <$.FieldLabel>장소를 방문한 날짜를 기록해보세요</$.FieldLabel>
         <$.FieldInputBox>
           <$.DateLabel isSelected={false}>01.16.2021</$.DateLabel>
-          <$.DatePickerOpenButton />
+          <$.DatePickerOpenButton
+            onClick={() => setIsDatePickerShown(!isDatePickerShown)}
+          />
         </$.FieldInputBox>
+        {isDatePickerShown && (
+          <$.DatePickerLayer>
+            <DatePicker />
+          </$.DatePickerLayer>
+        )}
       </$.FieldSet>
       <$.SubmitButton>완료하기</$.SubmitButton>
     </$.AreaForm>

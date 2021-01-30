@@ -33,6 +33,9 @@ const theme: DefaultTheme = {
     error: '#FF5B5B',
     positive: '#36D789',
   },
+  font: {
+    roboto: 'Roboto, sans-serif',
+  },
 };
 
 export default theme;

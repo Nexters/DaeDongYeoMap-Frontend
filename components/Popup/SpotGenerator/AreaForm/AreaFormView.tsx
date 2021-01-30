@@ -9,6 +9,7 @@ export const AreaForm = styled.div`
 `;
 
 export const FieldSet = styled.div`
+  position: relative;
   & + & {
     margin-top: 42px;
   }
@@ -74,4 +75,12 @@ export const SubmitButton = styled.a.attrs({ href: '#', role: 'button' })`
   line-height: 64px;
   text-align: center;
   color: ${painter.basic.white};
+`;
+
+export const DatePickerLayer = styled.div`
+  position: absolute;
+  z-index: 1;
+  bottom: 54px;
+  left: 0;
+  width: 100%;
 `;
