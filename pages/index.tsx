@@ -1,7 +1,20 @@
 import React from 'react';
 import Head from 'next/head';
+import { initializeApollo } from '../lib/apollo/client';
 import MainPage from '../components/Home/MainMapPage/MainPage';
 import styles from '../styles/Home.module.css';
+import type { GetStaticProps } from 'next';
+
+export const getStaticProps: GetStaticProps = async () => {
+  const apolloClient = initializeApollo();
+
+  return {
+    props: {
+      initialApolloState: apolloClient.cache.extract(),
+    },
+    revalidate: 1,
+  };
+};
 
 const Home: React.FC = () => {
   return (
