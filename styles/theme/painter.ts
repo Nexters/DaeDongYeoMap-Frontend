@@ -15,6 +15,7 @@ type Painter = {
   basic: ThemePainter<DefaultTheme['basic']>;
   grayscale: ThemePainter<DefaultTheme['grayscale']>;
   system: ThemePainter<DefaultTheme['system']>;
+  font: ThemePainter<DefaultTheme['font']>;
   form: {
     placeholder: (color: string) => string;
   };
@@ -58,6 +59,9 @@ const painter: Painter = {
   system: {
     error: (props) => props.theme.system.error,
     positive: (props) => props.theme.system.positive,
+  },
+  font: {
+    roboto: (props) => props.theme.font.roboto,
   },
   form: {
     placeholder: (color) => `

@@ -138,10 +138,9 @@ export default class CalendarDate {
     date,
   }: LiteralDate): Date {
     const webDate = new Date();
-    const monthIndex = typeof month === 'number' ? month - 1 : month;
 
     if (year !== undefined) webDate.setFullYear(year);
-    if (month !== undefined) webDate.setMonth(monthIndex);
+    if (month !== undefined) webDate.setMonth(month - 1);
     if (date !== undefined) webDate.setDate(date);
 
     webDate.setHours(12, 0, 0);
@@ -185,12 +184,9 @@ export default class CalendarDate {
     option: CalendarDateOption
   ): CalendarDate {
     const year = webDate.getFullYear();
-    const month = webDate.getMonth() + 1;
+    const month = webDate.getMonth() + 2;
 
-    return CalendarDate.createByLiteral(
-      { year, month: month + 1, date: 0 },
-      option
-    );
+    return CalendarDate.createByLiteral({ year, month, date: 0 }, option);
   }
 
   public static createFirstDateOfNextMonth(
@@ -198,10 +194,10 @@ export default class CalendarDate {
     option: CalendarDateOption
   ): CalendarDate {
     const year = webDate.getFullYear();
-    const month = webDate.getMonth() + 1;
+    const month = webDate.getMonth() + 2;
 
     return CalendarDate.createByLiteral(
-      { year, month: month + 1, date: 1 },
+      { year, month: month, date: 1 },
       option
     );
   }

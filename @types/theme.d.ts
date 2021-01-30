@@ -37,5 +37,8 @@ declare module 'styled-components' {
       error: string;
       positive: string;
     };
+    font: {
+      roboto: string;
+    };
   }
 }
