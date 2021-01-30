@@ -1,20 +1,23 @@
 import React from 'react';
+import dynamic from 'next/dynamic';
 import Head from 'next/head';
-import { initializeApollo } from '../lib/apollo/client';
-import MainPage from '../components/Home/MainMapPage/MainPage';
+import { addApolloState, initializeApollo } from '../lib/apollo/client';
 import styles from '../styles/Home.module.css';
 import type { GetStaticProps } from 'next';
 
 export const getStaticProps: GetStaticProps = async () => {
   const apolloClient = initializeApollo();
 
-  return {
-    props: {
-      initialApolloState: apolloClient.cache.extract(),
-    },
+  return addApolloState(apolloClient, {
+    props: {},
     revalidate: 1,
-  };
+  });
 };
+
+const MainPage = dynamic(
+  () => import('~/components/Home/MainMapPage/MainPage'),
+  { ssr: false }
+);
 
 const Home: React.FC = () => {
   return (
@@ -24,7 +27,9 @@ const Home: React.FC = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>{process.browser && <MainPage />}</main>
+      <main className={styles.main}>
+        <MainPage />
+      </main>
 
       <footer className={styles.footer}>
         <a
