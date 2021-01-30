@@ -1,7 +1,23 @@
 import React from 'react';
+import dynamic from 'next/dynamic';
 import Head from 'next/head';
-import MainPage from '../components/Home/MainMapPage/MainPage';
+import { addApolloState, initializeApollo } from '../lib/apollo/client';
 import styles from '../styles/Home.module.css';
+import type { GetStaticProps } from 'next';
+
+export const getStaticProps: GetStaticProps = async () => {
+  const apolloClient = initializeApollo();
+
+  return addApolloState(apolloClient, {
+    props: {},
+    revalidate: 1,
+  });
+};
+
+const MainPage = dynamic(
+  () => import('~/components/Home/MainMapPage/MainPage'),
+  { ssr: false }
+);
 
 const Home: React.FC = () => {
   return (

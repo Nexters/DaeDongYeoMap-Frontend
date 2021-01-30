@@ -1,11 +1,8 @@
-import { useSetRecoilState } from 'recoil';
 import AreaEmoji from './AreaEmoji';
 import AreaFilter from './AreaFilter';
 import AreaForm from './AreaForm';
 import Title from './Title';
-import { currentPlaceIdState } from './SpotGeneratorState';
 import * as $ from './SpotGeneratorView';
-import { useEffect } from 'react';
 import type { PopupChildProps } from '~/@types/popup.d';
 
 export type Props = PopupChildProps & {
@@ -17,11 +14,7 @@ const SpotGenerator: React.FC<Props> = ({
   zIndex,
   onClickCloseButton,
 }) => {
-  const setCurrentPlaceId = useSetRecoilState(currentPlaceIdState);
-
-  useEffect(() => {
-    setCurrentPlaceId(placeId);
-  }, [placeId]);
+  console.log(placeId);
 
   return (
     <$.SpotGenerator zIndex={zIndex}>

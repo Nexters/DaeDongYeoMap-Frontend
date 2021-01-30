@@ -1,30 +1,15 @@
 import React from 'react';
 import * as $ from './SearchPlaceView';
-import { useRecoilState, useSetRecoilState, useRecoilValue } from 'recoil';
-import {
-  searchValueState,
-  submitValueState,
-  submitValueQuery,
-} from '../SearchPlace/SearchPlaceState';
 
 const SearchPlace: React.FC = () => {
-  const [searchValue, setSearchValue] = useRecoilState(searchValueState);
-  const submit = useSetRecoilState(submitValueState);
-  const places = useRecoilValue(submitValueQuery);
-
-  const onChangeInput = (e: any) => {
-    setSearchValue(e.target.value);
+  const onChangeInput = () => {
+    // TODO;
   };
 
   const submitValue = (e: any) => {
     e.preventDefault();
 
-    if (!searchValue) {
-      alert('장소를 입력해주세요!');
-    } else {
-      submit(searchValue);
-      console.log(places);
-    }
+    // TODO;
   };
 
   return (
@@ -35,7 +20,7 @@ const SearchPlace: React.FC = () => {
           type="text"
           name="searchValue"
           placeholder={'장소를 검색하세요'}
-          value={searchValue}
+          value={''}
           onChange={onChangeInput}
         />
       </$.SearchForm>
