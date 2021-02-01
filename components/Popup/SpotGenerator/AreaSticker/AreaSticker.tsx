@@ -1,11 +1,15 @@
 import React from 'react';
 import stickers from '~/constants/stickers';
 import { Sugar } from '~/@types/daedong.d';
-import { useFormStickerState } from '~/components/Popup/SpotGenerator/SpotGeneratorState';
+import {
+  useFormStickerState,
+  useFormSugar,
+} from '~/components/Popup/SpotGenerator/SpotGeneratorState';
 import * as $ from './AreaStickerView';
 import type { StickerMap } from '~/constants/stickers';
 
 const AreaSticker: React.FC = () => {
+  const selectedSugar: Sugar = useFormSugar();
   const [selectedStickerId, setSelectedStickerId] = useFormStickerState();
 
   // @see Flex로 Flexible Grid 정렬을 하기 위한, 더미 아이템 요소를 3n개에 맞게 추가
@@ -42,7 +46,7 @@ const AreaSticker: React.FC = () => {
                   onClick={(e) => handleClickSticker(e, id)}
                   aria-selected={id === selectedStickerId}
                 >
-                  <IconWithSugar sugar={Sugar.Degree100} />
+                  <IconWithSugar sugar={selectedSugar} />
                 </$.StickerButton>
               )}
             </$.StickerItem>
