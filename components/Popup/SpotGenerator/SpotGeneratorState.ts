@@ -3,7 +3,7 @@ import { makeVar, useReactiveVar } from '@apollo/client';
 type FormSugarState = string;
 type FormStickerState = string;
 type FormPartnerState = string;
-type FormDateState = string;
+type FormDateState = [number, number, number];
 type StateSetter<State> = (newState: State) => void;
 type UseStateHook<State> = () => [State, StateSetter<State>];
 

@@ -53,6 +53,10 @@ export default class CalendarDate {
   //////////////////////////////////////////
   //////////// Getter/Setter ///////////////
   //////////////////////////////////////////
+  public getFullMonth(): [number, number] {
+    return [this.getYear(), this.getMonth()];
+  }
+
   public getFullDate(): [number, number, number] {
     return [this.getYear(), this.getMonth(), this.getDate()];
   }

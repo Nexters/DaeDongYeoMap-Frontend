@@ -13,6 +13,7 @@ type Selected = [number, number, number];
 
 type Props = {
   selected?: Selected;
+  onClickDate?: (date: CalendarDate) => void;
 };
 
 type State = {
@@ -82,6 +83,7 @@ const DatePicker: React.FC<Props> = (props) => {
         calendarDate.getDate(),
       ],
     });
+    props.onClickDate && props.onClickDate(calendarDate);
   };
 
   useEffect(() => {
@@ -90,11 +92,7 @@ const DatePicker: React.FC<Props> = (props) => {
     const cursor: Cursor = props.selected
       ? [props.selected[0], props.selected[1]]
       : [now.getFullYear(), now.getMonth() + 1];
-    const selected: Selected = props.selected ?? [
-      now.getFullYear(),
-      now.getMonth() + 1,
-      now.getDate(),
-    ];
+    const selected: Selected = props.selected ?? null;
 
     setState({
       calendar: new Calendar(now, { limit: { last: lastLimit } }),
