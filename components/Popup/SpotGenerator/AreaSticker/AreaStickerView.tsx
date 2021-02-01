@@ -1,21 +1,22 @@
 import React from 'react';
 import styled from 'styled-components';
 
-export const AreaEmoji = styled.div`
+export const AreaSticker = styled.div`
   flex-grow: 1;
   flex-shrink: 1;
   overflow-y: auto;
 `;
 
-export const EmojiList = styled.ul`
+export const StickerList = styled.ul`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
   margin-top: 40px;
+  padding: 0 13px;
 `;
 
-export const EmojiItem = styled.li`
+export const StickerItem = styled.li`
   flex-shrink: 0;
   flex-grow: 0;
   &:nth-child(n + 5) {
@@ -24,17 +25,17 @@ export const EmojiItem = styled.li`
   &:nth-child(4n + 2),
   &:nth-child(4n + 3),
   &:nth-child(4n + 4) {
-    margin-left: 48px;
+    margin-left: 25px;
   }
-  width: 64px;
-  height: 64px;
+  width: 120px;
+  height: 120px;
 `;
 
-export const EmojiButton = styled.a.attrs({ href: '#', role: 'button' })`
+export const StickerButton = styled.a.attrs({ href: '#', role: 'button' })`
   display: block;
   position: relative;
-  width: 64px;
-  height: 64px;
+  width: 120px;
+  height: 120px;
   ${(props) =>
     props['aria-selected'] &&
     `
@@ -51,6 +52,6 @@ export const EmojiButton = styled.a.attrs({ href: '#', role: 'button' })`
   `}
 `;
 
-export const EmojiImage = styled.img.attrs({ width: '64', height: '64' })`
+export const StickerImage = styled.img.attrs({ width: '64', height: '64' })`
   display: block;
 `;
