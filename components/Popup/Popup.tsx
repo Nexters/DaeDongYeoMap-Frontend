@@ -1,7 +1,7 @@
 import React from 'react';
 import { useReactiveVar } from '@apollo/client';
 import SpotGenerator, { Props as SpotGeneratorProps } from './SpotGenerator';
-import { PopupType, PopupProps } from '~/@types/popup.d';
+import { PopupType } from '~/@types/popup.d';
 import { popupState } from '~/lib/apollo/vars/global';
 import Modal from '~/components/_common/Modal';
 
@@ -13,7 +13,7 @@ import Modal from '~/components/_common/Modal';
 const Popup: React.FC = () => {
   const { popupType, popupProps } = useReactiveVar(popupState);
 
-  console.log('POPUP: ', popupType, popupProps);
+  console.log('RENDER POPUP: ', popupType, popupProps);
 
   if (popupType === null) {
     return null;

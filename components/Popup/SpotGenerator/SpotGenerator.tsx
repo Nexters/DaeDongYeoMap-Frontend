@@ -1,4 +1,4 @@
-import AreaEmoji from './AreaEmoji';
+import AreaSticker from './AreaSticker';
 import AreaFilter from './AreaFilter';
 import AreaForm from './AreaForm';
 import Title from './Title';
@@ -23,7 +23,7 @@ const SpotGenerator: React.FC<Props> = ({ placeId, zIndex }) => {
           </$.HelpText>
         </$.AreaText>
         <AreaFilter />
-        <AreaEmoji />
+        <AreaSticker />
         <AreaForm />
       </$.Inner>
     </$.SpotGenerator>
