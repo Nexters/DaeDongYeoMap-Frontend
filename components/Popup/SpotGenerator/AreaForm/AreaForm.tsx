@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import DatePicker from './DatePicker';
+import DatePicker from '~/components/_common/DatePicker';
 import * as $ from './AreaFormView';
 
 const AreaForm: React.FC = () => {
