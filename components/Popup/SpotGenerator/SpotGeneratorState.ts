@@ -1,4 +1,5 @@
 import { makeVar, useReactiveVar } from '@apollo/client';
+import stickers from '~/constants/stickers';
 
 type FormSugarState = string;
 type FormStickerState = string;
@@ -8,7 +9,7 @@ type StateSetter<State> = (newState: State) => void;
 type UseStateHook<State> = () => [State, StateSetter<State>];
 
 const formSugarState = makeVar<FormSugarState>(null);
-const formStickerState = makeVar<FormStickerState>(null);
+const formStickerState = makeVar<FormStickerState>(stickers[0].id);
 const formPartnerState = makeVar<FormPartnerState>(null);
 const formDateState = makeVar<FormDateState>(null);
 
