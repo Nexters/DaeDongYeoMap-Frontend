@@ -7,6 +7,7 @@ type FormSugarState = Sugar;
 type FormStickerState = string;
 type FormPartnerState = string;
 type FormDateState = [number, number, number];
+type FormResetter = () => void;
 
 const formSugarState = makeVar<FormSugarState>(Sugar.Degree100);
 const formStickerState = makeVar<FormStickerState>(stickers[0].id);
@@ -36,3 +37,14 @@ export const [
   useFormDateSetter,
   useFormDateState,
 ] = createReactiveVarHooks(formDateState);
+
+export const useFormResetter = (): FormResetter => {
+  const resetForm: FormResetter = () => {
+    formSugarState(Sugar.Degree100);
+    formStickerState(stickers[0].id);
+    formPartnerState(null);
+    formDateState(null);
+  };
+
+  return resetForm;
+};

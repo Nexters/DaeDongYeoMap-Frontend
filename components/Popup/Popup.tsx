@@ -13,7 +13,7 @@ import Modal from '~/components/_common/Modal';
 const Popup: React.FC = () => {
   const { popupType, popupProps } = useReactiveVar(popupState);
 
-  console.log('POPUP: ', popupType, popupProps);
+  console.log('RENDER POPUP: ', popupType, popupProps);
 
   if (popupType === null) {
     return null;
