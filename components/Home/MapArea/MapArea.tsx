@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import * as $ from './MapAreaView';
-import emojis from '~/constants/emojis';
+import emojis from '~/constants/stickers';
 import SearchPlace from '../SearchPlace';
 import MainMood from '../Mood';
 import { usePopupOpener } from '~/lib/apollo/hooks/usePopup';
@@ -174,7 +174,7 @@ const MapArea: React.FC = () => {
         .map((spot) => {
           const emojiObj = {
             pos: new (window as any).kakao.maps.LatLng(spot.y, spot.x),
-            imgSrc: emojis[spot.emoji].imageUrl,
+            imgSrc: emojis[0].imageUrl,
             imgSize: new (window as any).kakao.maps.Size(50, 50),
             imgOptions: {
               spriteOrigin: new (window as any).kakao.maps.Point(0, 0),
