@@ -108,4 +108,8 @@ export default class Calendar {
       last: CalendarDate.toUnixTime(clonedLimitLast),
     };
   }
+
+  public setCursor(cursorDate: Date): void {
+    this.cursor = cursorDate;
+  }
 }
