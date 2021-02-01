@@ -5,6 +5,10 @@ import SearchPlace from '../SearchPlace';
 import MainMood from '../Mood';
 import { usePopupOpener } from '~/lib/apollo/hooks/usePopup';
 import { PopupType } from '~/@types/popup.d';
+import {
+  useSpotsInitailizer,
+  useSpotsState,
+} from '~/components/Home/MapArea/MapAreaState';
 
 declare global {
   interface Window {
@@ -122,6 +126,13 @@ const dummySpots = [
 
 const MapArea: React.FC = () => {
   const openPopup = usePopupOpener();
+  const [initSpotsState] = useSpotsInitailizer();
+  const spotsState = useSpotsState();
+
+  useEffect(() => {
+    initSpotsState;
+  }, []);
+  console.log(spotsState);
 
   useEffect(() => {
     openPopup({
