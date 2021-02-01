@@ -3,8 +3,6 @@ import * as $ from './MapAreaView';
 import emojis from '~/constants/stickers';
 import SearchPlace from '../SearchPlace';
 import MainMood from '../Mood';
-import { usePopupOpener } from '~/lib/apollo/hooks/usePopup';
-import { PopupType } from '~/@types/popup.d';
 
 declare global {
   interface Window {
@@ -121,16 +119,7 @@ const dummySpots = [
 ];
 
 const MapArea: React.FC = () => {
-  const openPopup = usePopupOpener();
-
   useEffect(() => {
-    openPopup({
-      popupType: PopupType.SPOT_GENERATOR,
-      popupProps: {
-        placeId: '',
-      },
-    });
-
     (window as any).kakao.maps.load(() => {
       const el = document.getElementById('map');
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
