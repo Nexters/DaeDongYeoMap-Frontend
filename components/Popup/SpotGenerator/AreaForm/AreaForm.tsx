@@ -3,7 +3,9 @@ import DatePicker from '~/components/_common/DatePicker';
 import {
   useFormDateState,
   useFormPartnerState,
+  useFormResetter,
 } from '~/components/Popup/SpotGenerator/SpotGeneratorState';
+import { usePopupCloser } from '~/lib/apollo/hooks/usePopup';
 import { toDigit } from '~/util';
 import CalendarDate from '~/util/Calendar/CalendarDate';
 import * as $ from './AreaFormView';
@@ -12,6 +14,8 @@ const AreaForm: React.FC = () => {
   const [isDatePickerShown, setIsDatePickerShown] = useState(false);
   const [formPartner, setFormPartner] = useFormPartnerState();
   const [formDate, setFormDate] = useFormDateState();
+  const closePopup = usePopupCloser();
+  const resetForm = useFormResetter();
 
   const now: Date = new Date();
   const date: [number, number, number] = formDate || [
@@ -26,6 +30,12 @@ const AreaForm: React.FC = () => {
   const handleClickDate = (calendarDate: CalendarDate): void => {
     setFormDate(calendarDate.getFullDate());
     setIsDatePickerShown(false);
+  };
+
+  const handleClickSubmit = (e: React.MouseEvent): void => {
+    e.preventDefault();
+    closePopup();
+    resetForm();
   };
 
   return (
@@ -45,7 +55,10 @@ const AreaForm: React.FC = () => {
         <$.FieldInputBox>
           <$.DateLabel isSelected={!!formDate}>{dateLabel}</$.DateLabel>
           <$.DatePickerOpenButton
-            onClick={() => setIsDatePickerShown(!isDatePickerShown)}
+            onClick={(e: React.MouseEvent) => {
+              e.preventDefault();
+              setIsDatePickerShown(!isDatePickerShown);
+            }}
           />
         </$.FieldInputBox>
         {isDatePickerShown && (
@@ -54,7 +67,7 @@ const AreaForm: React.FC = () => {
           </$.DatePickerLayer>
         )}
       </$.FieldSet>
-      <$.SubmitButton>완료하기</$.SubmitButton>
+      <$.SubmitButton onClick={handleClickSubmit}>완료하기</$.SubmitButton>
     </$.AreaForm>
   );
 };
