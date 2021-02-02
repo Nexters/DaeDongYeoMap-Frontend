@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import * as $ from './MapAreaView';
-import emojis from '~/constants/stickers';
+import emojis from '~/constants/sugar';
 import SearchPlace from '../SearchPlace';
 import MainMood from '../Mood';
 
@@ -163,7 +163,7 @@ const MapArea: React.FC = () => {
         .map((spot) => {
           const emojiObj = {
             pos: new (window as any).kakao.maps.LatLng(spot.y, spot.x),
-            imgSrc: emojis[0].imageUrl,
+            imgSrc: emojis.sugar0.stickers[0].imageUrl,
             imgSize: new (window as any).kakao.maps.Size(50, 50),
             imgOptions: {
               spriteOrigin: new (window as any).kakao.maps.Point(0, 0),
