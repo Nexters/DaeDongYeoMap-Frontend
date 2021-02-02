@@ -1,7 +1,7 @@
-import { makeVar, useReactiveVar } from '@apollo/client';
-import stickers from '~/constants/stickers';
-import { Sugar } from '~/@types/daedong.d';
+import { makeVar } from '@apollo/client';
+import sugar from '~/constants/sugar';
 import createReactiveVarHooks from '~/util/createReactiveVarHooks';
+import type { Sugar } from '~/constants/sugar';
 
 type FormSugarState = Sugar;
 type FormStickerState = string;
@@ -9,8 +9,10 @@ type FormPartnerState = string;
 type FormDateState = [number, number, number];
 type FormResetter = () => void;
 
-const formSugarState = makeVar<FormSugarState>(Sugar.Degree100);
-const formStickerState = makeVar<FormStickerState>(stickers[0].id);
+const formSugarState = makeVar<FormSugarState>('sugar100');
+const formStickerState = makeVar<FormStickerState>(
+  sugar.sugar100.stickers[0].id
+);
 const formPartnerState = makeVar<FormPartnerState>(null);
 const formDateState = makeVar<FormDateState>(null);
 
@@ -40,8 +42,8 @@ export const [
 
 export const useFormResetter = (): FormResetter => {
   const resetForm: FormResetter = () => {
-    formSugarState(Sugar.Degree100);
-    formStickerState(stickers[0].id);
+    formSugarState('sugar100');
+    formStickerState(sugar.sugar100.stickers[0].id);
     formPartnerState(null);
     formDateState(null);
   };

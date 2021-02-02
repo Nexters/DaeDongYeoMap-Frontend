@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import painter from '~/styles/theme/painter';
-import type { Sugar } from '~/@types/daedong.d';
+import type { Sugar } from '~/constants/sugar';
 
 export const AreaFilter = styled.div`
   flex-grow: 0;
