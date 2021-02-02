@@ -1,14 +1,19 @@
 import React from 'react';
-import { Sugar } from '~/@types/daedong.d';
 import { useFormSugarState } from '~/components/Popup/SpotGenerator/SpotGeneratorState';
 import * as $ from './AreaFilterView';
+import type { Sugar } from '~/constants/sugar';
 
-const sugars = [
-  { sugar: Sugar.Degree0, label: '당도 0%' },
-  { sugar: Sugar.Degree30, label: '30%' },
-  { sugar: Sugar.Degree50, label: '50%' },
-  { sugar: Sugar.Degree70, label: '70%' },
-  { sugar: Sugar.Degree100, label: '100%' },
+type SugarLabels = {
+  sugar: Sugar;
+  label: string;
+}[];
+
+const sugars: SugarLabels = [
+  { sugar: 'sugar0', label: '당도 0%' },
+  { sugar: 'sugar30', label: '30%' },
+  { sugar: 'sugar50', label: '50%' },
+  { sugar: 'sugar70', label: '70%' },
+  { sugar: 'sugar100', label: '100%' },
 ];
 
 const AreaFilter: React.FC = () => {

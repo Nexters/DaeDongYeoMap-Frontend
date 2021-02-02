@@ -1,4 +1,3 @@
-import { Sugar } from '~/@types/daedong.d';
 import type { DefaultTheme } from 'styled-components';
 
 const theme: DefaultTheme = {
@@ -9,11 +8,11 @@ const theme: DefaultTheme = {
   },
   secondary: {
     all: '#343A40',
-    [Sugar.Degree0]: '#449AFF',
-    [Sugar.Degree30]: '#4CE5B7',
-    [Sugar.Degree50]: '#FFCF52',
-    [Sugar.Degree70]: '#FF845E',
-    [Sugar.Degree100]: '#9971FF',
+    sugar0: '#449AFF',
+    sugar30: '#4CE5B7',
+    sugar50: '#FFCF52',
+    sugar70: '#FF845E',
+    sugar100: '#9971FF',
   },
   basic: {
     black: '#000',

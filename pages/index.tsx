@@ -16,7 +16,9 @@ export const getStaticProps: GetStaticProps = async () => {
   });
 };
 
-const Home = dynamic(() => import('~/components/Home'), { ssr: false });
+const Home = dynamic(() => import('~/components/Home'), {
+  ssr: false,
+});
 
 const HomePage: React.FC = () => {
   return (
