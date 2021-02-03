@@ -6,12 +6,15 @@ import * as $ from './SpotGeneratorView';
 import type { PopupChildProps } from '~/@types/popup.d';
 
 export type Props = PopupChildProps & {
-  placeId: string;
+  place: {
+    id: string;
+    name: string;
+    x: number;
+    y: number;
+  };
 };
 
-const SpotGenerator: React.FC<Props> = ({ placeId, zIndex }) => {
-  console.log(placeId);
-
+const SpotGenerator: React.FC<Props> = ({ place, zIndex }) => {
   return (
     <$.SpotGenerator zIndex={zIndex}>
       <Title />
@@ -24,7 +27,7 @@ const SpotGenerator: React.FC<Props> = ({ placeId, zIndex }) => {
         </$.AreaText>
         <AreaFilter />
         <AreaSticker />
-        <AreaForm />
+        <AreaForm place={place} />
       </$.Inner>
     </$.SpotGenerator>
   );
