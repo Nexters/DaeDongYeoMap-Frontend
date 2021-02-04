@@ -59,7 +59,7 @@ export type CreateSticker = (place: {
 }) => void;
 
 export const CREATE_STICKER = gql`
-  query CreateSticker($createStickerInput: CreateStickerInput) {
+  mutation CreateSticker($createStickerInput: CreateStickerInput) {
     createSticker(createStickerInput: $createStickerInput) {
       _id
       sticker_category
