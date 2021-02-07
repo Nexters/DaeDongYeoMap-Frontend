@@ -34,6 +34,7 @@ const painter: Painter = {
     dark: (props) => props.theme.primary.dark,
   },
   secondary: {
+    all: (props) => props.theme.secondary.all,
     sugar0: (props) => props.theme.secondary.sugar0,
     sugar30: (props) => props.theme.secondary.sugar30,
     sugar50: (props) => props.theme.secondary.sugar50,

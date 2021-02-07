@@ -53,6 +53,10 @@ export default class CalendarDate {
   //////////////////////////////////////////
   //////////// Getter/Setter ///////////////
   //////////////////////////////////////////
+  public getFullMonth(): [number, number] {
+    return [this.getYear(), this.getMonth()];
+  }
+
   public getFullDate(): [number, number, number] {
     return [this.getYear(), this.getMonth(), this.getDate()];
   }
@@ -138,6 +142,8 @@ export default class CalendarDate {
     date,
   }: LiteralDate): Date {
     const webDate = new Date();
+
+    webDate.setDate(1);
 
     if (year !== undefined) webDate.setFullYear(year);
     if (month !== undefined) webDate.setMonth(month - 1);

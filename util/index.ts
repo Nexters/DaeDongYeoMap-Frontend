@@ -11,3 +11,7 @@ export const toDigit = (num: number, len: number): string => {
 
   return digit;
 };
+
+export const getPathSegment = (pathname: string, index: number): string => {
+  return pathname.split('/').filter((path) => !!path)[index] || '';
+};

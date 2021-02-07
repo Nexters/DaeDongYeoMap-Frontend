@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import * as $ from './SearchPlaceView';
 
 const SearchPlace: React.FC = () => {
-  const onChangeInput = () => {
+  const onChangeInput = (e: any) => {
     // TODO;
   };
 

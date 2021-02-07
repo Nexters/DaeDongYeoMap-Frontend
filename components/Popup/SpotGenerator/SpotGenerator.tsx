@@ -1,4 +1,4 @@
-import AreaEmoji from './AreaEmoji';
+import AreaSticker from './AreaSticker';
 import AreaFilter from './AreaFilter';
 import AreaForm from './AreaForm';
 import Title from './Title';
@@ -6,12 +6,15 @@ import * as $ from './SpotGeneratorView';
 import type { PopupChildProps } from '~/@types/popup.d';
 
 export type Props = PopupChildProps & {
-  placeId: string;
+  place: {
+    id: string;
+    name: string;
+    x: number;
+    y: number;
+  };
 };
 
-const SpotGenerator: React.FC<Props> = ({ placeId, zIndex }) => {
-  console.log(placeId);
-
+const SpotGenerator: React.FC<Props> = ({ place, zIndex }) => {
   return (
     <$.SpotGenerator zIndex={zIndex}>
       <Title />
@@ -23,8 +26,8 @@ const SpotGenerator: React.FC<Props> = ({ placeId, zIndex }) => {
           </$.HelpText>
         </$.AreaText>
         <AreaFilter />
-        <AreaEmoji />
-        <AreaForm />
+        <AreaSticker />
+        <AreaForm place={place} />
       </$.Inner>
     </$.SpotGenerator>
   );
