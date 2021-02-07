@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react';
 import * as $ from './MapAreaView';
-import emojis from '~/constants/emojis';
+import emojis from '~/constants/sugar';
 import SearchPlace from '../SearchPlace';
 import MainMood from '../Mood';
 import { usePopupOpener } from '~/lib/apollo/hooks/usePopup';
 import { PopupType } from '~/@types/popup.d';
+import { gql, useLazyQuery } from '@apollo/client';
+import { useSpotsState } from '~/lib/apollo/vars/home';
 
 declare global {
   interface Window {
