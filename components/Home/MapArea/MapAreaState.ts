@@ -1,6 +1,5 @@
-import { gql, useLazyQuery, useQuery } from '@apollo/client';
+import { gql, useQuery } from '@apollo/client';
 import { spotsState } from '~/lib/apollo/vars/home';
-import { useEffect } from 'react';
 
 const FETCH_ALL_SPOTS = gql`
   {
@@ -23,15 +22,15 @@ const FETCH_ALL_SPOTS = gql`
 `;
 
 // Apollo Intro에서 말하고 있는 Interaction Layer 분리
-export const useSpotsInitailizer = () => {
-  const [fetchAllSpots, { called, loading, data }] = useLazyQuery(
-    FETCH_ALL_SPOTS
-  );
-  useEffect(() => {
-    if (data) spotsState(data);
-  }, [data, called, loading]);
-  return [fetchAllSpots, { loading }];
-};
+// export const useSpotsInitailizer = () => {
+//   const [fetchAllSpots, { called, loading, data }] = useLazyQuery(
+//     FETCH_ALL_SPOTS
+//   );
+//   useEffect(() => {
+//     if (data) spotsState(data);
+//   }, [data, called, loading]);
+//   return [fetchAllSpots, { loading, data }];
+// };
 const GET_SPOTS_STATE = gql`
   query GetSpotsState {
     spotsState @client

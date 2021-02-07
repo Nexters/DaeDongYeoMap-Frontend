@@ -5,10 +5,8 @@ import SearchPlace from '../SearchPlace';
 import MainMood from '../Mood';
 import { usePopupOpener } from '~/lib/apollo/hooks/usePopup';
 import { PopupType } from '~/@types/popup.d';
-import {
-  useSpotsInitailizer,
-  useSpotsState,
-} from '~/components/Home/MapArea/MapAreaState';
+import { useSpotsState } from '~/components/Home/MapArea/MapAreaState';
+import { gql, useLazyQuery } from '@apollo/client';
 
 declare global {
   interface Window {
@@ -124,15 +122,42 @@ const dummySpots = [
   },
 ];
 
+const FETCH_ALL_SPOTS = gql`
+  {
+    getAllSpots {
+      _id
+      place_id
+      place_name
+      category_name
+      category_group_code
+      category_group_name
+      phone
+      address_name
+      road_address_name
+      place_url
+      distance
+      x
+      y
+    }
+  }
+`;
+
 const MapArea: React.FC = () => {
   const openPopup = usePopupOpener();
-  const [initSpotsState] = useSpotsInitailizer();
+  const [getAllSpots, { loading, data, called }] = useLazyQuery(
+    FETCH_ALL_SPOTS
+  );
   const spotsState = useSpotsState();
+  console.log(spotsState);
 
   useEffect(() => {
-    initSpotsState;
+    getAllSpots();
   }, []);
-  console.log(spotsState);
+
+  useEffect(() => {
+    if (data) spotsState(data);
+  }, [data, called, loading]);
+  console.log(data);
 
   useEffect(() => {
     openPopup({
