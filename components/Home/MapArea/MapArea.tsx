@@ -5,8 +5,8 @@ import SearchPlace from '../SearchPlace';
 import MainMood from '../Mood';
 import { usePopupOpener } from '~/lib/apollo/hooks/usePopup';
 import { PopupType } from '~/@types/popup.d';
-import { useSpotsState } from '~/components/Home/MapArea/MapAreaState';
 import { gql, useLazyQuery } from '@apollo/client';
+import { useSpotsState } from '~/lib/apollo/vars/home';
 
 declare global {
   interface Window {
@@ -147,17 +147,21 @@ const MapArea: React.FC = () => {
   const [getAllSpots, { loading, data, called }] = useLazyQuery(
     FETCH_ALL_SPOTS
   );
-  const spotsState = useSpotsState();
-  console.log(spotsState);
 
   useEffect(() => {
     getAllSpots();
-  }, []);
+  }, [data]);
+
+  const spotsState = useSpotsState();
 
   useEffect(() => {
-    if (data) spotsState(data);
+    if (data && data?.getAllSpots) {
+      useSpotsState(data?.getAllSpots);
+    }
   }, [data, called, loading]);
-  console.log(data);
+
+  // TODO - spotState를 받아서 화면에 그려줌
+  console.log(spotsState);
 
   useEffect(() => {
     openPopup({
