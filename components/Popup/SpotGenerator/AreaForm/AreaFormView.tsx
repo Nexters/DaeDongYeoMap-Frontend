@@ -18,7 +18,7 @@ export const FieldSet = styled.div`
 export const FieldLabel = styled.strong`
   display: block;
   font-size: 20px;
-  color: ${painter.grayscale['2']};
+  color: ${painter.grayscale['9']};
 `;
 
 export const FieldInputBox = styled.div`
@@ -80,7 +80,7 @@ export const SubmitButton = styled.a.attrs({ href: '#', role: 'button' })`
 export const DatePickerLayer = styled.div`
   position: absolute;
   z-index: 1;
-  bottom: 54px;
+  top: -358px;
   left: 0;
   width: 100%;
 `;

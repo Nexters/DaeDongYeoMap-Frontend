@@ -2,13 +2,15 @@ import React from 'react';
 import * as $ from './MainMoodView';
 
 const MainMood: React.FC = () => {
+  // ToDo : 제일 먼저 '전체' 탭에 디폴트로 선택돼있도록 설정
   return (
     <$.MainMood>
-      <$.MoodButton>전체</$.MoodButton>
-      <$.MoodButton color="#ff7474">로맨틱한</$.MoodButton>
-      <$.MoodButton color="#6e5be7">신나는</$.MoodButton>
-      <$.MoodButton color="#35d6b9">시크한</$.MoodButton>
-      <$.MoodButton color="#3a87fc">자유로운</$.MoodButton>
+      <$.MoodButton color="all">전체</$.MoodButton>
+      <$.MoodButton color="sugar0">당도 0%</$.MoodButton>
+      <$.MoodButton color="sugar30">당도 30%</$.MoodButton>
+      <$.MoodButton color="sugar50">당도 50%</$.MoodButton>
+      <$.MoodButton color="sugar70">당도 70%</$.MoodButton>
+      <$.MoodButton color="sugar100">당도 100%</$.MoodButton>
     </$.MainMood>
   );
 };

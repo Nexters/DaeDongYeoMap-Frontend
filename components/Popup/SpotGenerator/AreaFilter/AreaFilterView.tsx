@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import painter from '~/styles/theme/painter';
+import type { Sugar } from '~/constants/sugar';
 
 export const AreaFilter = styled.div`
   flex-grow: 0;
@@ -21,7 +22,9 @@ export const SugarItem = styled.li`
   }
 `;
 
-export const SugarButton = styled.a.attrs({ href: '#', role: 'button' })`
+export const SugarButton = styled.a.attrs({ href: '#', role: 'button' })<{
+  sugar: Sugar;
+}>`
   display: block;
   height: 42px;
   border-radius: 21px;
@@ -31,5 +34,12 @@ export const SugarButton = styled.a.attrs({ href: '#', role: 'button' })`
   font-size: 16px;
   line-height: 16px;
   background-color: ${painter.basic.white};
-  color: ${(props) => painter.secondary[props.color](props)};
+  color: ${(props) => painter.secondary[props.sugar](props)};
+  ${(props) =>
+    props['aria-selected'] &&
+    `
+  border-color: ${painter.secondary[props.sugar](props)};
+  background-color: ${painter.secondary[props.sugar](props)};
+  color: ${painter.basic.white(props)};
+  `}
 `;

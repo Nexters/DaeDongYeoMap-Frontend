@@ -1,10 +1,11 @@
 import React from 'react';
-import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import GNB from '~/components/_layout/GNB';
 import Wrap from '~/components/_layout/Wrap';
 import Main from '~/components/_layout/Main';
-import { addApolloState, initializeApollo } from '../lib/apollo/client';
+import CourseTab from '~/components/Course/Tab';
+import CourseWrap from '~/components/Course/Wrap';
+import { addApolloState, initializeApollo } from '~/lib/apollo/client';
 import type { GetStaticProps } from 'next';
 
 export const getStaticProps: GetStaticProps = async () => {
@@ -16,11 +17,7 @@ export const getStaticProps: GetStaticProps = async () => {
   });
 };
 
-const Home = dynamic(() => import('~/components/Home'), {
-  ssr: false,
-});
-
-const HomePage: React.FC = () => {
+const CoursePage: React.FC = () => {
   return (
     <>
       <Head>
@@ -30,11 +27,12 @@ const HomePage: React.FC = () => {
       <Wrap>
         <GNB />
         <Main>
-          <Home />
+          <CourseTab />
+          <CourseWrap />
         </Main>
       </Wrap>
     </>
   );
 };
 
-export default HomePage;
+export default CoursePage;

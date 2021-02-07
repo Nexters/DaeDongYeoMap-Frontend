@@ -1,40 +1,45 @@
 import React from 'react';
+import { useFormSugarState } from '~/components/Popup/SpotGenerator/SpotGeneratorState';
 import * as $ from './AreaFilterView';
+import type { Sugar } from '~/constants/sugar';
+
+type SugarLabels = {
+  sugar: Sugar;
+  label: string;
+}[];
+
+const sugars: SugarLabels = [
+  { sugar: 'sugar0', label: '당도 0%' },
+  { sugar: 'sugar30', label: '30%' },
+  { sugar: 'sugar50', label: '50%' },
+  { sugar: 'sugar70', label: '70%' },
+  { sugar: 'sugar100', label: '100%' },
+];
 
 const AreaFilter: React.FC = () => {
-  const handleClickSugar = (e) => {
+  const [selectedSugar, setSelectedSugar] = useFormSugarState();
+
+  const handleClickSugar = (e: React.MouseEvent, sugar: Sugar) => {
     e.preventDefault();
-    // TODO: 당도 필터링 기능
+    if (selectedSugar !== sugar) {
+      setSelectedSugar(sugar);
+    }
   };
 
   return (
     <$.AreaFilter>
       <$.SugarList>
-        <$.SugarItem>
-          <$.SugarButton color="sugar0" onClick={handleClickSugar}>
-            당도 0%
-          </$.SugarButton>
-        </$.SugarItem>
-        <$.SugarItem>
-          <$.SugarButton color="sugar30" onClick={handleClickSugar}>
-            30%
-          </$.SugarButton>
-        </$.SugarItem>
-        <$.SugarItem>
-          <$.SugarButton color="sugar50" onClick={handleClickSugar}>
-            50%
-          </$.SugarButton>
-        </$.SugarItem>
-        <$.SugarItem>
-          <$.SugarButton color="sugar70" onClick={handleClickSugar}>
-            70%
-          </$.SugarButton>
-        </$.SugarItem>
-        <$.SugarItem>
-          <$.SugarButton color="sugar100" onClick={handleClickSugar}>
-            100%
-          </$.SugarButton>
-        </$.SugarItem>
+        {sugars.map(({ sugar, label }) => (
+          <$.SugarItem key={`sugar-filter-${sugar}`}>
+            <$.SugarButton
+              sugar={sugar}
+              aria-selected={sugar === selectedSugar}
+              onClick={(e) => handleClickSugar(e, sugar)}
+            >
+              {label}
+            </$.SugarButton>
+          </$.SugarItem>
+        ))}
       </$.SugarList>
     </$.AreaFilter>
   );
