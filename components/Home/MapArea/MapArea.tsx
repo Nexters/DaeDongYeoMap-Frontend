@@ -5,8 +5,6 @@ import SearchPlace from '../SearchPlace';
 import MainMood from '../Mood';
 import { usePopupOpener } from '~/lib/apollo/hooks/usePopup';
 import { PopupType } from '~/@types/popup.d';
-import { gql, useLazyQuery } from '@apollo/client';
-import { useSpotsState } from '~/lib/apollo/vars/home';
 
 declare global {
   interface Window {
@@ -214,7 +212,7 @@ const MapArea: React.FC = () => {
         .map((spot) => {
           const emojiObj = {
             pos: new (window as any).kakao.maps.LatLng(spot.y, spot.x),
-            imgSrc: emojis[spot.emoji].imageUrl,
+            imgSrc: emojis.sugar0.stickers[0].imageUrl,
             imgSize: new (window as any).kakao.maps.Size(50, 50),
             imgOptions: {
               spriteOrigin: new (window as any).kakao.maps.Point(0, 0),
