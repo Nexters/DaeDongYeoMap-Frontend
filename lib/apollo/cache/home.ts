@@ -1,4 +1,4 @@
-import { spotsState } from '~/lib/apollo/vars/home';
+import { useSpotsState } from '~/lib/apollo/vars/home';
 
 const home = {
   typePolicies: {
@@ -6,7 +6,7 @@ const home = {
       fields: {
         spotsState: {
           read() {
-            return spotsState();
+            return useSpotsState();
           },
         },
       },
