@@ -3,8 +3,7 @@ import Head from 'next/head';
 import GNB from '~/components/_layout/GNB';
 import Wrap from '~/components/_layout/Wrap';
 import Main from '~/components/_layout/Main';
-import CourseTab from '~/components/Course/Tab';
-import CourseWrap from '~/components/Course/Wrap';
+import CourseEditor from '~/components/Course/Editor';
 import { addApolloState, initializeApollo } from '~/lib/apollo/client';
 import type { GetStaticProps } from 'next';
 
@@ -17,7 +16,7 @@ export const getStaticProps: GetStaticProps = async () => {
   });
 };
 
-const CoursePage: React.FC = () => {
+const CourseEditorPage: React.FC = () => {
   return (
     <>
       <Head>
@@ -27,12 +26,11 @@ const CoursePage: React.FC = () => {
       <Wrap>
         <GNB />
         <Main>
-          <CourseTab />
-          <CourseWrap />
+          <CourseEditor />
         </Main>
       </Wrap>
     </>
   );
 };
 
-export default CoursePage;
+export default CourseEditorPage;
