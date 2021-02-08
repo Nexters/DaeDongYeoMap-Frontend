@@ -3,6 +3,10 @@ import * as $ from './MapAreaView';
 import emojis from '~/constants/sugar';
 import SearchPlace from '../SearchPlace';
 import MainMood from '../Mood';
+import { usePopupOpener } from '~/lib/apollo/hooks/usePopup';
+import { PopupType } from '~/@types/popup.d';
+import { gql, useLazyQuery } from '@apollo/client';
+import { useSpotsState } from '~/lib/apollo/vars/home';
 
 declare global {
   interface Window {
@@ -118,8 +122,55 @@ const dummySpots = [
   },
 ];
 
+const FETCH_ALL_SPOTS = gql`
+  {
+    getAllSpots {
+      _id
+      place_id
+      place_name
+      category_name
+      category_group_code
+      category_group_name
+      phone
+      address_name
+      road_address_name
+      place_url
+      distance
+      x
+      y
+    }
+  }
+`;
+
 const MapArea: React.FC = () => {
+  const openPopup = usePopupOpener();
+  const [getAllSpots, { loading, data, called }] = useLazyQuery(
+    FETCH_ALL_SPOTS
+  );
+
   useEffect(() => {
+    getAllSpots();
+  }, [data]);
+
+  const spotsState = useSpotsState();
+
+  useEffect(() => {
+    if (data && data?.getAllSpots) {
+      useSpotsState(data?.getAllSpots);
+    }
+  }, [data, called, loading]);
+
+  // TODO - spotState를 받아서 화면에 그려줌
+  console.log(spotsState);
+
+  useEffect(() => {
+    openPopup({
+      popupType: PopupType.SPOT_GENERATOR,
+      popupProps: {
+        placeId: '',
+      },
+    });
+
     (window as any).kakao.maps.load(() => {
       const el = document.getElementById('map');
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
