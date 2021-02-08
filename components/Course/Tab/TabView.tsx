@@ -3,7 +3,8 @@ import painter from '~/styles/theme/painter';
 
 export const Tab = styled.div`
   position: absolute;
-  top: 34px;
+  z-index: 1;
+  top: 56px;
   left: 50%;
   width: 268px;
   margin-left: -133px;
