@@ -19,8 +19,8 @@ const Tab: React.FC = () => {
           </Link>
         </$.TabItem>
         <$.TabItem>
-          <Link href="/course/create">
-            <$.TabLink aria-selected={secondPath === 'create'}>
+          <Link href="/course/editor">
+            <$.TabLink aria-selected={secondPath === 'editor'}>
               코스 만들기
             </$.TabLink>
           </Link>
