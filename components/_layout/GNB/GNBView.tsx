@@ -1,10 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
+import painter from '~/styles/theme/painter';
 
 export const GNB = styled.div`
-  float: left;
-  width: 96px;
+  position: fixed;
+  z-index: 10000;
+  top: 0;
+  left: 0;
+  width: 72px;
   height: 100vh;
+  border-right: 1px solid ${painter.grayscale[3]};
+  box-shadow: 0 0 8px 1px ${painter.grayscale[4]};
+  background-color: ${painter.basic.white};
 `;
 
 export const GNBInner = styled.div`
@@ -14,7 +21,6 @@ export const GNBInner = styled.div`
   width: 100%;
   height: 100%;
   padding: 184px 0 50px;
-  background-color: rgba(0, 0, 0, 0.04);
 `;
 
 export const GNBLink = styled.a`
@@ -36,8 +42,8 @@ export const IconImg = (
   isSelected: boolean;
 }>`
   display: inline-block;
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   vertical-align: top;
   color: ${(props) =>
     props.isSelected ? props.theme.primary.basic : props.theme.grayscale[5]};
@@ -47,6 +53,6 @@ export const IconText = styled.div<{ isSelected: boolean }>`
   margin-top: 4px;
   color: ${(props) =>
     !props.isSelected ? props.theme.grayscale[5] : props.theme.primary.basic};
-  font-size: 14px;
+  font-size: 12px;
   font-weight: normal;
 `;
