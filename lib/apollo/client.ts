@@ -19,6 +19,7 @@ export const createApolloClient = (): ApolloClient<NormalizedCacheObject> => {
       credentials: 'same-origin',
     }),
     cache: createCache(),
+    connectToDevTools: true,
   });
 
   return client;

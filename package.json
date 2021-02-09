@@ -7,12 +7,14 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint pages --ext .ts,.tsx",
-    "lint:fix": "npm run lint -- --fix"
+    "lint:fix": "npm run lint -- --fix",
+    "prettier": "prettier --write '**/*.{ts,tsx}'"
   },
   "dependencies": {
     "@apollo/client": "^3.3.6",
     "@material-ui/core": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.57",
+    "deep-merge": "^1.0.0",
     "deepmerge": "^4.2.2",
     "dotenv-webpack": "^6.0.0",
     "graphql": "^15.4.0",
@@ -30,6 +32,7 @@
     "@types/styled-components": "^5.1.7",
     "@typescript-eslint/eslint-plugin": "^4.12.0",
     "@typescript-eslint/parser": "^4.12.0",
+    "babel-plugin-styled-components": "^1.12.0",
     "eslint": "^7.17.0",
     "eslint-config-prettier": "^7.1.0",
     "eslint-plugin-jsx-a11y": "^6.4.1",

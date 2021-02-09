@@ -4,18 +4,29 @@ import {
   useFormDateState,
   useFormPartnerState,
   useFormResetter,
+  useCreateSticker,
 } from '~/components/Popup/SpotGenerator/SpotGeneratorState';
 import { usePopupCloser } from '~/lib/apollo/hooks/usePopup';
 import { toDigit } from '~/util';
 import CalendarDate from '~/util/Calendar/CalendarDate';
 import * as $ from './AreaFormView';
 
-const AreaForm: React.FC = () => {
+type Props = {
+  place: {
+    id: string;
+    name: string;
+    x: number;
+    y: number;
+  };
+};
+
+const AreaForm: React.FC<Props> = ({ place }) => {
   const [isDatePickerShown, setIsDatePickerShown] = useState(false);
   const [formPartner, setFormPartner] = useFormPartnerState();
   const [formDate, setFormDate] = useFormDateState();
   const closePopup = usePopupCloser();
   const resetForm = useFormResetter();
+  const createSticker = useCreateSticker();
 
   const now: Date = new Date();
   const date: [number, number, number] = formDate || [
@@ -36,6 +47,7 @@ const AreaForm: React.FC = () => {
     e.preventDefault();
     closePopup();
     resetForm();
+    createSticker(place);
   };
 
   return (
