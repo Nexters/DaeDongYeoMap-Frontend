@@ -20,7 +20,6 @@ export const Sidebar = styled.div`
   z-index: 1;
   width: 452px;
   height: 100%;
-  padding-top: 80px;
   box-shadow: 0 0 24px 2px ${painter.grayscale[4]};
   background-color: ${painter.basic.white};
 `;
