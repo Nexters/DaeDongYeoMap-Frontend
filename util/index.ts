@@ -15,3 +15,13 @@ export const toDigit = (num: number, len: number): string => {
 export const getPathSegment = (pathname: string, index: number): string => {
   return pathname.split('/').filter((path) => !!path)[index] || '';
 };
+
+export const formatDate = (unixTime: number): string => {
+  const dateObject: Date = new Date(unixTime);
+
+  const year: number = dateObject.getFullYear();
+  const month: string = toDigit(dateObject.getMonth() + 1, 2);
+  const date: string = toDigit(dateObject.getDate(), 2);
+
+  return `${date}.${month}.${year}`;
+};

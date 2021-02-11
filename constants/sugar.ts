@@ -7,7 +7,7 @@ import type {
   StickerWithSugarComponent,
 } from '~/components/_assets/sticker/Sticker.d';
 
-export type StickerMap = {
+export type Sticker = {
   id: string;
   imageUrl: string;
   Icon: StickerComponent;
@@ -15,7 +15,7 @@ export type StickerMap = {
 };
 
 export type SugarValue = {
-  stickers: StickerMap[];
+  stickers: Sticker[];
 };
 
 export type SugarMap = {
@@ -26,11 +26,15 @@ export type SugarMap = {
   sugar100: SugarValue;
 };
 
+export type StickerMap = {
+  [stickerId: string]: Sticker;
+};
+
 export type Sugar = keyof SugarMap;
 
 type ManagedSugarMap = {
   [sugar in Sugar]: {
-    stickers: Array<Partial<StickerMap>>;
+    stickers: Array<Partial<Sticker>>;
   };
 };
 
@@ -53,6 +57,17 @@ const sugarValueMapper = (sugarMap: ManagedSugarMap): SugarMap => {
 
   return sugarMap as SugarMap;
 };
+
+const stickerMapper = (sugarMap: SugarMap): StickerMap =>
+  Object.values(sugarMap).reduce((stickerMap: StickerMap, { stickers }) => {
+    if (stickers) {
+      stickers.forEach((sticker: Sticker) => {
+        stickerMap[sticker.id] = sticker;
+      });
+    }
+
+    return stickerMap;
+  }, {});
 
 const sugar: SugarMap = sugarValueMapper({
   sugar0: {
@@ -116,5 +131,7 @@ const sugar: SugarMap = sugarValueMapper({
     ],
   },
 });
+
+export const sticker = stickerMapper(sugar);
 
 export default sugar;
