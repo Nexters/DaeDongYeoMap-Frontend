@@ -5,7 +5,7 @@ import { debounce } from 'lodash';
 
 const PLACES_AND_SPOTS_BY_KEYWORDID = gql`
   query placesAndSpotsByKeyword($query: String!, $keyword: String!) {
-    getPlacesByKeyword(filters: { query: $query }) {
+    places(filters: { query: $query }) {
       id
       place_name
       category_name
@@ -15,7 +15,7 @@ const PLACES_AND_SPOTS_BY_KEYWORDID = gql`
       x
       y
     }
-    getSpotsByKeyword(keyword: $keyword) {
+    spots(searchSpotDto: { keyword: $keyword }) {
       _id
       place_name
       category_name
@@ -49,7 +49,10 @@ const SearchPlace: React.FC = () => {
     console.log('제발22', data.getSpotsByKeyword);
   }
 
-  const debounceFunc = React.useCallback(debounce(loadData), [loadData]);
+  const debounceFunc = React.useCallback(
+    debounce(() => !loading && loadData(), 300),
+    [loadData]
+  );
 
   const onChangeInput = React.useCallback(
     (e: any) => {
@@ -65,51 +68,43 @@ const SearchPlace: React.FC = () => {
   };
 
   return (
-    <$.ParentDiv>
-      <$.SearchDiv>
-        <$.SearchForm onSubmit={submitValue}>
-          <$.TempImg />
-          <$.InputField
-            type="text"
-            name="searchValue"
-            placeholder={'장소를 검색하세요'}
-            value={keyword}
-            onChange={onChangeInput}
-            autoFocus={true}
-            autoComplete="off"
-          />
-        </$.SearchForm>
-        <$.SpotButton>
-          <$.SpotButtonImg />
-        </$.SpotButton>
-      </$.SearchDiv>
+    <>
+      <$.SearchForm onSubmit={submitValue}>
+        <$.TempImg />
+        <$.InputField
+          type="text"
+          name="searchValue"
+          placeholder={'데이트 스팟 검색'}
+          value={keyword}
+          onChange={onChangeInput}
+          autoFocus={true}
+          autoComplete="off"
+        />
+      </$.SearchForm>
+      <$.SpotButton>
+        <$.SpotButtonImg /> 스팟 추가하기
+      </$.SpotButton>
       {data && (
         <$.PlacesAndSpots>
-          <$.Places>추천 스팟</$.Places>
           {data &&
-            data.getPlacesByKeyword &&
-            data.getPlacesByKeyword
-              .slice(0, 2)
-              .map(({ id, place_name, address_name }) => (
-                <$.PlacesAndSpotsItem key={id}>
-                  {place_name}
-                  <$.AddressDiv>{address_name}</$.AddressDiv>
-                </$.PlacesAndSpotsItem>
-              ))}
-          <$.Spots>다른 사용자가 직접 등록했어요</$.Spots>
+            data.places &&
+            data.places.slice(0, 7).map(({ id, place_name, address_name }) => (
+              <$.PlacesAndSpotsItem key={id}>
+                {place_name}
+                <$.AddressDiv>{address_name}</$.AddressDiv>
+              </$.PlacesAndSpotsItem>
+            ))}
           {data &&
-            data.getSpotsByKeyword &&
-            data.getSpotsByKeyword
-              .slice(0, 2)
-              .map(({ _id, place_name, address_name }) => (
-                <$.PlacesAndSpotsItem key={_id}>
-                  {place_name}
-                  <$.AddressDiv>{address_name}</$.AddressDiv>
-                </$.PlacesAndSpotsItem>
-              ))}
+            data.spots &&
+            data.spots.slice(0, 6).map(({ _id, place_name, address_name }) => (
+              <$.PlacesAndSpotsItem key={_id}>
+                {place_name}
+                <$.AddressDiv>{address_name}</$.AddressDiv>
+              </$.PlacesAndSpotsItem>
+            ))}
         </$.PlacesAndSpots>
       )}
-    </$.ParentDiv>
+    </>
   );
 };
 
