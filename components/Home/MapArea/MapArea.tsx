@@ -6,7 +6,7 @@ import MainMood from '../Mood';
 import { usePopupOpener } from '~/lib/apollo/hooks/usePopup';
 import { PopupType } from '~/@types/popup.d';
 import { gql, useLazyQuery } from '@apollo/client';
-import { useSpotsState } from '~/lib/apollo/vars/home';
+import { useCurrentPosition, useSpotsState } from '~/lib/apollo/vars/home';
 
 declare global {
   interface Window {
@@ -37,12 +37,12 @@ const MapArea: React.FC = () => {
   const [getAllSpots, { loading, data, called }] = useLazyQuery(
     FETCH_ALL_SPOTS
   );
-
-  useEffect(() => {
+  const initPos = useEffect(() => {
     getAllSpots();
   }, [data]);
 
   const spotsState = useSpotsState();
+  const currentPosition = useCurrentPosition();
 
   useEffect(() => {
     if (data && data?.spots) {
@@ -50,8 +50,37 @@ const MapArea: React.FC = () => {
     }
   }, [data, called, loading]);
 
-  // TODO - spotState를 받아서 화면에 그려줌
   console.log(spotsState);
+  console.log(currentPosition);
+
+  useEffect(() => {
+    function getLocation() {
+      if (navigator.geolocation) {
+        // GPS를 지원하면
+        navigator.geolocation.getCurrentPosition(
+          function (position) {
+            // alert(position.coords.latitude + ' ' + position.coords.longitude);
+            useCurrentPosition({
+              latY: position.coords.latitude,
+              lngX: position.coords.longitude,
+            });
+          },
+          function (error) {
+            console.error(error);
+          },
+          {
+            enableHighAccuracy: false,
+            maximumAge: 0,
+            timeout: Infinity,
+          }
+        );
+      } else {
+        alert('GPS를 지원하지 않습니다');
+      }
+    }
+
+    getLocation();
+  }, []);
 
   useEffect(() => {
     openPopup({
@@ -65,29 +94,38 @@ const MapArea: React.FC = () => {
       const el = document.getElementById('map');
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const map = new (window as any).kakao.maps.Map(el, {
-        center: new (window as any).kakao.maps.LatLng(37.2968082, 127.0671244),
+        center: new (window as any).kakao.maps.LatLng(
+          currentPosition.latY,
+          currentPosition.lngX
+        ),
         level: 4,
       });
 
       const circle = new (window as any).kakao.maps.Circle({
-        center: new (window as any).kakao.maps.LatLng(37.2968082, 127.0671244), // 원의 중심좌표 입니다
+        center: new (window as any).kakao.maps.LatLng(
+          currentPosition.latY,
+          currentPosition.lngX
+        ), // 원의 중심좌표 입니다
         radius: 500,
         strokeWeight: 1, // 선의 두께입니다
-        strokeColor: '#73E2A0', // 선의 색깔입니다
+        strokeColor: '#FD476D', // 선의 색깔입니다
         strokeOpacity: 0, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
         strokeStyle: 'solid',
-        fillColor: '#73E2A0',
+        fillColor: '#FD476D',
         fillOpacity: 0.3,
       });
 
       const circle2 = new (window as any).kakao.maps.Circle({
-        center: new (window as any).kakao.maps.LatLng(37.2968082, 127.0671244), // 원의 중심좌표 입니다
+        center: new (window as any).kakao.maps.LatLng(
+          currentPosition.latY,
+          currentPosition.lngX
+        ), // 원의 중심좌표 입니다
         radius: 1000,
         strokeWeight: 1, // 선의 두께입니다
-        strokeColor: '#73E2A0', // 선의 색깔입니다
+        strokeColor: '#FD476D', // 선의 색깔입니다
         strokeOpacity: 0, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
         strokeStyle: 'solid',
-        fillColor: '#73E2A0',
+        fillColor: '#FD476D',
         fillOpacity: 0.12,
       });
 
