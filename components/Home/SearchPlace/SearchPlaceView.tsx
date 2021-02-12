@@ -24,7 +24,7 @@ export const SearchForm = styled.form`
   top: 32px;
   display: flex;
   border: none;
-  border-radius: 6px 6px 0 0;
+  border-radius: 8px 8px 0 0;
   outline: none;
   background-color: ${painter.basic.white};
 `;
@@ -46,7 +46,7 @@ export const PlacesAndSpots = styled.ul`
   list-style: none;
   z-index: 3;
   border-top: 1px solid ${painter.grayscale['5']};
-  border-radius: 0 0 6px 6px;
+  border-radius: 0 0 8px 8px;
   background-color: ${painter.basic.white};
   position: absolute;
   width: 400px;
@@ -56,20 +56,18 @@ export const PlacesAndSpots = styled.ul`
   padding-bottom: 10px;
 `;
 
-export const Places = styled.div`
-  color: ${painter.grayscale['7']};
-  padding: 10px 5px 7px 5px;
-`;
+export const SearchGrayImg = styled.img.attrs({
+  src: '/search3.png',
+})``;
 
-export const Spots = styled.div`
+export const SpotsName = styled.div`
+  display: inline-block;
   color: ${painter.grayscale['7']};
-  border-top: 1px solid ${painter.grayscale['5']};
-  padding: 10px 5px 7px 5px;
-  margin-top: 10px;
 `;
 
 export const PlacesAndSpotsItem = styled.li`
-  display: block;
+  display: flex;
+  align-items: center;
   font-size: 15px;
   font-family: ${painter.font.roboto};
   font-weight: bold;
@@ -93,18 +91,18 @@ export const AddressDiv = styled.div`
   font-family: ${painter.font.roboto};
 `;
 
-export const TempImg = styled.img.attrs({
-  src: '/search.png',
+export const SearchImg = styled.img.attrs({
+  src: '/search4.png',
 })`
   width: 30px;
   height: 32px;
-  margin: 8px 7px 0 15px;
+  margin: 8px 7px 0 8px;
 `;
 
 export const SpotButton = styled.button`
   outline: none;
   border: none;
-  border-radius: 9px;
+  border-radius: 8px;
   background-color: ${painter.primary.basic};
   padding: 10px;
   margin-left: 7px;
