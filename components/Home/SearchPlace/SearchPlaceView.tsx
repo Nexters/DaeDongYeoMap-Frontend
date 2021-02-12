@@ -3,8 +3,6 @@ import styled from 'styled-components';
 import painter from '~/styles/theme/painter';
 
 export const ParentDiv = styled.div`
-  display: flex;
-  flex-direction: column;
   z-index: 3;
 `;
 
@@ -14,20 +12,24 @@ export const SearchDiv = styled.div`
   left: 20px;
   z-index: 3;
   display: flex;
+  border: 2px solid red;
 `;
 
 export const SearchForm = styled.form`
+  z-index: 3;
+  position: absolute;
+  width: 400px;
+  height: 48px;
+  left: 96px;
+  top: 32px;
   display: flex;
   border: none;
   border-radius: 6px 6px 0 0;
   outline: none;
-  box-sizing: border-box;
   background-color: ${painter.basic.white};
 `;
 
 export const InputField = styled.input`
-  width: 240px;
-  height: 40px;
   font-size: 18px;
   padding: 10px;
   border: none;
@@ -46,10 +48,11 @@ export const PlacesAndSpots = styled.ul`
   border-top: 1px solid ${painter.grayscale['5']};
   border-radius: 0 0 6px 6px;
   background-color: ${painter.basic.white};
-  width: 292px;
   position: absolute;
-  top: 82px;
-  left: 20px;
+  width: 400px;
+  height: 518px;
+  left: 96px;
+  top: 80px;
   padding-bottom: 10px;
 `;
 
@@ -106,6 +109,12 @@ export const SpotButton = styled.button`
   padding: 10px;
   margin-left: 7px;
   cursor: pointer;
+  position: absolute;
+  width: 176px;
+  height: 48px;
+  left: 512px;
+  top: 32px;
+  z-index: 3;
 `;
 
 export const SpotButtonImg = styled.img.attrs({
