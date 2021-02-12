@@ -34,5 +34,4 @@ export const Content = styled.div`
 export const ContentInner = styled.div`
   position: relative;
   min-width: 916px;
-  height: 100%;
 `;

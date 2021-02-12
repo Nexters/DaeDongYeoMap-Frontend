@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import painter from '~/styles/theme/painter';
 
 export const TextForm = styled.div`
+  margin-top: 32px;
   padding: 23px 23px 31px;
   border-radius: 8px;
   border: 1px solid ${painter.grayscale[1]};
@@ -127,7 +128,7 @@ export const SubmitButton = styled.a.attrs({ href: '#' })`
   display: block;
   width: 320px;
   height: 64px;
-  margin: 31px auto 0;
+  margin: 31px auto 31px;
   border-radius: 8px;
   background-color: ${painter.basic.black};
   font-weight: 700;
