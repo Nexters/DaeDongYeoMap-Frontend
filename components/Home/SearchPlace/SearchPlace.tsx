@@ -67,9 +67,10 @@ const SearchPlace: React.FC = () => {
     e.preventDefault();
   };
 
-  const handleClickSpots = (e: React.MouseEvent, id: any) => {
+  const handleClickSpots = (e: React.MouseEvent, x: any, y: any) => {
     e.preventDefault();
-    console.log(id);
+    console.log(x, y);
+    //TODO: 아폴로에 저장된 현재위치를 x,y로 바꿔서 지도이동시키기
   };
 
   return (
@@ -93,10 +94,10 @@ const SearchPlace: React.FC = () => {
         <$.PlacesAndSpots>
           {data &&
             data.places &&
-            data.places.slice(0, 7).map(({ id, place_name, address_name }) => (
+            data.places.slice(0, 7).map(({ id, place_name, x, y }) => (
               <$.PlacesAndSpotsItem key={id}>
                 <$.SearchGrayImg />
-                <$.SpotsName id={id} onClick={(e) => handleClickSpots(e, id)}>
+                <$.SpotsName onClick={(e) => handleClickSpots(e, x, y)}>
                   {place_name}
                 </$.SpotsName>
               </$.PlacesAndSpotsItem>
