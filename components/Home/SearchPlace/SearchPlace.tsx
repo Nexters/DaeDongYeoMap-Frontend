@@ -31,6 +31,7 @@ const PLACES_AND_SPOTS_BY_KEYWORDID = gql`
 const SearchPlace: React.FC = () => {
   const [keyword, setKeyword] = useState('');
   const query = keyword;
+  const [isEnter, setIsEnter] = useState(false);
   const [loadData, { called, loading, data }] = useLazyQuery(
     PLACES_AND_SPOTS_BY_KEYWORDID,
     {
@@ -65,6 +66,9 @@ const SearchPlace: React.FC = () => {
 
   const submitValue = (e: any) => {
     e.preventDefault();
+    console.log(isEnter);
+    setIsEnter(true);
+    console.log(isEnter);
   };
 
   const handleClickSpots = (e: React.MouseEvent, x: any, y: any) => {
@@ -113,6 +117,7 @@ const SearchPlace: React.FC = () => {
               ))}
         </$.PlacesAndSpots>
       )}
+      {/* {isEnter && <$.EnterDiv></$.EnterDiv>} */}
     </>
   );
 };
