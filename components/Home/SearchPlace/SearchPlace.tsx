@@ -67,10 +67,15 @@ const SearchPlace: React.FC = () => {
     e.preventDefault();
   };
 
+  const handleClickSpots = (e: React.MouseEvent, id: any) => {
+    e.preventDefault();
+    console.log(id);
+  };
+
   return (
     <>
       <$.SearchForm onSubmit={submitValue}>
-        <$.TempImg />
+        <$.SearchImg />
         <$.InputField
           type="text"
           name="searchValue"
@@ -88,13 +93,14 @@ const SearchPlace: React.FC = () => {
         <$.PlacesAndSpots>
           {data &&
             data.places &&
-            data.places
-              .slice(0, 7)
-              .map(({ id, place_name, address_name }) => (
-                <$.PlacesAndSpotsItem key={id}>
+            data.places.slice(0, 7).map(({ id, place_name, address_name }) => (
+              <$.PlacesAndSpotsItem key={id}>
+                <$.SearchGrayImg />
+                <$.SpotsName id={id} onClick={(e) => handleClickSpots(e, id)}>
                   {place_name}
-                </$.PlacesAndSpotsItem>
-              ))}
+                </$.SpotsName>
+              </$.PlacesAndSpotsItem>
+            ))}
           {data &&
             data.spots &&
             data.spots
