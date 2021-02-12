@@ -88,20 +88,22 @@ const SearchPlace: React.FC = () => {
         <$.PlacesAndSpots>
           {data &&
             data.places &&
-            data.places.slice(0, 7).map(({ id, place_name, address_name }) => (
-              <$.PlacesAndSpotsItem key={id}>
-                {place_name}
-                <$.AddressDiv>{address_name}</$.AddressDiv>
-              </$.PlacesAndSpotsItem>
-            ))}
+            data.places
+              .slice(0, 7)
+              .map(({ id, place_name, address_name }) => (
+                <$.PlacesAndSpotsItem key={id}>
+                  {place_name}
+                </$.PlacesAndSpotsItem>
+              ))}
           {data &&
             data.spots &&
-            data.spots.slice(0, 6).map(({ _id, place_name, address_name }) => (
-              <$.PlacesAndSpotsItem key={_id}>
-                {place_name}
-                <$.AddressDiv>{address_name}</$.AddressDiv>
-              </$.PlacesAndSpotsItem>
-            ))}
+            data.spots
+              .slice(0, 6)
+              .map(({ _id, place_name, address_name }) => (
+                <$.PlacesAndSpotsItem key={_id}>
+                  {place_name}
+                </$.PlacesAndSpotsItem>
+              ))}
         </$.PlacesAndSpots>
       )}
     </>
