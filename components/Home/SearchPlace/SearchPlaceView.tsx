@@ -104,8 +104,6 @@ export const SpotButton = styled.button`
   border: none;
   border-radius: 8px;
   background-color: ${painter.primary.basic};
-  padding: 10px;
-  margin-left: 7px;
   cursor: pointer;
   position: absolute;
   width: 176px;
@@ -113,6 +111,8 @@ export const SpotButton = styled.button`
   left: 512px;
   top: 32px;
   z-index: 3;
+  color: white;
+  align-text: center;
 `;
 
 export const SpotButtonImg = styled.img.attrs({
