@@ -3,20 +3,20 @@ import styled from 'styled-components';
 import painter from '~/styles/theme/painter';
 
 export const ParentDiv = styled.div`
-  z-index: 3;
+  z-index: 5;
 `;
 
 export const SearchDiv = styled.div`
   position: absolute;
   top: 35px;
   left: 20px;
-  z-index: 3;
+  z-index: 5;
   display: flex;
   border: 2px solid red;
 `;
 
 export const SearchForm = styled.form`
-  z-index: 3;
+  z-index: 5;
   position: absolute;
   width: 400px;
   height: 48px;
@@ -27,6 +27,9 @@ export const SearchForm = styled.form`
   border-radius: 8px 8px 0 0;
   outline: none;
   background-color: ${painter.basic.white};
+  ::focus {
+    border: 2px solid ${painter.primary.basic};
+  }
 `;
 
 export const InputField = styled.input`
@@ -44,7 +47,7 @@ export const InputField = styled.input`
 
 export const PlacesAndSpots = styled.ul`
   list-style: none;
-  z-index: 3;
+  z-index: 5;
   border-top: 1px solid ${painter.grayscale['5']};
   border-radius: 0 0 8px 8px;
   background-color: ${painter.basic.white};
@@ -110,7 +113,7 @@ export const SpotButton = styled.button`
   height: 48px;
   left: 512px;
   top: 32px;
-  z-index: 3;
+  z-index: 5;
   color: white;
   align-text: center;
 `;
@@ -118,3 +121,13 @@ export const SpotButton = styled.button`
 export const SpotButtonImg = styled.img.attrs({
   src: '/createSpot.png',
 })``;
+
+export const EnterDiv = styled.div`
+  background-color: green;
+  z-index: 4;
+  position: absolute;
+  width: 505px;
+  height: 100%;
+  left: 0px;
+  top: 0px;
+`;
