@@ -1,6 +1,6 @@
 import React from 'react';
 import CandidateSpots from './CandidateSpots';
-import Preview from './Preview';
+import CourseForm from './CourseForm';
 import CourseTab from '~/components/Course/Tab';
 import {
   Wrap,
@@ -18,7 +18,7 @@ const Editor: React.FC = () => {
       <Content>
         <ContentInner>
           <CourseTab />
-          <Preview />
+          <CourseForm />
         </ContentInner>
       </Content>
     </Wrap>
