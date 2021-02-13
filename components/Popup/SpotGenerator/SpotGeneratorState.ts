@@ -1,6 +1,8 @@
 import { makeVar, gql, useMutation } from '@apollo/client';
 import sugar from '~/constants/sugar';
+import storage from '~/storage';
 import createReactiveVarHooks from '~/util/createReactiveVarHooks';
+import IdGenerator from '~/util/IdGenerator';
 import type { Sugar } from '~/constants/sugar';
 
 type FormSugarState = Sugar;
@@ -8,6 +10,10 @@ type FormStickerState = string;
 type FormPartnerState = string;
 type FormDateState = [number, number, number];
 type FormResetter = () => void;
+
+const spotIdGenerator = IdGenerator.create(
+  (index: number) => `dedong_spot_${index}`
+);
 
 const formSugarState = makeVar<FormSugarState>('sugar100');
 const formStickerState = makeVar<FormStickerState>(
@@ -70,24 +76,54 @@ export const CREATE_STICKER = gql`
 `;
 
 export const useCreateSticker = (): CreateSticker => {
-  const [request] = useMutation<
-    GQL.CreateSticker.Data,
-    GQL.CreateSticker.Variables
-  >(CREATE_STICKER);
+  // const [request] = useMutation<
+  //   GQL.CreateSticker.Data,
+  //   GQL.CreateSticker.Variables
+  // >(CREATE_STICKER);
 
-  const createSticker: CreateSticker = (place) => {
-    request({
-      variables: {
-        createStickerInput: {
-          place_id: place.id,
-          place_name: place.name,
-          sticker_category: `${formSugarState()}_${formStickerState()}`,
-          x: place.x,
-          y: place.y,
-        },
-      },
+  const [x, y] = createMockCoord();
+  const createSticker: CreateSticker = (
+    place = {
+      id: 'placeId',
+      name: '모킹 장소',
+      x,
+      y,
+    }
+  ) => {
+    const sticker_category = `${formSugarState()}_${formStickerState()}`;
+    const partner = formPartnerState() || '';
+
+    storage.addSpot({
+      id: spotIdGenerator.get(),
+      stickerId: sticker_category,
+      title: place.name,
+      partner,
+      timestamp: Math.floor(Date.now() / 1000),
     });
+
+    // TODO: 추후 지도 상태와 연동
+    // request({
+    //   variables: {
+    //     createStickerInput: {
+    //       place_id: place?.id,
+    //       place_name: place?.name,
+    //       sticker_category,
+    //       x,
+    //       y,
+    //     },
+    //   },
+    // });
   };
 
   return createSticker;
 };
+
+function createMockCoord(): [number, number] {
+  const xRange = 127;
+  const yRange = 37.4;
+
+  const x = (Math.random() / 10) * 2 + xRange;
+  const y = (Math.random() / 10) * 2 + yRange;
+
+  return [x, y];
+}
