@@ -1,5 +1,3 @@
-import { makeVar } from '@apollo/client';
-
 export type SpotView = {
   id: string;
   stickerId?: string;
@@ -7,5 +5,3 @@ export type SpotView = {
   partner?: string;
   timestamp?: number;
 };
-
-export const draggedSpot = makeVar<SpotView>(null);

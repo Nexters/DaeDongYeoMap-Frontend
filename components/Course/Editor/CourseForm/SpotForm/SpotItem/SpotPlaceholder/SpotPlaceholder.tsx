@@ -1,5 +1,8 @@
 import React from 'react';
-import { draggedSpot } from '~/components/Course/Editor/EditorState';
+import {
+  changeStatusToEnd,
+  getDraggedSpot,
+} from '~/components/Course/Editor/CandidateSpots/CandidateSpotsState';
 import { DRAG_IDENTIFIER_VALUE, DRAG_KEY } from '~/constants/dom';
 import SpotOptionLayer from '~/components/Course/Editor/CourseForm/SpotForm/SpotItem/SpotOptionLayer';
 import { useSpotItemHook } from '../SpotItemState';
@@ -17,9 +20,11 @@ const SpotPlaceholder: React.FC<SpotItemProps> = ({ item }) => {
     pressedSpotId,
     openSpotOptionLayer,
     removeSpotOrPlaceholder,
+    replacePlaceholderToSpot,
   } = useSpotItemHook();
   const {
     order,
+    itemIndex,
     data: { id },
   } = item;
 
@@ -39,10 +44,10 @@ const SpotPlaceholder: React.FC<SpotItemProps> = ({ item }) => {
       return;
     }
 
-    const spot: SpotView = draggedSpot();
+    const spot: SpotView = getDraggedSpot();
 
-    console.log(spot);
-    // TODO: replace placeholder
+    replacePlaceholderToSpot(itemIndex, spot);
+    changeStatusToEnd(spot.id);
   };
 
   return (
