@@ -18,7 +18,7 @@ const SpotCard: React.FC<Props> = ({
   const StickerIcon = sticker[stickerId] && sticker[stickerId].IconWithSugar;
 
   return (
-    <$.SpotCard>
+    <$.SpotCard draggable>
       <$.AreaSticker>
         <StickerIcon width="72" height="72" />
       </$.AreaSticker>

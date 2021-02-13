@@ -35,9 +35,16 @@ type SpotOptionLayerOpener = StateSetter<string>;
 
 type SpotOptionLayerCloser = (spotId: string) => void;
 
+type AllSpotOptionLayerCloesr = () => void;
+
 export type SpotFormHook = [
   [SpotTable, string],
-  [PlaceholderAdder, SpotOptionLayerOpener, SpotOptionLayerCloser]
+  [
+    PlaceholderAdder,
+    SpotOptionLayerOpener,
+    SpotOptionLayerCloser,
+    AllSpotOptionLayerCloesr
+  ]
 ];
 
 const placholderIdGenerator = IdGenerator.create(
@@ -162,9 +169,17 @@ export const useSpotFormHook = (): SpotFormHook => {
     setPressedSpot(null);
     setSpotItems(filteredSpots);
   };
+  const closeAllSpotOptionLayer = () => {
+    setPressedSpot(null);
+  };
 
   return [
     [spotTable, pressedSpot],
-    [addPlaceholder, setPressedSpot, closeSpotOptionLayer],
+    [
+      addPlaceholder,
+      setPressedSpot,
+      closeSpotOptionLayer,
+      closeAllSpotOptionLayer,
+    ],
   ];
 };

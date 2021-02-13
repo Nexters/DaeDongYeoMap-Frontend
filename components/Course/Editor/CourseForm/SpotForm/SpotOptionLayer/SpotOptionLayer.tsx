@@ -1,4 +1,5 @@
 import React from 'react';
+import { CLASSNAME_COURSE_EDITOR_SPOT } from '~/constants/dom';
 import * as $ from './SpotOptionLayerView';
 
 type Props = {
@@ -12,7 +13,7 @@ const SpotOptionLayer: React.FC<Props> = ({ onClickDeleteButton }) => {
   };
 
   return (
-    <$.SpotOptionLayer>
+    <$.SpotOptionLayer className={CLASSNAME_COURSE_EDITOR_SPOT}>
       <$.Button onClick={handleClickDeleteButton}>삭제</$.Button>
     </$.SpotOptionLayer>
   );

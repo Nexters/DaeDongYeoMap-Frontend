@@ -26,7 +26,5 @@ export const SpotItem = styled.li`
   width: 168px;
   height: 168px;
   margin: 16px;
-  border-radius: 16px;
-  box-shadow: 0 0 8px 1px ${painter.grayscale[3]};
   vertical-align: top;
 `;
