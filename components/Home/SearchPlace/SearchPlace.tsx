@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import * as $ from './SearchPlaceView';
-import { gql, useLazyQuery } from '@apollo/client';
+import { gql, useLazyQuery, useQuery } from '@apollo/client';
 import { debounce } from 'lodash';
 
 const PLACES_AND_SPOTS_BY_KEYWORDID = gql`
@@ -28,11 +28,35 @@ const PLACES_AND_SPOTS_BY_KEYWORDID = gql`
   }
 `;
 
+// const List = ({ searchKeyword, query }) => {
+//   const { loading, error, data: enterPlacesAndSpots } = useQuery(
+//     PLACES_AND_SPOTS_BY_KEYWORDID,
+//     {
+//       variables: { query, keyword: searchKeyword },
+//       onError(error) {
+//         console.log('error', error);
+//       },
+//     }
+//   );
+
+//   console.log('data', enterPlacesAndSpots);
+//   console.log('type', typeof enterPlacesAndSpots);
+//   if (enterPlacesAndSpots && enterPlacesAndSpots.getPlacesByKeyword) {
+//     console.log('제발', enterPlacesAndSpots.getPlacesByKeyword);
+//   }
+//   if (enterPlacesAndSpots && enterPlacesAndSpots.getSpotsByKeyword) {
+//     console.log('제발22', enterPlacesAndSpots.getSpotsByKeyword);
+//   }
+
+//   return <></>;
+// };
+
 const SearchPlace: React.FC = () => {
   const [keyword, setKeyword] = useState('');
   const query = keyword;
-  const [isEnter, setIsEnter] = useState(false);
-  const [loadData, { called, loading, data }] = useLazyQuery(
+  const [isClicked, setIsClicked] = useState(false);
+  const [searchKeyword, setSearchKeyword] = useState('');
+  const [loadData, { loading, data: placesAndSpotsByKeyword }] = useLazyQuery(
     PLACES_AND_SPOTS_BY_KEYWORDID,
     {
       variables: { query, keyword },
@@ -41,15 +65,6 @@ const SearchPlace: React.FC = () => {
       },
     }
   );
-  console.log('data', data);
-  console.log('type', typeof data);
-  if (data && data.getPlacesByKeyword) {
-    console.log('제발', data.getPlacesByKeyword);
-  }
-  if (data && data.getSpotsByKeyword) {
-    console.log('제발22', data.getSpotsByKeyword);
-  }
-
   const debounceFunc = React.useCallback(
     debounce(() => !loading && loadData(), 300),
     [loadData]
@@ -64,11 +79,18 @@ const SearchPlace: React.FC = () => {
     [debounceFunc]
   );
 
+  const clickForm = (e: any) => {
+    console.log('하이');
+    setIsClicked(true);
+  };
+
   const submitValue = (e: any) => {
     e.preventDefault();
-    console.log(isEnter);
-    setIsEnter(true);
-    console.log(isEnter);
+    loadData();
+    console.log(placesAndSpotsByKeyword);
+    setSearchKeyword(keyword);
+    setIsClicked(false);
+    // setKeyword('');
   };
 
   const handleClickSpots = (e: React.MouseEvent, x: any, y: any) => {
@@ -79,7 +101,7 @@ const SearchPlace: React.FC = () => {
 
   return (
     <>
-      <$.SearchForm onSubmit={submitValue}>
+      <$.SearchForm onClick={clickForm} onSubmit={submitValue}>
         <$.SearchImg />
         <$.InputField
           type="text"
@@ -94,21 +116,23 @@ const SearchPlace: React.FC = () => {
       <$.SpotButton>
         <$.SpotButtonImg /> 스팟 추가하기
       </$.SpotButton>
-      {data && (
+      {isClicked && placesAndSpotsByKeyword && (
         <$.PlacesAndSpots>
-          {data &&
-            data.places &&
-            data.places.slice(0, 7).map(({ id, place_name, x, y }) => (
-              <$.PlacesAndSpotsItem key={id}>
-                <$.SearchGrayImg />
-                <$.SpotsName onClick={(e) => handleClickSpots(e, x, y)}>
-                  {place_name}
-                </$.SpotsName>
-              </$.PlacesAndSpotsItem>
-            ))}
-          {data &&
-            data.spots &&
-            data.spots
+          {placesAndSpotsByKeyword &&
+            placesAndSpotsByKeyword.places &&
+            placesAndSpotsByKeyword.places
+              .slice(0, 7)
+              .map(({ id, place_name, x, y }) => (
+                <$.PlacesAndSpotsItem key={id}>
+                  <$.SearchGrayImg />
+                  <$.SpotsName onClick={(e) => handleClickSpots(e, x, y)}>
+                    {place_name}
+                  </$.SpotsName>
+                </$.PlacesAndSpotsItem>
+              ))}
+          {placesAndSpotsByKeyword &&
+            placesAndSpotsByKeyword.spots &&
+            placesAndSpotsByKeyword.spots
               .slice(0, 6)
               .map(({ _id, place_name, address_name }) => (
                 <$.PlacesAndSpotsItem key={_id}>
@@ -117,7 +141,20 @@ const SearchPlace: React.FC = () => {
               ))}
         </$.PlacesAndSpots>
       )}
-      {/* {isEnter && <$.EnterDiv></$.EnterDiv>} */}
+      {searchKeyword && (
+        <$.EnterDiv>
+          {placesAndSpotsByKeyword &&
+            placesAndSpotsByKeyword.places &&
+            placesAndSpotsByKeyword.places.map(({ id, place_name, x, y }) => (
+              <li key={id}>{place_name}</li>
+            ))}
+          {placesAndSpotsByKeyword &&
+            placesAndSpotsByKeyword.places &&
+            placesAndSpotsByKeyword.spots.map(({ id, place_name, x, y }) => (
+              <li key={id}>{place_name}</li>
+            ))}
+        </$.EnterDiv>
+      )}
     </>
   );
 };
