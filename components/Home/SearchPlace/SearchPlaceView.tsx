@@ -123,7 +123,7 @@ export const SpotButtonImg = styled.img.attrs({
 })``;
 
 export const EnterDiv = styled.div`
-  background-color: green;
+  background-color: yellow;
   z-index: 4;
   position: absolute;
   width: 505px;
