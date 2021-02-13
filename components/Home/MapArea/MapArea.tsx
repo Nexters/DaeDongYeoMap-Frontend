@@ -21,6 +21,13 @@ declare global {
 const FETCH_ALL_SPOTS = gql`
   {
     spots {
+      _id
+      place_id
+      stickers(populate: true) {
+        _id
+        sticker_category
+        is_used
+      }
       place_name
       category_name
       category_group_code
