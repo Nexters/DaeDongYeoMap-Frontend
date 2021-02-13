@@ -1,4 +1,8 @@
-import { useSpotsState } from '~/lib/apollo/vars/home';
+import {
+  useCurrentPosition,
+  useIsCustomSpotSetting,
+  useSpotsState,
+} from '~/lib/apollo/vars/home';
 
 const home = {
   typePolicies: {
@@ -7,6 +11,16 @@ const home = {
         spotsState: {
           read() {
             return useSpotsState();
+          },
+        },
+        currentPosition: {
+          read() {
+            return useCurrentPosition();
+          },
+        },
+        isCustomSpotSetting: {
+          read() {
+            return useIsCustomSpotSetting();
           },
         },
       },
