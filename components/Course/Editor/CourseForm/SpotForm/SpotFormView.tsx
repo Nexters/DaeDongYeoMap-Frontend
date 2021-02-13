@@ -52,7 +52,7 @@ export const SpotCard = styled.div<{
     !props.isLayout &&
     `
   border-radius: 16px;
-  box-shadow: 0 0 8px 1px ${painter.grayscale[3]};
+  box-shadow: 0 0 8px 1px ${painter.grayscale[3](props)};
   vertical-align: top;
   `}
 `;

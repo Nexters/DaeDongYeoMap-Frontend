@@ -17,7 +17,7 @@ export const Sidebar = styled.div`
   flex-grow: 0;
   flex-shrink: 0;
   position: relative;
-  z-index: 1;
+  z-index: 2;
   width: 452px;
   height: 100%;
   box-shadow: 0 0 24px 2px ${painter.grayscale[4]};

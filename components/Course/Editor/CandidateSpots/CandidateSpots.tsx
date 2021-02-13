@@ -1,5 +1,5 @@
 import React from 'react';
-import SpotCard from '~/components/Course/Editor/_common/SpotCard';
+import SpotCard from './SpotCard';
 import * as $ from './CandidateSpotsView';
 
 const mockSpots = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(() => ({

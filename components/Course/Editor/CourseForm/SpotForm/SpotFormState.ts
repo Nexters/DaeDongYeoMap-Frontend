@@ -1,6 +1,8 @@
-import { makeVar, ReactiveVar, useReactiveVar } from '@apollo/client';
+import { makeVar, ReactiveVar } from '@apollo/client';
 import { useMemo } from 'react';
 import createReactiveVarHooks from '~/util/createReactiveVarHooks';
+import IdGenerator from '~/util/IdGenerator';
+import type { StateSetter } from '~/util/createReactiveVarHooks';
 
 export enum CardType {
   Spot = 'Spot',
@@ -12,10 +14,11 @@ export enum CardType {
 
 // TODO: Spot Type
 export type MockSpot = {
-  stickerId: string;
-  title: string;
-  partner: string;
-  timestamp: number;
+  id: string;
+  stickerId?: string;
+  title?: string;
+  partner?: string;
+  timestamp?: number;
 };
 
 export type TableItem = {
@@ -25,6 +28,29 @@ export type TableItem = {
 };
 
 export type SpotTable = Array<Array<TableItem>>;
+
+type PlaceholderAdder = () => void;
+
+type SpotOptionLayerOpener = StateSetter<string>;
+
+type SpotOptionLayerCloser = (spotId: string) => void;
+
+export type SpotFormHook = [
+  [SpotTable, string],
+  [PlaceholderAdder, SpotOptionLayerOpener, SpotOptionLayerCloser]
+];
+
+const placholderIdGenerator = IdGenerator.create(
+  (index: number) => `ph_${index}`
+);
+
+const createPlacholderData = (): MockSpot => ({
+  id: placholderIdGenerator.get(),
+});
+
+const checkPlaceholder = (spot: MockSpot) => {
+  return spot.id[0] === 'p' && spot.id[1] === 'h' && spot.id[2] === '_';
+};
 
 // 열 개수
 const COLUMN_COUNT = 3;
@@ -39,7 +65,7 @@ const mapToSpotTable = (spots: MockSpot[]): SpotTable => {
     order++;
 
     return {
-      type: spot === null ? CardType.Placeholder : CardType.Spot,
+      type: checkPlaceholder(spot) ? CardType.Placeholder : CardType.Spot,
       order,
       data: spot,
     };
@@ -85,11 +111,12 @@ const mapToSpotTable = (spots: MockSpot[]): SpotTable => {
   return spotTable;
 };
 
-export const spotItems: ReactiveVar<MockSpot[]> = makeVar<MockSpot[]>(
-  [1, null, 3, null, 5, null].map((dummy) =>
+export const spotItems: ReactiveVar<MockSpot[]> = makeVar<Array<MockSpot>>(
+  [1, 2, null, 5].map((dummy, i) =>
     dummy === null
-      ? null
+      ? createPlacholderData()
       : {
+          id: `spot${i}`,
           stickerId: 'sticker0',
           title: '애버랜드',
           partner: '남자친구',
@@ -98,9 +125,9 @@ export const spotItems: ReactiveVar<MockSpot[]> = makeVar<MockSpot[]>(
   )
 );
 
-export type PlaceholderAdder = () => void;
+export const pressedSpot: ReactiveVar<string> = makeVar<string>(null);
 
-export type SpotFormHook = [SpotTable, PlaceholderAdder];
+const [_, __, usePressedSpot] = createReactiveVarHooks(pressedSpot);
 
 export const [
   useSpotItemsValue,
@@ -116,9 +143,28 @@ export const useSpotTable = (): SpotTable => {
 };
 
 export const useSpotFormHook = (): SpotFormHook => {
-  const spots: MockSpot[] = useSpotItemsValue();
-  const setSpotItems = useSpotItemsSetter();
+  const [spots, setSpotItems] = useSpotItems();
+  const [pressedSpot, setPressedSpot] = usePressedSpot();
+
   const spotTable: SpotTable = useMemo(() => mapToSpotTable(spots), [spots]);
 
-  return [spotTable, () => setSpotItems([...spotItems(), null])];
+  const addPlaceholder = () =>
+    setSpotItems([...spotItems(), createPlacholderData()]);
+  const closeSpotOptionLayer = (spotId: string) => {
+    const filteredSpots: MockSpot[] = [];
+
+    for (let i = 0; i < spots.length; ++i) {
+      if (spots[i].id !== spotId) {
+        filteredSpots.push(spots[i]);
+      }
+    }
+
+    setPressedSpot(null);
+    setSpotItems(filteredSpots);
+  };
+
+  return [
+    [spotTable, pressedSpot],
+    [addPlaceholder, setPressedSpot, closeSpotOptionLayer],
+  ];
 };
