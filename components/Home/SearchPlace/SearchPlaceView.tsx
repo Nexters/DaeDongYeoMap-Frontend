@@ -2,17 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 import painter from '~/styles/theme/painter';
 
-export const ParentDiv = styled.div`
-  z-index: 5;
-`;
-
 export const SearchDiv = styled.div`
   position: absolute;
   top: 35px;
   left: 20px;
   z-index: 5;
   display: flex;
-  border: 2px solid red;
+  border: 2px solid blue;
 `;
 
 export const SearchForm = styled.form`
@@ -123,11 +119,64 @@ export const SpotButtonImg = styled.img.attrs({
 })``;
 
 export const EnterDiv = styled.div`
-  background-color: yellow;
+  background-color: #fff;
   z-index: 4;
   position: absolute;
-  width: 505px;
-  height: 100%;
+  width: 440px;
+  height: 1024px;
   left: 0px;
   top: 0px;
+  padding: 70px 24px 15px 25px;
+  margin-left: 65px;
+`;
+
+export const SearchContainer = styled.div`
+  position: absolute;
+  top: 166px;
+  left: 0px;
+  width: 100%;
+`;
+
+export const CustomBtnDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  top: 95px;
+  left: 120px;
+`;
+
+export const CustomBtn = styled.button`
+  display: inline-block;
+  outline: none;
+  border: none;
+  border-radius: 8px;
+  transition: 0.2s;
+  background-color: #fff;
+  color: ${painter.grayscale['6']};
+  cursor: pointer;
+  align-text: center;
+  padding: 9px 8px;
+  &:hover {
+    background-color: ${painter.grayscale['8']};
+    color: white;
+  }
+`;
+
+export const searchedItem = styled.li`
+  padding: 16px 82px 16px 60px;
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+  font-family: ${painter.font.roboto};
+  font-weight: bold;
+  margin: 0;
+  text-decoration: none;
+  cursor: pointer;
+  color: ${painter.grayscale['9']};
+  .active {
+    border-bottom: solid 3px ${painter.grayscale['3']};
+  }
+  &:hover {
+    background-color: rgba(255, 159, 179, 0.25);
+  }
 `;

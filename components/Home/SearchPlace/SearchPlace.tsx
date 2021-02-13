@@ -142,17 +142,49 @@ const SearchPlace: React.FC = () => {
         </$.PlacesAndSpots>
       )}
       {searchKeyword && (
-        <$.EnterDiv>
-          {placesAndSpotsByKeyword &&
-            placesAndSpotsByKeyword.places &&
-            placesAndSpotsByKeyword.places.map(({ id, place_name, x, y }) => (
-              <li key={id}>{place_name}</li>
-            ))}
-          {placesAndSpotsByKeyword &&
-            placesAndSpotsByKeyword.places &&
-            placesAndSpotsByKeyword.spots.map(({ id, place_name, x, y }) => (
-              <li key={id}>{place_name}</li>
-            ))}
+        <$.EnterDiv onClick={(e) => setIsClicked(false)}>
+          <$.CustomBtnDiv>
+            <$.CustomBtn>추천 스팟</$.CustomBtn>
+            <$.CustomBtn>커스텀 스팟</$.CustomBtn>
+          </$.CustomBtnDiv>
+          <$.SearchContainer>
+            {placesAndSpotsByKeyword &&
+              placesAndSpotsByKeyword.places &&
+              placesAndSpotsByKeyword.places.map(
+                ({
+                  id,
+                  place_name,
+                  address_name,
+                  category_group_name,
+                  x,
+                  y,
+                }) => (
+                  <$.searchedItem key={id}>
+                    {place_name}
+                    {address_name}
+                    {category_group_name}
+                  </$.searchedItem>
+                )
+              )}
+            {placesAndSpotsByKeyword &&
+              placesAndSpotsByKeyword.places &&
+              placesAndSpotsByKeyword.spots.map(
+                ({
+                  id,
+                  place_name,
+                  address_name,
+                  category_group_name,
+                  x,
+                  y,
+                }) => (
+                  <$.searchedItem key={id}>
+                    {place_name}
+                    {address_name}
+                    {category_group_name}
+                  </$.searchedItem>
+                )
+              )}
+          </$.SearchContainer>
         </$.EnterDiv>
       )}
     </>
