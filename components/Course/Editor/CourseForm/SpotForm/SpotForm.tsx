@@ -16,6 +16,7 @@ const SpotForm: React.FC = () => {
                 <SpotItem
                   key={item?.data?.id || `col-${i}-${j}`}
                   item={item}
+                  rowIndex={i}
                   columnIndex={j}
                 />
               )) /* TODO: key ID값으로 변경 */

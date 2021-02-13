@@ -4,8 +4,8 @@ import createReactiveVarHooks from '~/util/createReactiveVarHooks';
 import { CLASSNAME_COURSE_EDITOR_SPOT } from '~/constants/dom';
 import {
   checkPlaceholder,
-  usePressedSpotSetter,
   createPlacholderData,
+  usePressedSpotSetter,
 } from './SpotItem/SpotItemState';
 import type { SpotView } from '~/components/Course/Editor/EditorState';
 
@@ -18,6 +18,7 @@ export enum SpotTableItemType {
 }
 export type SpotTableItem = {
   type: SpotTableItemType;
+  itemIndex?: number;
   order?: number;
   data?: SpotView;
 };
@@ -35,15 +36,16 @@ const mapToSpotTable = (spots: SpotView[]): SpotTable => {
   const spotTable: SpotTable = [[]];
   let order = 0;
 
-  const getSpotItem = (spot: SpotView): SpotTableItem => {
+  const getSpotItem = (index: number): SpotTableItem => {
     order++;
 
     return {
-      type: checkPlaceholder(spot)
+      type: checkPlaceholder(spots[index])
         ? SpotTableItemType.Placeholder
         : SpotTableItemType.Spot,
+      itemIndex: index,
       order,
-      data: spot,
+      data: spots[index],
     };
   };
 
@@ -52,13 +54,13 @@ const mapToSpotTable = (spots: SpotView[]): SpotTable => {
     const row: Array<SpotTableItem> = spotTable[spotTable.length - 1];
 
     if (remainer === 0) {
-      row[0] = getSpotItem(spots[i]);
+      row[0] = getSpotItem(i);
     } else if (remainer > 0 && remainer < COLUMN_COUNT - 1) {
       row[1] = { type: SpotTableItemType.Line };
-      row[2] = getSpotItem(spots[i]);
+      row[2] = getSpotItem(i);
     } else if (remainer === COLUMN_COUNT - 1) {
       row[3] = { type: SpotTableItemType.Line };
-      row[4] = getSpotItem(spots[i]);
+      row[4] = getSpotItem(i);
       if (spots[i + 1] !== undefined) {
         spotTable.push([]);
       }
@@ -68,9 +70,11 @@ const mapToSpotTable = (spots: SpotView[]): SpotTable => {
   let lastRow: Array<SpotTableItem> = spotTable[spotTable.length - 1];
 
   // 스팟 추가버튼 추가
-  if (spotTable[spotTable.length - 1].length >= LAYOUT_COLUMN_COUNT) {
+  if (lastRow.length >= LAYOUT_COLUMN_COUNT) {
     spotTable.push([]);
     lastRow = spotTable[spotTable.length - 1];
+    lastRow.push({ type: SpotTableItemType.AddButton });
+  } else if (lastRow.length === 0) {
     lastRow.push({ type: SpotTableItemType.AddButton });
   } else {
     lastRow.push({ type: SpotTableItemType.Line });
@@ -78,28 +82,16 @@ const mapToSpotTable = (spots: SpotView[]): SpotTable => {
   }
 
   // DOM Layout을 위한 더미 아이템 추가
-  const columnCountOfLastRow = spotTable[spotTable.length - 1].length;
-
-  if (columnCountOfLastRow > 0 && columnCountOfLastRow < LAYOUT_COLUMN_COUNT) {
+  if (lastRow.length > 0 && lastRow.length < LAYOUT_COLUMN_COUNT) {
     lastRow.push({ type: SpotTableItemType.FlexLayout });
   }
 
   return spotTable;
 };
 
-export const spotItems: ReactiveVar<SpotView[]> = makeVar<Array<SpotView>>(
-  [1, 2, null, 5].map((dummy, i) =>
-    dummy === null
-      ? createPlacholderData()
-      : {
-          id: `spot${i}`,
-          stickerId: 'sticker0',
-          title: '애버랜드',
-          partner: '남자친구',
-          timestamp: 1609513200,
-        }
-  )
-);
+export const spotItems: ReactiveVar<SpotView[]> = makeVar<Array<SpotView>>([
+  createPlacholderData(),
+]);
 
 export const [
   useSpotItemsValue,

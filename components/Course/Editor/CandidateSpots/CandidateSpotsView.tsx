@@ -5,6 +5,12 @@ export const CandidateSpots = styled.div`
   height: 100%;
   padding-top: 80px;
   overflow-y: auto;
+  user-drag: none;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
 `;
 
 export const AreaTitle = styled.h3`
