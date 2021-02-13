@@ -5,8 +5,12 @@ import SearchPlace from '../SearchPlace';
 import MainMood from '../Mood';
 import { usePopupOpener } from '~/lib/apollo/hooks/usePopup';
 import { PopupType } from '~/@types/popup.d';
-import { gql, useLazyQuery } from '@apollo/client';
-import { useCurrentPosition, useSpotsState } from '~/lib/apollo/vars/home';
+import { gql, useLazyQuery, useReactiveVar } from '@apollo/client';
+import {
+  useCurrentPosition,
+  useIsCustomSpotSetting,
+  useSpotsState,
+} from '~/lib/apollo/vars/home';
 
 declare global {
   interface Window {
@@ -43,6 +47,7 @@ const MapArea: React.FC = () => {
 
   const spotsState = useSpotsState();
   const currentPosition = useCurrentPosition();
+  const isCustomSpotSetting = useReactiveVar(useIsCustomSpotSetting);
 
   useEffect(() => {
     if (data && data?.spots) {
@@ -59,7 +64,6 @@ const MapArea: React.FC = () => {
         // GPS를 지원하면
         navigator.geolocation.getCurrentPosition(
           function (position) {
-            // alert(position.coords.latitude + ' ' + position.coords.longitude);
             useCurrentPosition({
               latY: position.coords.latitude,
               lngX: position.coords.longitude,
@@ -92,6 +96,11 @@ const MapArea: React.FC = () => {
 
     (window as any).kakao.maps.load(() => {
       const el = document.getElementById('map');
+      // TODO - 커스텀 커서 만들기
+      console.log(isCustomSpotSetting);
+      // if (isCustomSpotSetting) el.classList.add('spot-marker');
+      // else el.classList.remove('spot-marker');
+
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const map = new (window as any).kakao.maps.Map(el, {
         center: new (window as any).kakao.maps.LatLng(
@@ -170,11 +179,6 @@ const MapArea: React.FC = () => {
           const latlng = mouseEvent.latLng;
           if (false) {
             marker.setPosition(latlng);
-            // setCurLatLng({
-            //   lat: latlng.getLat(),
-            //   lng: latlng.getLng(),
-            // });
-            // 지도에 스팟 이모지를 표시합니다
             const spotEmoji = {
               pos: new (window as any).kakao.maps.LatLng(
                 latlng.getLat(),
@@ -201,7 +205,7 @@ const MapArea: React.FC = () => {
         }
       );
     });
-  }, [spotsState]);
+  }, [spotsState, currentPosition, isCustomSpotSetting]);
 
   return (
     <$.MapArea>
