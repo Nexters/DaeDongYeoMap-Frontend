@@ -1,15 +1,23 @@
-import React, { useState } from 'react';
+import React from 'react';
 import * as $ from './SearchPlaceView';
+import { useIsCustomSpotSetting } from '~/lib/apollo/vars/home';
+import { useReactiveVar } from '@apollo/client';
 
 const SearchPlace: React.FC = () => {
+  const isCustomSpotSetting = useReactiveVar(useIsCustomSpotSetting);
+
   const onChangeInput = (e: any) => {
     // TODO;
   };
 
   const submitValue = (e: any) => {
     e.preventDefault();
-
     // TODO;
+  };
+
+  const handleCustomSpotSetting = (e: any) => {
+    e.preventDefault();
+    useIsCustomSpotSetting(!isCustomSpotSetting);
   };
 
   return (
@@ -24,7 +32,7 @@ const SearchPlace: React.FC = () => {
           onChange={onChangeInput}
         />
       </$.SearchForm>
-      <$.SpotButton>
+      <$.SpotButton onClick={handleCustomSpotSetting}>
         <$.SpotButtonImg />
       </$.SpotButton>
     </$.SearchDiv>
