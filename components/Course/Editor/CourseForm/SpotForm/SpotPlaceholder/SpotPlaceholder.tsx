@@ -1,9 +1,18 @@
 import React from 'react';
 import * as $ from './SpotPlaceholderView';
 
-const SpotPlaceholder: React.FC = () => {
+type Props = {
+  onContextMenu: () => void;
+};
+
+const SpotPlaceholder: React.FC<Props> = ({ onContextMenu }) => {
+  const handleContextMenu = (e: React.MouseEvent) => {
+    e.preventDefault();
+    onContextMenu();
+  };
+
   return (
-    <$.SpotPlaceholder>
+    <$.SpotPlaceholder onContextMenu={handleContextMenu}>
       <$.AreaSticker>
         <$.StickerPlaceholder />
       </$.AreaSticker>

@@ -45,7 +45,7 @@ export const TabLink = styled.a.attrs({ role: 'button' })`
     props['aria-selected'] &&
     `
   z-index: 1;
-  background-color: ${painter.primary.basic(props)};
+  background-color: ${painter.grayscale[9](props)};
   color: ${painter.basic.white(props)};
   `}
 `;

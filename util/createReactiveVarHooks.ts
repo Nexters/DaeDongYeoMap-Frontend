@@ -1,10 +1,10 @@
 import { useReactiveVar, ReactiveVar } from '@apollo/client';
 
-type StateSetter<State> = (newState: State) => void;
-type UseValueHook<State> = () => State;
-type UseSetterHook<State> = () => StateSetter<State>;
-type UseStateHook<State> = () => [State, StateSetter<State>];
-type HookSet<State> = [
+export type StateSetter<State> = (newState: State) => void;
+export type UseValueHook<State> = () => State;
+export type UseSetterHook<State> = () => StateSetter<State>;
+export type UseStateHook<State> = () => [State, StateSetter<State>];
+export type HookSet<State> = [
   UseValueHook<State>,
   UseSetterHook<State>,
   UseStateHook<State>

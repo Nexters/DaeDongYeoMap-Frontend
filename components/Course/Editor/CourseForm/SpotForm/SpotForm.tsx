@@ -1,17 +1,21 @@
 import React from 'react';
 import SpotPlaceholder from './SpotPlaceholder';
 import AddSpotButton from './AddSpotButton';
-import SpotCard from '~/components/Course/Editor/_common/SpotCard';
+import SpotCard from './SpotCard';
+import SpotOptionLayer from './SpotOptionLayer';
 import { useSpotFormHook, CardType } from './SpotFormState';
 import * as $ from './SpotFormView';
 import type { SpotFormHook, TableItem } from './SpotFormState';
 
-const getCard = (
-  { type, data, order }: TableItem,
-  columnIndex: number,
-  hook: SpotFormHook
-): JSX.Element => {
-  const [_, addPlaceholder] = hook;
+const SpotItem: React.FC<{
+  item: TableItem;
+  columnIndex: number;
+  hook: SpotFormHook;
+}> = ({ item: { type, data, order }, columnIndex, hook }) => {
+  const [
+    [_, pressedSpotId],
+    [addPlaceholder, openSpotOptionLayer, closeSpotOptionLayer],
+  ] = hook;
 
   switch (type) {
     case CardType.Spot:
@@ -19,8 +23,23 @@ const getCard = (
         <$.SpotItem>
           <$.SpotOrder>{order}</$.SpotOrder>
           <$.SpotCard>
-            <SpotCard {...data} />
+            <SpotCard
+              stickerId={data.stickerId}
+              title={data.title}
+              partner={data.partner}
+              timestamp={data.timestamp}
+              onContextMenu={() => {
+                openSpotOptionLayer(data.id);
+              }}
+            />
           </$.SpotCard>
+          {pressedSpotId === data.id && (
+            <SpotOptionLayer
+              onClickDeleteButton={() => {
+                closeSpotOptionLayer(data.id);
+              }}
+            />
+          )}
         </$.SpotItem>
       );
     case CardType.Line:
@@ -34,8 +53,19 @@ const getCard = (
         <$.SpotItem>
           <$.SpotOrder>{order}</$.SpotOrder>
           <$.SpotCard>
-            <SpotPlaceholder />
+            <SpotPlaceholder
+              onContextMenu={() => {
+                openSpotOptionLayer(data.id);
+              }}
+            />
           </$.SpotCard>
+          {pressedSpotId === data.id && (
+            <SpotOptionLayer
+              onClickDeleteButton={() => {
+                closeSpotOptionLayer(data.id);
+              }}
+            />
+          )}
         </$.SpotItem>
       );
     case CardType.AddButton:
@@ -59,15 +89,26 @@ const getCard = (
 
 const SpotForm: React.FC = () => {
   const hook = useSpotFormHook();
-  const [spotTable] = hook;
+  const [[spotTable]] = hook;
 
   return (
     <$.SpotForm>
       {spotTable.map((row, i) => (
-        <>
-          <$.Row>{row.map((item, j) => getCard(item, j, hook))}</$.Row>
+        <React.Fragment key={`row-${i}`}>
+          <$.Row>
+            {
+              row.map((item, j) => (
+                <SpotItem
+                  key={item?.data?.id || `col-${i}-${j}`}
+                  item={item}
+                  columnIndex={j}
+                  hook={hook}
+                />
+              )) /* TODO: key ID값으로 변경 */
+            }
+          </$.Row>
           {spotTable[i + 1] && <$.LineRow />}
-        </>
+        </React.Fragment>
       ))}
     </$.SpotForm>
   );
