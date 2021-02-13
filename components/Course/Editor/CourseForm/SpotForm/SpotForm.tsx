@@ -2,25 +2,17 @@ import React from 'react';
 import SpotPlaceholder from './SpotPlaceholder';
 import AddSpotButton from './AddSpotButton';
 import SpotCard from '~/components/Course/Editor/_common/SpotCard';
-import { mapToSpotTable, CardType } from './SpotFormState';
+import { useSpotFormHook, CardType } from './SpotFormState';
 import * as $ from './SpotFormView';
-import type { MockSpot, SpotTable, TableItem } from './SpotFormState';
-
-const mockSpots: MockSpot[] = [1, null, 3, null, 5, null].map((dummy) =>
-  dummy === null
-    ? null
-    : {
-        stickerId: 'sticker0',
-        title: '애버랜드',
-        partner: '남자친구',
-        timestamp: 1609513200,
-      }
-);
+import type { SpotFormHook, TableItem } from './SpotFormState';
 
 const getCard = (
   { type, data, order }: TableItem,
-  columnIndex: number
+  columnIndex: number,
+  hook: SpotFormHook
 ): JSX.Element => {
+  const [_, addPlaceholder] = hook;
+
   switch (type) {
     case CardType.Spot:
       return (
@@ -49,7 +41,13 @@ const getCard = (
     case CardType.AddButton:
       return (
         <$.SpotItem>
-          <AddSpotButton verticalDashedLine={columnIndex % 3 === 0} />
+          <AddSpotButton
+            verticalDashedLine={columnIndex % 3 === 0}
+            onClick={(e: React.MouseEvent) => {
+              e.preventDefault();
+              addPlaceholder();
+            }}
+          />
         </$.SpotItem>
       );
     case CardType.FlexLayout:
@@ -60,13 +58,14 @@ const getCard = (
 };
 
 const SpotForm: React.FC = () => {
-  const spotTable: SpotTable = mapToSpotTable(mockSpots);
+  const hook = useSpotFormHook();
+  const [spotTable] = hook;
 
   return (
     <$.SpotForm>
       {spotTable.map((row, i) => (
         <>
-          <$.Row>{row.map((item, j) => getCard(item, j))}</$.Row>
+          <$.Row>{row.map((item, j) => getCard(item, j, hook))}</$.Row>
           {spotTable[i + 1] && <$.LineRow />}
         </>
       ))}

@@ -1,3 +1,7 @@
+import { makeVar, ReactiveVar, useReactiveVar } from '@apollo/client';
+import { useMemo } from 'react';
+import createReactiveVarHooks from '~/util/createReactiveVarHooks';
+
 export enum CardType {
   Spot = 'Spot',
   Line = 'Line',
@@ -27,11 +31,9 @@ const COLUMN_COUNT = 3;
 // 실제 DOM의 열 개수
 const LAYOUT_COLUMN_COUNT = COLUMN_COUNT * 2 - 1;
 
-export const mapToSpotTable = (spots: MockSpot[]): SpotTable => {
+const mapToSpotTable = (spots: MockSpot[]): SpotTable => {
   const spotTable: SpotTable = [[]];
   let order = 0;
-
-  console.log(spots);
 
   const getSpotItem = (spot: MockSpot): TableItem => {
     order++;
@@ -81,4 +83,42 @@ export const mapToSpotTable = (spots: MockSpot[]): SpotTable => {
   }
 
   return spotTable;
+};
+
+export const spotItems: ReactiveVar<MockSpot[]> = makeVar<MockSpot[]>(
+  [1, null, 3, null, 5, null].map((dummy) =>
+    dummy === null
+      ? null
+      : {
+          stickerId: 'sticker0',
+          title: '애버랜드',
+          partner: '남자친구',
+          timestamp: 1609513200,
+        }
+  )
+);
+
+export type PlaceholderAdder = () => void;
+
+export type SpotFormHook = [SpotTable, PlaceholderAdder];
+
+export const [
+  useSpotItemsValue,
+  useSpotItemsSetter,
+  useSpotItems,
+] = createReactiveVarHooks(spotItems);
+
+export const useSpotTable = (): SpotTable => {
+  const spots: MockSpot[] = useSpotItemsValue();
+  const spotTable: SpotTable = mapToSpotTable(spots);
+
+  return spotTable;
+};
+
+export const useSpotFormHook = (): SpotFormHook => {
+  const spots: MockSpot[] = useSpotItemsValue();
+  const setSpotItems = useSpotItemsSetter();
+  const spotTable: SpotTable = useMemo(() => mapToSpotTable(spots), [spots]);
+
+  return [spotTable, () => setSpotItems([...spotItems(), null])];
 };
