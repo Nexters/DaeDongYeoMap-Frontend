@@ -2,17 +2,18 @@ import React from 'react';
 import * as $ from './SpotPlaceholderView';
 
 type Props = {
+  isPressed?: boolean;
   onContextMenu: () => void;
 };
 
-const SpotPlaceholder: React.FC<Props> = ({ onContextMenu }) => {
+const SpotPlaceholder: React.FC<Props> = ({ isPressed, onContextMenu }) => {
   const handleContextMenu = (e: React.MouseEvent) => {
     e.preventDefault();
     onContextMenu();
   };
 
   return (
-    <$.SpotPlaceholder onContextMenu={handleContextMenu}>
+    <$.SpotPlaceholder isPressed={isPressed} onContextMenu={handleContextMenu}>
       <$.AreaSticker>
         <$.StickerPlaceholder />
       </$.AreaSticker>

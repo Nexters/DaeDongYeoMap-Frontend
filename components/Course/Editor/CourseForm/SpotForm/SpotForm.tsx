@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import SpotPlaceholder from './SpotPlaceholder';
 import AddSpotButton from './AddSpotButton';
 import SpotCard from './SpotCard';
@@ -6,6 +6,7 @@ import SpotOptionLayer from './SpotOptionLayer';
 import { useSpotFormHook, CardType } from './SpotFormState';
 import * as $ from './SpotFormView';
 import type { SpotFormHook, TableItem } from './SpotFormState';
+import { CLASSNAME_COURSE_EDITOR_SPOT } from '~/constants/dom';
 
 const SpotItem: React.FC<{
   item: TableItem;
@@ -24,6 +25,7 @@ const SpotItem: React.FC<{
           <$.SpotOrder>{order}</$.SpotOrder>
           <$.SpotCard>
             <SpotCard
+              isPressed={pressedSpotId === data.id}
               stickerId={data.stickerId}
               title={data.title}
               partner={data.partner}
@@ -54,6 +56,7 @@ const SpotItem: React.FC<{
           <$.SpotOrder>{order}</$.SpotOrder>
           <$.SpotCard>
             <SpotPlaceholder
+              isPressed={pressedSpotId === data.id}
               onContextMenu={() => {
                 openSpotOptionLayer(data.id);
               }}
@@ -89,7 +92,23 @@ const SpotItem: React.FC<{
 
 const SpotForm: React.FC = () => {
   const hook = useSpotFormHook();
-  const [[spotTable]] = hook;
+  const [[spotTable], [_, __, ___, closeAllSpotOptionLayer]] = hook;
+  const handleClickDocument = (e: MouseEvent): void => {
+    const elTarget: HTMLElement = e.target as HTMLElement;
+    const elCard: HTMLElement = elTarget.closest(
+      `.${CLASSNAME_COURSE_EDITOR_SPOT}`
+    );
+
+    if (!elCard) {
+      closeAllSpotOptionLayer();
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('click', handleClickDocument);
+
+    return () => document.removeEventListener('click', handleClickDocument);
+  });
 
   return (
     <$.SpotForm>

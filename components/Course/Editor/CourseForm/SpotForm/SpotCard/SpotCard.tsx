@@ -7,10 +7,12 @@ type Props = {
   title: string;
   partner: string;
   timestamp: number;
+  isPressed?: boolean;
   onContextMenu: () => void;
 };
 
 const SpotCard: React.FC<Props> = ({
+  isPressed,
   stickerId,
   title,
   partner,
@@ -25,7 +27,7 @@ const SpotCard: React.FC<Props> = ({
   };
 
   return (
-    <$.SpotCard onContextMenu={handleContextMenu}>
+    <$.SpotCard isPressed={isPressed} onContextMenu={handleContextMenu}>
       <$.AreaSticker>
         <StickerIcon width="72" height="72" />
       </$.AreaSticker>
