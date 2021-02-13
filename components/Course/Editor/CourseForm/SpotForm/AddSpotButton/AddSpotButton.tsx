@@ -3,11 +3,12 @@ import * as $ from './AddSpotButtonView';
 
 type Props = {
   verticalDashedLine: boolean;
+  onClick: (e: React.MouseEvent) => void;
 };
 
-const AddSpotButton: React.FC<Props> = ({ verticalDashedLine }) => {
+const AddSpotButton: React.FC<Props> = ({ verticalDashedLine, onClick }) => {
   return (
-    <$.AddSpotButton>
+    <$.AddSpotButton onClick={onClick}>
       <$.DashedLine vertical={verticalDashedLine} />
       <$.PlusIcon />
       <$.Comment>스팟을 추가해보세요</$.Comment>
