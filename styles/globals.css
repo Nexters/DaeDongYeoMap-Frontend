@@ -18,3 +18,7 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.spot-marker {
+  cursor: url("/public/spot_marker.png"), auto;
+}

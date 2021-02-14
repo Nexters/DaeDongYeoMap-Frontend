@@ -2,6 +2,11 @@ import React, { useState, useRef, useEffect } from 'react';
 import * as $ from './SearchPlaceView';
 import { gql, useLazyQuery, useQuery } from '@apollo/client';
 import { debounce } from 'lodash';
+import { useReactiveVar } from '@apollo/client';
+import {
+  useCurrentPosition,
+  useIsCustomSpotSetting,
+} from '~/lib/apollo/vars/home';
 
 const PLACES_AND_SPOTS_BY_KEYWORDID = gql`
   query placesAndSpotsByKeyword($query: String!, $keyword: String!) {
@@ -52,6 +57,7 @@ const PLACES_AND_SPOTS_BY_KEYWORDID = gql`
 // };
 
 const SearchPlace: React.FC = () => {
+  const isCustomSpotSetting = useReactiveVar(useIsCustomSpotSetting);
   const [keyword, setKeyword] = useState('');
   const query = keyword;
   const [isClicked, setIsClicked] = useState(false);
@@ -79,11 +85,6 @@ const SearchPlace: React.FC = () => {
     [debounceFunc]
   );
 
-  const clickForm = (e: any) => {
-    console.log('하이');
-    setIsClicked(true);
-  };
-
   const submitValue = (e: any) => {
     e.preventDefault();
     loadData();
@@ -93,10 +94,23 @@ const SearchPlace: React.FC = () => {
     // setKeyword('');
   };
 
-  const handleClickSpots = (e: React.MouseEvent, x: any, y: any) => {
+  const clickForm = (e: any) => {
+    setIsClicked(true);
+  };
+
+  const handleClickSpots = (e: React.MouseEvent, x: number, y: number) => {
     e.preventDefault();
-    console.log(x, y);
-    //TODO: 아폴로에 저장된 현재위치를 x,y로 바꿔서 지도이동시키기
+    console.log(y, x);
+    const currentPosition = { latY: y, lngX: x };
+    useCurrentPosition(currentPosition);
+    const position = useCurrentPosition();
+    console.log(position); //위치 상태 변경 확인
+    //TODO: 지도 이동
+  };
+
+  const handleCustomSpotSetting = (e: any) => {
+    e.preventDefault();
+    useIsCustomSpotSetting(!isCustomSpotSetting);
   };
 
   return (
@@ -113,7 +127,7 @@ const SearchPlace: React.FC = () => {
           autoComplete="off"
         />
       </$.SearchForm>
-      <$.SpotButton>
+      <$.SpotButton onClick={handleCustomSpotSetting}>
         <$.SpotButtonImg /> 스팟 추가하기
       </$.SpotButton>
       {isClicked && placesAndSpotsByKeyword && (
@@ -159,11 +173,19 @@ const SearchPlace: React.FC = () => {
                   x,
                   y,
                 }) => (
-                  <$.searchedItem key={id}>
-                    {place_name}
-                    {address_name}
-                    {category_group_name}
-                  </$.searchedItem>
+                  <$.searchedSpots
+                    key={id}
+                    onClick={(e) => handleClickSpots(e, x, y)}
+                  >
+                    <$.SpotImg></$.SpotImg>
+                    <$.SpotsInfo>
+                      <$.SpotsNameAndCategory>
+                        <$.SpotsName>{place_name}</$.SpotsName>
+                        <$.SpotsCategory>{category_group_name}</$.SpotsCategory>
+                      </$.SpotsNameAndCategory>
+                      <$.SpotsAddress>{address_name}</$.SpotsAddress>
+                    </$.SpotsInfo>
+                  </$.searchedSpots>
                 )
               )}
             {placesAndSpotsByKeyword &&
@@ -177,11 +199,14 @@ const SearchPlace: React.FC = () => {
                   x,
                   y,
                 }) => (
-                  <$.searchedItem key={id}>
-                    {place_name}
-                    {address_name}
-                    {category_group_name}
-                  </$.searchedItem>
+                  <$.searchedSpots
+                    key={id}
+                    onClick={(e) => handleClickSpots(e, x, y)}
+                  >
+                    <$.SpotImg></$.SpotImg>
+                    <$.SpotsName>{place_name}</$.SpotsName>
+                    <$.SpotsCategory>{category_group_name}</$.SpotsCategory>
+                  </$.searchedSpots>
                 )
               )}
           </$.SearchContainer>
@@ -190,5 +215,4 @@ const SearchPlace: React.FC = () => {
     </>
   );
 };
-
 export default SearchPlace;

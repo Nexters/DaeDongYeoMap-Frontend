@@ -60,8 +60,14 @@ export const SearchGrayImg = styled.img.attrs({
 })``;
 
 export const SpotsName = styled.div`
-  display: inline-block;
-  color: ${painter.grayscale['7']};
+  color: ${painter.grayscale['9']};
+  margin-left: 7px;
+`;
+
+export const SpotsCategory = styled.div`
+  color: ${painter.grayscale['6']};
+  font-size: 14px;
+  margin-left: 10px;
 `;
 
 export const PlacesAndSpotsItem = styled.li`
@@ -70,7 +76,7 @@ export const PlacesAndSpotsItem = styled.li`
   font-size: 15px;
   font-family: ${painter.font.roboto};
   font-weight: bold;
-  padding: 7px 5px 7px 5px;
+  padding: 8px;
   margin: 0;
   text-decoration: none;
   cursor: pointer;
@@ -93,8 +99,6 @@ export const AddressDiv = styled.div`
 export const SearchImg = styled.img.attrs({
   src: '/search4.png',
 })`
-  width: 30px;
-  height: 32px;
   margin: 8px 7px 0 8px;
 `;
 
@@ -162,14 +166,14 @@ export const CustomBtn = styled.button`
   }
 `;
 
-export const searchedItem = styled.li`
-  padding: 16px 82px 16px 60px;
+export const searchedSpots = styled.li`
+  padding: 10px 0 10px 35px;
+  margin: 0;
   display: flex;
   align-items: center;
   font-size: 15px;
   font-family: ${painter.font.roboto};
   font-weight: bold;
-  margin: 0;
   text-decoration: none;
   cursor: pointer;
   color: ${painter.grayscale['9']};
@@ -179,4 +183,26 @@ export const searchedItem = styled.li`
   &:hover {
     background-color: rgba(255, 159, 179, 0.25);
   }
+`;
+
+export const SpotImg = styled.img.attrs({
+  src: '/spot.png',
+})``;
+
+export const SpotsInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-left: 7px;
+`;
+
+export const SpotsNameAndCategory = styled.div`
+  display: flex;
+`;
+
+export const SpotsAddress = styled.div`
+  color: ${painter.grayscale['8']};
+  margin-left: 7px;
+  margin-top: 4px;
+  font-size: 13px;
+  font-family: ${painter.font.roboto};
 `;
