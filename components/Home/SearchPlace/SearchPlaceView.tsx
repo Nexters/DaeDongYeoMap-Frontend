@@ -109,18 +109,27 @@ export const SpotButton = styled.button`
   background-color: ${painter.primary.basic};
   cursor: pointer;
   position: absolute;
-  width: 176px;
+  width: 155px;
   height: 45px;
   left: 512px;
   top: 20px;
   z-index: 5;
   color: white;
   align-text: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-right: 5px;
 `;
 
 export const SpotButtonImg = styled.img.attrs({
   src: '/spot_add.png',
 })``;
+
+export const SpotButtonDiv = styled.div`
+  display: inline-block;
+  margin-left: 10px;
+`;
 
 export const EnterDiv = styled.div`
   background-color: #fff;
