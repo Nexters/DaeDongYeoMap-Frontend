@@ -8,6 +8,7 @@ import {
   useIsCustomSpotSetting,
 } from '~/lib/apollo/vars/home';
 
+//TODO: 스팟 클릭시 지도 이동
 const PLACES_AND_SPOTS_BY_KEYWORDID = gql`
   query placesAndSpotsByKeyword(
     $query: String!
