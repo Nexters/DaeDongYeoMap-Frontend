@@ -66,6 +66,7 @@ const SearchPlace: React.FC = () => {
   const [keyword, setKeyword] = useState('');
   const query = keyword;
   const [isClicked, setIsClicked] = useState(false);
+  const [isEnter, setIsEnter] = useState(false);
   const [selectedSpot, setSelectedSpot] = useState('recommend');
   const [searchKeyword, setSearchKeyword] = useState('');
   const [loadData, { loading, data: placesAndSpotsByKeyword }] = useLazyQuery(
@@ -96,6 +97,7 @@ const SearchPlace: React.FC = () => {
     loadData();
     setSearchKeyword(keyword);
     setIsClicked(false);
+    setIsEnter(true);
     // setKeyword('');
   };
 
@@ -166,94 +168,99 @@ const SearchPlace: React.FC = () => {
               ))}
         </$.PlacesAndSpots>
       )}
-      {searchKeyword && (
-        <$.EnterDiv onClick={(e) => setIsClicked(false)}>
-          <$.CustomBtnDiv>
-            {buttons.map(({ key, label }) => (
-              <$.CustomBtn
-                key={key}
-                spot-selected={key == selectedSpot}
-                onClick={(e) => handleClickSpotBtn(e, key)}
-              >
-                {label}
-              </$.CustomBtn>
-            ))}
-          </$.CustomBtnDiv>
-          <$.SearchContainer>
-            {placesAndSpotsByKeyword &&
-              placesAndSpotsByKeyword.places &&
-              placesAndSpotsByKeyword.places
-                .slice(0, 10)
-                .map(
-                  ({
-                    id,
-                    place_name,
-                    address_name,
-                    category_group_name,
-                    x,
-                    y,
-                  }) => (
-                    <$.searchedSpots
-                      key={id}
-                      onClick={(e) => handleClickSpots(e, x, y)}
-                    >
-                      <$.SpotImg></$.SpotImg>
-                      <$.SpotsInfo>
-                        <$.SpotsNameAndCategory>
-                          <$.SpotsName>{place_name}</$.SpotsName>
-                          <$.SpotsCategory>
-                            {category_group_name}
-                          </$.SpotsCategory>
-                        </$.SpotsNameAndCategory>
-                        <$.SpotsAddress>{address_name}</$.SpotsAddress>
-                      </$.SpotsInfo>
-                    </$.searchedSpots>
-                  )
+      {isEnter && searchKeyword && (
+        <>
+          <$.EnterDiv onClick={(e) => setIsClicked(false)}>
+            <$.CustomBtnDiv>
+              {buttons.map(({ key, label }) => (
+                <$.CustomBtn
+                  key={key}
+                  spot-selected={key == selectedSpot}
+                  onClick={(e) => handleClickSpotBtn(e, key)}
+                >
+                  {label}
+                </$.CustomBtn>
+              ))}
+            </$.CustomBtnDiv>
+            <$.SearchContainer>
+              {placesAndSpotsByKeyword &&
+                placesAndSpotsByKeyword.places &&
+                placesAndSpotsByKeyword.places
+                  .slice(0, 10)
+                  .map(
+                    ({
+                      id,
+                      place_name,
+                      address_name,
+                      category_group_name,
+                      x,
+                      y,
+                    }) => (
+                      <$.searchedSpots
+                        key={id}
+                        onClick={(e) => handleClickSpots(e, x, y)}
+                      >
+                        <$.SpotImg></$.SpotImg>
+                        <$.SpotsInfo>
+                          <$.SpotsNameAndCategory>
+                            <$.SpotsName>{place_name}</$.SpotsName>
+                            <$.SpotsCategory>
+                              {category_group_name}
+                            </$.SpotsCategory>
+                          </$.SpotsNameAndCategory>
+                          <$.SpotsAddress>{address_name}</$.SpotsAddress>
+                        </$.SpotsInfo>
+                      </$.searchedSpots>
+                    )
+                  )}
+              {placesAndSpotsByKeyword &&
+                placesAndSpotsByKeyword.spots &&
+                placesAndSpotsByKeyword.spots
+                  .slice(0, 0)
+                  .map(
+                    ({
+                      id,
+                      place_name,
+                      address_name,
+                      category_group_name,
+                      x,
+                      y,
+                    }) => (
+                      <$.searchedSpots
+                        key={id}
+                        onClick={(e) => handleClickSpots(e, x, y)}
+                      >
+                        <$.SpotImg></$.SpotImg>
+                        <$.SpotsInfo>
+                          <$.SpotsNameAndCategory>
+                            <$.SpotsName>{place_name}</$.SpotsName>
+                            <$.SpotsCategory>
+                              {category_group_name}
+                            </$.SpotsCategory>
+                          </$.SpotsNameAndCategory>
+                          <$.SpotsAddress>{address_name}</$.SpotsAddress>
+                        </$.SpotsInfo>
+                      </$.searchedSpots>
+                    )
+                  )}
+              {placesAndSpotsByKeyword &&
+                placesAndSpotsByKeyword.places.length == 0 &&
+                placesAndSpotsByKeyword.spots.length == 0 && (
+                  <$.NoSpotsContainer>
+                    <$.NoSpots key={keyword}>
+                      {keyword} 검색 결과가 없어요.
+                    </$.NoSpots>
+                    <$.SearchAgain>
+                      검색어 철자가 정확한지 다시 한번 확인해주세요.
+                    </$.SearchAgain>
+                  </$.NoSpotsContainer>
                 )}
-            {placesAndSpotsByKeyword &&
-              placesAndSpotsByKeyword.spots &&
-              placesAndSpotsByKeyword.spots
-                .slice(0, 0)
-                .map(
-                  ({
-                    id,
-                    place_name,
-                    address_name,
-                    category_group_name,
-                    x,
-                    y,
-                  }) => (
-                    <$.searchedSpots
-                      key={id}
-                      onClick={(e) => handleClickSpots(e, x, y)}
-                    >
-                      <$.SpotImg></$.SpotImg>
-                      <$.SpotsInfo>
-                        <$.SpotsNameAndCategory>
-                          <$.SpotsName>{place_name}</$.SpotsName>
-                          <$.SpotsCategory>
-                            {category_group_name}
-                          </$.SpotsCategory>
-                        </$.SpotsNameAndCategory>
-                        <$.SpotsAddress>{address_name}</$.SpotsAddress>
-                      </$.SpotsInfo>
-                    </$.searchedSpots>
-                  )
-                )}
-            {placesAndSpotsByKeyword &&
-              placesAndSpotsByKeyword.places.length == 0 &&
-              placesAndSpotsByKeyword.spots.length == 0 && (
-                <$.NoSpotsContainer>
-                  <$.NoSpots key={keyword}>
-                    {keyword} 검색 결과가 없어요.
-                  </$.NoSpots>
-                  <$.SearchAgain>
-                    검색어 철자가 정확한지 다시 한번 확인해주세요.
-                  </$.SearchAgain>
-                </$.NoSpotsContainer>
-              )}
-          </$.SearchContainer>
-        </$.EnterDiv>
+            </$.SearchContainer>
+          </$.EnterDiv>
+          <$.CloseBtn onClick={(e) => setIsEnter(false)}>
+            <$.CloseIcon></$.CloseIcon>
+          </$.CloseBtn>
+        </>
       )}
     </>
   );
