@@ -9,8 +9,13 @@ import {
 } from '~/lib/apollo/vars/home';
 
 const PLACES_AND_SPOTS_BY_KEYWORDID = gql`
-  query placesAndSpotsByKeyword($query: String!, $keyword: String!) {
-    places(filters: { query: $query }) {
+  query placesAndSpotsByKeyword(
+    $query: String!
+    $keyword: String!
+    $X: Float
+    $Y: Float
+  ) {
+    places(filters: { query: $query, x: $X, y: $Y }) {
       id
       place_name
       category_name
@@ -20,7 +25,7 @@ const PLACES_AND_SPOTS_BY_KEYWORDID = gql`
       x
       y
     }
-    spots(searchSpotDto: { keyword: $keyword }) {
+    spots(searchSpotDto: { keyword: $keyword, x: $X, y: $Y }) {
       _id
       place_name
       category_name
@@ -32,29 +37,6 @@ const PLACES_AND_SPOTS_BY_KEYWORDID = gql`
     }
   }
 `;
-
-// const List = ({ searchKeyword, query }) => {
-//   const { loading, error, data: enterPlacesAndSpots } = useQuery(
-//     PLACES_AND_SPOTS_BY_KEYWORDID,
-//     {
-//       variables: { query, keyword: searchKeyword },
-//       onError(error) {
-//         console.log('error', error);
-//       },
-//     }
-//   );
-
-//   console.log('data', enterPlacesAndSpots);
-//   console.log('type', typeof enterPlacesAndSpots);
-//   if (enterPlacesAndSpots && enterPlacesAndSpots.getPlacesByKeyword) {
-//     console.log('제발', enterPlacesAndSpots.getPlacesByKeyword);
-//   }
-//   if (enterPlacesAndSpots && enterPlacesAndSpots.getSpotsByKeyword) {
-//     console.log('제발22', enterPlacesAndSpots.getSpotsByKeyword);
-//   }
-
-//   return <></>;
-// };
 
 const buttons = [
   { key: 'recommend', label: '추천 스팟' },
@@ -69,10 +51,16 @@ const SearchPlace: React.FC = () => {
   const [isEnter, setIsEnter] = useState(false);
   const [selectedSpot, setSelectedSpot] = useState('recommend');
   const [searchKeyword, setSearchKeyword] = useState('');
+  const myPosition = useCurrentPosition();
+  console.log(myPosition, '내 위치');
+  const X = myPosition.lngX;
+  const Y = myPosition.latY;
+  console.log(X, 'x');
+  console.log(Y, 'y');
   const [loadData, { loading, data: placesAndSpotsByKeyword }] = useLazyQuery(
     PLACES_AND_SPOTS_BY_KEYWORDID,
     {
-      variables: { query, keyword },
+      variables: { query, keyword, X, Y },
       onError(error) {
         console.log('error', error);
       },
@@ -108,10 +96,12 @@ const SearchPlace: React.FC = () => {
   const handleClickSpots = (e: React.MouseEvent, x: number, y: number) => {
     e.preventDefault();
     console.log(y, x);
-    const currentPosition = { latY: y, lngX: x };
-    useCurrentPosition(currentPosition);
-    const position = useCurrentPosition();
-    console.log(position); //위치 상태 변경 확인
+    myPosition.latY = y;
+    myPosition.lngX = x;
+    // useCurrentPosition({ latY: y, lngX: x });
+    console.log(myPosition, '변경된 위치');
+    // const selectedPosition = useCurrentPosition();
+    // console.log(selectedPosition, '변경된 위치'); //위치 상태 변경 확인
     //TODO: 지도 이동
   };
 
@@ -172,15 +162,18 @@ const SearchPlace: React.FC = () => {
         <>
           <$.EnterDiv onClick={(e) => setIsClicked(false)}>
             <$.CustomBtnDiv>
-              {buttons.map(({ key, label }) => (
-                <$.CustomBtn
-                  key={key}
-                  spot-selected={key == selectedSpot}
-                  onClick={(e) => handleClickSpotBtn(e, key)}
-                >
-                  {label}
-                </$.CustomBtn>
-              ))}
+              {buttons.map(({ key, label }) => {
+                console.log(key == selectedSpot, key);
+                return (
+                  <$.CustomBtn
+                    key={key}
+                    spot-selected={key === selectedSpot}
+                    onClick={(e) => handleClickSpotBtn(e, key)}
+                  >
+                    {label}
+                  </$.CustomBtn>
+                );
+              })}
             </$.CustomBtnDiv>
             <$.SearchContainer>
               {placesAndSpotsByKeyword &&
