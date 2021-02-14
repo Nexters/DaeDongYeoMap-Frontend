@@ -56,7 +56,7 @@ export const PlacesAndSpots = styled.ul`
 `;
 
 export const SearchGrayImg = styled.img.attrs({
-  src: '/search3.png',
+  src: '/search_gray.png',
 })``;
 
 export const SpotsName = styled.div`
@@ -96,8 +96,8 @@ export const AddressDiv = styled.div`
   font-family: ${painter.font.roboto};
 `;
 
-export const SearchImg = styled.img.attrs({
-  src: '/search4.png',
+export const SearchIcon = styled.img.attrs({
+  src: '/search_pink.png',
 })`
   margin: 8px 7px 0 8px;
 `;
@@ -119,7 +119,7 @@ export const SpotButton = styled.button`
 `;
 
 export const SpotButtonImg = styled.img.attrs({
-  src: '/createSpot.png',
+  src: '/spot_add.png',
 })``;
 
 export const EnterDiv = styled.div`
