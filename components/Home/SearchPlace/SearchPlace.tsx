@@ -56,11 +56,17 @@ const PLACES_AND_SPOTS_BY_KEYWORDID = gql`
 //   return <></>;
 // };
 
+const buttons = [
+  { key: 'recommend', label: '추천 스팟' },
+  { key: 'custom', label: '커스텀 스팟' },
+];
+
 const SearchPlace: React.FC = () => {
   const isCustomSpotSetting = useReactiveVar(useIsCustomSpotSetting);
   const [keyword, setKeyword] = useState('');
   const query = keyword;
   const [isClicked, setIsClicked] = useState(false);
+  const [selectedSpot, setSelectedSpot] = useState('recommend');
   const [searchKeyword, setSearchKeyword] = useState('');
   const [loadData, { loading, data: placesAndSpotsByKeyword }] = useLazyQuery(
     PLACES_AND_SPOTS_BY_KEYWORDID,
@@ -113,6 +119,11 @@ const SearchPlace: React.FC = () => {
     useIsCustomSpotSetting(!isCustomSpotSetting);
   };
 
+  const handleClickSpotBtn = (e: React.MouseEvent, key: string) => {
+    e.preventDefault();
+    setSelectedSpot(key);
+  };
+
   return (
     <>
       <$.SearchForm onClick={clickForm} onSubmit={submitValue}>
@@ -158,8 +169,15 @@ const SearchPlace: React.FC = () => {
       {searchKeyword && (
         <$.EnterDiv onClick={(e) => setIsClicked(false)}>
           <$.CustomBtnDiv>
-            <$.CustomBtn>추천 스팟</$.CustomBtn>
-            <$.CustomBtn>커스텀 스팟</$.CustomBtn>
+            {buttons.map(({ key, label }) => (
+              <$.CustomBtn
+                key={key}
+                spot-selected={key == selectedSpot}
+                onClick={(e) => handleClickSpotBtn(e, key)}
+              >
+                {label}
+              </$.CustomBtn>
+            ))}
           </$.CustomBtnDiv>
           <$.SearchContainer>
             {placesAndSpotsByKeyword &&

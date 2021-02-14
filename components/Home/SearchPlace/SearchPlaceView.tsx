@@ -156,14 +156,20 @@ export const CustomBtn = styled.button`
   border: none;
   border-radius: 7px;
   transition: 0.2s;
-  background-color: #fff;
-  color: ${painter.grayscale['6']};
   cursor: pointer;
   align-text: center;
   padding: 6px 8px;
+  background-color: #fff;
+  color: ${painter.grayscale['6']};
+  ${(props) =>
+    props['spot-selected'] &&
+    `
+  color: ${painter.basic.white};
+  background-color: ${painter.grayscale['8']};
+  `}
   &:hover {
     background-color: ${painter.grayscale['8']};
-    color: white;
+    color: ${painter.basic.white};
   }
 `;
 
