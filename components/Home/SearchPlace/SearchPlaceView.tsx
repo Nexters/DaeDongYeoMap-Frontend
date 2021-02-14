@@ -187,12 +187,13 @@ export const CustomBtn = styled.button`
   padding: 6px 8px;
   background-color: #fff;
   color: ${painter.grayscale['6']};
+
   ${(props) =>
     props['spot-selected'] &&
     `
-  color: ${painter.basic.white};
-  background-color: ${painter.grayscale['8']};
-  `}
+    color:  ${painter.basic.white(props)};
+    background-color: ${painter.grayscale['8'](props)};
+    `}
   &:hover {
     background-color: ${painter.grayscale['8']};
     color: ${painter.basic.white};
