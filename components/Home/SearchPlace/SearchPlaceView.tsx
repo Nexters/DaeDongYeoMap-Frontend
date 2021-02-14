@@ -143,6 +143,23 @@ export const EnterDiv = styled.div`
   margin-left: 65px;
 `;
 
+export const CloseBtn = styled.button`
+  z-index: 5;
+  position: absolute;
+  top: 300px;
+  left: 500px;
+  background-color: #fff;
+  outline: none;
+  border: none;
+  border-radius: 0 8px 8px 0;
+  width: 32px;
+  height: 88px;
+  cursor: pointer;
+`;
+export const CloseIcon = styled.img.attrs({
+  src: '/close_div.png',
+})``;
+
 export const SearchContainer = styled.div`
   position: absolute;
   top: 110px;
