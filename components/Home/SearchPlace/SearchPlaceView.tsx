@@ -15,15 +15,15 @@ export const SearchForm = styled.form`
   z-index: 5;
   position: absolute;
   width: 400px;
-  height: 48px;
+  height: 45px;
   left: 96px;
-  top: 32px;
+  top: 20px;
   display: flex;
-  border: none;
+  border: none
   border-radius: 8px 8px 0 0;
   outline: none;
   background-color: ${painter.basic.white};
-  ::focus {
+  &::focus {
     border: 2px solid ${painter.primary.basic};
   }
 `;
@@ -110,9 +110,9 @@ export const SpotButton = styled.button`
   cursor: pointer;
   position: absolute;
   width: 176px;
-  height: 48px;
+  height: 45px;
   left: 512px;
-  top: 32px;
+  top: 20px;
   z-index: 5;
   color: white;
   align-text: center;
@@ -127,7 +127,7 @@ export const EnterDiv = styled.div`
   z-index: 4;
   position: absolute;
   width: 440px;
-  height: 1024px;
+  height: 720px;
   left: 0px;
   top: 0px;
   padding: 70px 24px 15px 25px;
@@ -136,7 +136,7 @@ export const EnterDiv = styled.div`
 
 export const SearchContainer = styled.div`
   position: absolute;
-  top: 166px;
+  top: 110px;
   left: 0px;
   width: 100%;
 `;
@@ -145,21 +145,22 @@ export const CustomBtnDiv = styled.div`
   display: flex;
   justify-content: center;
   position: absolute;
-  top: 95px;
+  top: 75px;
   left: 120px;
 `;
 
 export const CustomBtn = styled.button`
   display: inline-block;
+  margin-right: 15px;
   outline: none;
   border: none;
-  border-radius: 8px;
+  border-radius: 7px;
   transition: 0.2s;
   background-color: #fff;
   color: ${painter.grayscale['6']};
   cursor: pointer;
   align-text: center;
-  padding: 9px 8px;
+  padding: 6px 8px;
   &:hover {
     background-color: ${painter.grayscale['8']};
     color: white;

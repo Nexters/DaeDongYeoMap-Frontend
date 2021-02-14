@@ -164,51 +164,64 @@ const SearchPlace: React.FC = () => {
           <$.SearchContainer>
             {placesAndSpotsByKeyword &&
               placesAndSpotsByKeyword.places &&
-              placesAndSpotsByKeyword.places.map(
-                ({
-                  id,
-                  place_name,
-                  address_name,
-                  category_group_name,
-                  x,
-                  y,
-                }) => (
-                  <$.searchedSpots
-                    key={id}
-                    onClick={(e) => handleClickSpots(e, x, y)}
-                  >
-                    <$.SpotImg></$.SpotImg>
-                    <$.SpotsInfo>
-                      <$.SpotsNameAndCategory>
-                        <$.SpotsName>{place_name}</$.SpotsName>
-                        <$.SpotsCategory>{category_group_name}</$.SpotsCategory>
-                      </$.SpotsNameAndCategory>
-                      <$.SpotsAddress>{address_name}</$.SpotsAddress>
-                    </$.SpotsInfo>
-                  </$.searchedSpots>
-                )
-              )}
+              placesAndSpotsByKeyword.places
+                .slice(0, 10)
+                .map(
+                  ({
+                    id,
+                    place_name,
+                    address_name,
+                    category_group_name,
+                    x,
+                    y,
+                  }) => (
+                    <$.searchedSpots
+                      key={id}
+                      onClick={(e) => handleClickSpots(e, x, y)}
+                    >
+                      <$.SpotImg></$.SpotImg>
+                      <$.SpotsInfo>
+                        <$.SpotsNameAndCategory>
+                          <$.SpotsName>{place_name}</$.SpotsName>
+                          <$.SpotsCategory>
+                            {category_group_name}
+                          </$.SpotsCategory>
+                        </$.SpotsNameAndCategory>
+                        <$.SpotsAddress>{address_name}</$.SpotsAddress>
+                      </$.SpotsInfo>
+                    </$.searchedSpots>
+                  )
+                )}
             {placesAndSpotsByKeyword &&
               placesAndSpotsByKeyword.places &&
-              placesAndSpotsByKeyword.spots.map(
-                ({
-                  id,
-                  place_name,
-                  address_name,
-                  category_group_name,
-                  x,
-                  y,
-                }) => (
-                  <$.searchedSpots
-                    key={id}
-                    onClick={(e) => handleClickSpots(e, x, y)}
-                  >
-                    <$.SpotImg></$.SpotImg>
-                    <$.SpotsName>{place_name}</$.SpotsName>
-                    <$.SpotsCategory>{category_group_name}</$.SpotsCategory>
-                  </$.searchedSpots>
-                )
-              )}
+              placesAndSpotsByKeyword.spots
+                .slice(0, 0)
+                .map(
+                  ({
+                    id,
+                    place_name,
+                    address_name,
+                    category_group_name,
+                    x,
+                    y,
+                  }) => (
+                    <$.searchedSpots
+                      key={id}
+                      onClick={(e) => handleClickSpots(e, x, y)}
+                    >
+                      <$.SpotImg></$.SpotImg>
+                      <$.SpotsInfo>
+                        <$.SpotsNameAndCategory>
+                          <$.SpotsName>{place_name}</$.SpotsName>
+                          <$.SpotsCategory>
+                            {category_group_name}
+                          </$.SpotsCategory>
+                        </$.SpotsNameAndCategory>
+                        <$.SpotsAddress>{address_name}</$.SpotsAddress>
+                      </$.SpotsInfo>
+                    </$.searchedSpots>
+                  )
+                )}
           </$.SearchContainer>
         </$.EnterDiv>
       )}
