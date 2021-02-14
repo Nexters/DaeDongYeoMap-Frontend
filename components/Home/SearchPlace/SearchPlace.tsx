@@ -116,7 +116,7 @@ const SearchPlace: React.FC = () => {
   return (
     <>
       <$.SearchForm onClick={clickForm} onSubmit={submitValue}>
-        <$.SearchImg />
+        <$.SearchIcon />
         <$.InputField
           type="text"
           name="searchValue"
