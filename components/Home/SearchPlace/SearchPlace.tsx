@@ -94,7 +94,6 @@ const SearchPlace: React.FC = () => {
   const submitValue = (e: any) => {
     e.preventDefault();
     loadData();
-    console.log(placesAndSpotsByKeyword);
     setSearchKeyword(keyword);
     setIsClicked(false);
     // setKeyword('');
@@ -212,7 +211,7 @@ const SearchPlace: React.FC = () => {
                   )
                 )}
             {placesAndSpotsByKeyword &&
-              placesAndSpotsByKeyword.places &&
+              placesAndSpotsByKeyword.spots &&
               placesAndSpotsByKeyword.spots
                 .slice(0, 0)
                 .map(
@@ -241,6 +240,18 @@ const SearchPlace: React.FC = () => {
                     </$.searchedSpots>
                   )
                 )}
+            {placesAndSpotsByKeyword &&
+              placesAndSpotsByKeyword.places.length == 0 &&
+              placesAndSpotsByKeyword.spots.length == 0 && (
+                <$.NoSpotsContainer>
+                  <$.NoSpots key={keyword}>
+                    {keyword} 검색 결과가 없어요.
+                  </$.NoSpots>
+                  <$.SearchAgain>
+                    검색어 철자가 정확한지 다시 한번 확인해주세요.
+                  </$.SearchAgain>
+                </$.NoSpotsContainer>
+              )}
           </$.SearchContainer>
         </$.EnterDiv>
       )}

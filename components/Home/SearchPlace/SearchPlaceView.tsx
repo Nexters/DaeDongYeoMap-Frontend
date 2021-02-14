@@ -49,7 +49,7 @@ export const PlacesAndSpots = styled.ul`
   background-color: ${painter.basic.white};
   position: absolute;
   width: 400px;
-  height: 518px;
+  height: 515px;
   left: 96px;
   top: 80px;
   padding-bottom: 10px;
@@ -135,9 +135,9 @@ export const EnterDiv = styled.div`
   background-color: #fff;
   z-index: 4;
   position: absolute;
-  width: 440px;
-  height: 720px;
-  left: 0px;
+  width: 430px;
+  height: 722px;
+  left: 7px;
   top: 0px;
   padding: 70px 24px 15px 25px;
   margin-left: 65px;
@@ -221,4 +221,28 @@ export const SpotsAddress = styled.div`
   margin-top: 4px;
   font-size: 13px;
   font-family: ${painter.font.roboto};
+`;
+
+export const NoSpotsContainer = styled.div`
+  padding: 0 40px 0 40px;
+  margin-top: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const NoSpots = styled.div`
+  font-size: 15px;
+  font-family: ${painter.font.roboto};
+  font-weight: bold;
+  color: ${painter.grayscale['9']};
+`;
+
+export const SearchAgain = styled.div`
+  margin-top: 5px;
+  font-size: 13px;
+  font-family: ${painter.font.roboto};
+  font-weight: bold;
+  color: ${painter.grayscale['7']};
 `;
