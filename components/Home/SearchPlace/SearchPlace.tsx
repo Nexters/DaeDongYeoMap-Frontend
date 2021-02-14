@@ -139,7 +139,8 @@ const SearchPlace: React.FC = () => {
         />
       </$.SearchForm>
       <$.SpotButton onClick={handleCustomSpotSetting}>
-        <$.SpotButtonImg /> 스팟 추가하기
+        <$.SpotButtonImg />
+        <$.SpotButtonDiv>스팟 추가하기</$.SpotButtonDiv>
       </$.SpotButton>
       {isClicked && placesAndSpotsByKeyword && (
         <$.PlacesAndSpots>
