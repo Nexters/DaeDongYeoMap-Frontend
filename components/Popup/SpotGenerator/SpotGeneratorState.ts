@@ -3,6 +3,7 @@ import sugar from '~/constants/sugar';
 import storage from '~/storage';
 import createReactiveVarHooks from '~/util/createReactiveVarHooks';
 import IdGenerator from '~/util/IdGenerator';
+import { v1 as uuidv1 } from 'uuid';
 import type { Sugar } from '~/constants/sugar';
 
 type FormSugarState = Sugar;
@@ -92,14 +93,17 @@ export const useCreateSticker = (): CreateSticker => {
   ) => {
     const sticker_category = `${formStickerState()}`;
     const partner = formPartnerState() || '';
-
-    storage.addSpot({
-      id: spotIdGenerator.get(),
+    const spot = {
+      id: uuidv1(),
       stickerId: sticker_category,
       title: place.name,
       partner,
       timestamp: Math.floor(Date.now() / 1000),
-    });
+    };
+
+    console.log(spot);
+
+    storage.addSpot(spot);
 
     // TODO: 추후 지도 상태와 연동
     // request({

@@ -45,9 +45,9 @@ const AreaForm: React.FC<Props> = ({ place }) => {
 
   const handleClickSubmit = (e: React.MouseEvent): void => {
     e.preventDefault();
+    createSticker(place);
     closePopup();
     resetForm();
-    createSticker(place);
   };
 
   return (
