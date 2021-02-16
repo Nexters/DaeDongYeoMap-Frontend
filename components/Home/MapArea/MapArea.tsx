@@ -165,8 +165,8 @@ const MapArea: React.FC = () => {
             position: emojiObj.pos,
             image: markerImg,
           });
-          // 커스텀 오버레이
-          const content = `<div class="custom-overlay"><a href="https://map.kakao.com/link/map/11394059" target="_blank"><span class="title">${spot.place_name}</span></a></div>`;
+          // TODO - click 시 함수는 어디에 위치시켜야 하는가?
+          const content = `<div class="custom-overlay"><a href="#" target="_blank"><span class="title">${spot.place_name}</span></a></div>`;
           const customOverlay = new (window as any).kakao.maps.CustomOverlay({
             map: map,
             position: emojiObj.pos,
