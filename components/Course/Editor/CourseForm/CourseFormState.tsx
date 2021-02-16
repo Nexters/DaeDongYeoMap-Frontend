@@ -2,6 +2,7 @@ import { makeVar } from '@apollo/client';
 import createReactiveVarHooks from '~/util/createReactiveVarHooks';
 import type { SpotView } from '../EditorState';
 import { useEndSpotsRemover } from '../CandidateSpots/CandidateSpotsState';
+import { useSpotFormResetter } from './SpotForm/SpotFormState';
 
 const formTitle = makeVar<string>('');
 const formSpots = makeVar<SpotView[]>([]);
@@ -20,8 +21,10 @@ export const [
 
 export const useFormSubmitter = (): (() => void) => {
   const removeEndSpots = useEndSpotsRemover();
+  const resetSpotForm = useSpotFormResetter();
 
   return () => {
     removeEndSpots();
+    resetSpotForm();
   };
 };
