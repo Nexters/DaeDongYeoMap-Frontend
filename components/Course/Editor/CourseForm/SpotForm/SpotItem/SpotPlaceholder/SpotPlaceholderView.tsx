@@ -1,12 +1,15 @@
 import styled from 'styled-components';
 import painter from '~/styles/theme/painter';
 
-export const SpotPlaceholder = styled.div`
+export const SpotPlaceholder = styled.div<{
+  isPressed: boolean;
+}>`
   display: block;
   width: 100%;
   height: 100%;
   border-radius: 16px;
-  background-color: ${painter.basic.white};
+  background-color: ${(props) =>
+    props.isPressed ? 'rgb(253, 71, 110, 0.06)' : props.theme.basic.white};
 `;
 
 export const AreaSticker = styled.div`

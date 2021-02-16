@@ -109,9 +109,12 @@ export const RealCheckBox = styled.input.attrs({ type: 'checkbox' })`
 
 export const CheckBoxLabel = styled.label`
   display: inline-block;
+  position: relative;
+  z-index: 1;
   line-height: 18px;
   font-size: 16px;
-  padding-left: 4px;
+  margin-left: -18px;
+  padding-left: 22px;
   vertical-align: top;
   color: ${painter.grayscale[9]};
   cursor: pointer;
