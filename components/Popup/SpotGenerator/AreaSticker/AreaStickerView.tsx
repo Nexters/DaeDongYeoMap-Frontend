@@ -5,6 +5,7 @@ export const AreaSticker = styled.div`
   flex-grow: 1;
   flex-shrink: 1;
   overflow-y: auto;
+  padding-top: 10px;
 `;
 
 export const StickerList = styled.ul`
@@ -12,19 +13,17 @@ export const StickerList = styled.ul`
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-  margin-top: 40px;
   padding: 0 13px;
 `;
 
 export const StickerItem = styled.li`
   flex-shrink: 0;
   flex-grow: 0;
-  &:nth-child(n + 5) {
+  &:nth-child(n + 4) {
     margin-top: 32px;
   }
-  &:nth-child(4n + 2),
-  &:nth-child(4n + 3),
-  &:nth-child(4n + 4) {
+  &:nth-child(3n + 2),
+  &:nth-child(3n + 3) {
     margin-left: 25px;
   }
   width: 120px;
