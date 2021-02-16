@@ -2,7 +2,6 @@ import { makeVar, gql } from '@apollo/client';
 import sugar from '~/constants/sugar';
 import storage from '~/storage';
 import createReactiveVarHooks from '~/util/createReactiveVarHooks';
-import IdGenerator from '~/util/IdGenerator';
 import { v1 as uuidv1 } from 'uuid';
 import type { Sugar } from '~/constants/sugar';
 
@@ -11,10 +10,6 @@ type FormStickerState = string;
 type FormPartnerState = string;
 type FormDateState = [number, number, number];
 type FormResetter = () => void;
-
-const spotIdGenerator = IdGenerator.create(
-  (index: number) => `dedong_spot_${index}`
-);
 
 const formSugarState = makeVar<FormSugarState>('sugar100');
 const formStickerState = makeVar<FormStickerState>(
