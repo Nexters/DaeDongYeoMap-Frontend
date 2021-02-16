@@ -6,8 +6,6 @@ import Wrap from '~/components/_layout/Wrap';
 import Main from '~/components/_layout/Main';
 import { addApolloState, initializeApollo } from '../lib/apollo/client';
 import type { GetStaticProps } from 'next';
-import { useIsCustomSpotSetting } from '~/lib/apollo/vars/home';
-import { useReactiveVar } from '@apollo/client';
 
 export const getStaticProps: GetStaticProps = async () => {
   const apolloClient = initializeApollo();

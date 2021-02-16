@@ -21,6 +21,12 @@ declare global {
 const FETCH_ALL_SPOTS = gql`
   {
     spots {
+      _id
+      place_id
+      stickers(populate: true) {
+        _id
+        is_used
+      }
       place_name
       category_name
       category_group_code
@@ -159,9 +165,21 @@ const MapArea: React.FC = () => {
             position: emojiObj.pos,
             image: markerImg,
           });
-          return marker;
+          // TODO - click 시 함수는 어디에 위치시켜야 하는가?
+          const content = `<div class="custom-overlay"><a href="#" target="_blank"><span class="title">${spot.place_name}</span></a></div>`;
+          const customOverlay = new (window as any).kakao.maps.CustomOverlay({
+            map: map,
+            position: emojiObj.pos,
+            content: content,
+            yAnchor: 1,
+          });
+
+          return { marker, customOverlay };
         })
-        .forEach((spot) => spot.setMap(map));
+        .forEach(({ marker, customOverlay }) => {
+          marker.setMap(map);
+          customOverlay.setMap(map);
+        });
 
       circle.setMap(map);
       circle2.setMap(map);
