@@ -90,7 +90,7 @@ export const useCreateSticker = (): CreateSticker => {
       y,
     }
   ) => {
-    const sticker_category = `${formSugarState()}_${formStickerState()}`;
+    const sticker_category = `${formStickerState()}`;
     const partner = formPartnerState() || '';
 
     storage.addSpot({
