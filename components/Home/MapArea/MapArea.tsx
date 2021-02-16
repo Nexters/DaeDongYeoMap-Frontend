@@ -25,7 +25,6 @@ const FETCH_ALL_SPOTS = gql`
       place_id
       stickers(populate: true) {
         _id
-        sticker_category
         is_used
       }
       place_name
@@ -166,9 +165,21 @@ const MapArea: React.FC = () => {
             position: emojiObj.pos,
             image: markerImg,
           });
-          return marker;
+          // 커스텀 오버레이
+          const content = `<div class="custom-overlay"><a href="https://map.kakao.com/link/map/11394059" target="_blank"><span class="title">${spot.place_name}</span></a></div>`;
+          const customOverlay = new (window as any).kakao.maps.CustomOverlay({
+            map: map,
+            position: emojiObj.pos,
+            content: content,
+            yAnchor: 1,
+          });
+
+          return { marker, customOverlay };
         })
-        .forEach((spot) => spot.setMap(map));
+        .forEach(({ marker, customOverlay }) => {
+          marker.setMap(map);
+          customOverlay.setMap(map);
+        });
 
       circle.setMap(map);
       circle2.setMap(map);
