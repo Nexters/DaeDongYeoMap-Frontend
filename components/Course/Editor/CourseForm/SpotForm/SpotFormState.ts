@@ -131,3 +131,11 @@ export const useSpotFormHook = (): SpotFormHook => {
     spotTable,
   };
 };
+
+export const useSpotFormResetter = (): (() => void) => {
+  const setSpotItems = useSpotItemsSetter();
+
+  return () => {
+    setSpotItems([createPlacholderData()]);
+  };
+};

@@ -23,12 +23,12 @@ const TextForm: React.FC = () => {
         <$.AreaFieldBox>
           <$.FieldBox>
             <$.FieldSet>
-              <$.Label>제목</$.Label>
+              <$.Label>코스 이름</$.Label>
               <$.InputBox>
                 <$.Input
                   value={formTitle}
                   onChange={(e) => setFormTitle(e.target.value)}
-                  placeholder="코스 제목을 입력해주세요"
+                  placeholder="코스 이름을 입력해주세요"
                 />
               </$.InputBox>
             </$.FieldSet>
