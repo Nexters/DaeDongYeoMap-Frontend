@@ -1,9 +1,12 @@
 import styled from 'styled-components';
 import painter from '~/styles/theme/painter';
 
-export const SpotCard = styled.div`
+export const SpotCard = styled.div<{
+  isPressed: boolean;
+}>`
   border-radius: 16px;
-  background-color: #fff;
+  background-color: ${(props) =>
+    props.isPressed ? 'rgb(253, 71, 110, 0.06)' : props.theme.basic.white};
 `;
 
 export const AreaSticker = styled.div`

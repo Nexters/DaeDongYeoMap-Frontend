@@ -5,6 +5,12 @@ export const CandidateSpots = styled.div`
   height: 100%;
   padding-top: 80px;
   overflow-y: auto;
+  user-drag: none;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
 `;
 
 export const AreaTitle = styled.h3`
@@ -26,7 +32,5 @@ export const SpotItem = styled.li`
   width: 168px;
   height: 168px;
   margin: 16px;
-  border-radius: 16px;
-  box-shadow: 0 0 8px 1px ${painter.grayscale[3]};
   vertical-align: top;
 `;

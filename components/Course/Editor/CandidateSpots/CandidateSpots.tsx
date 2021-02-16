@@ -1,30 +1,51 @@
-import React from 'react';
-import SpotCard from '~/components/Course/Editor/_common/SpotCard';
+import React, { useEffect, useState } from 'react';
+import SpotCard from './SpotCard';
+import {
+  DraggedStatus,
+  DraggedStatusMap,
+  useDraggedStatus,
+} from './CandidateSpotsState';
 import * as $ from './CandidateSpotsView';
-
-const mockSpots = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(() => ({
-  stickerId: 'sticker0',
-  title: '애버랜드',
-  partner: '남자친구',
-  timestamp: 1609513200,
-}));
+import { SpotView } from '../EditorState';
+import storage from '~/storage';
 
 const CandidateSpots: React.FC = () => {
+  const [candidateSpots, setCandidateSpots] = useState<SpotView[]>([]);
+  const [status, setStatus] = useDraggedStatus();
+
+  useEffect(() => {
+    const storedSpots = storage.getSpots();
+    const initialStatus = storedSpots.reduce(
+      (obj: DraggedStatusMap, spot: SpotView) => {
+        obj[spot.id] = DraggedStatus.Wait;
+        return obj;
+      },
+      {}
+    );
+
+    setCandidateSpots(storedSpots);
+    setStatus(initialStatus);
+  }, []);
+
   return (
     <$.CandidateSpots>
       <$.AreaTitle>스팟 리스트</$.AreaTitle>
       <$.AreaSpots>
         <$.SpotList>
-          {mockSpots.map(({ stickerId, title, partner, timestamp }, i) => (
-            <$.SpotItem key={`candidate-spot-${i}`}>
-              <SpotCard
-                stickerId={stickerId}
-                title={title}
-                partner={partner}
-                timestamp={timestamp}
-              />
-            </$.SpotItem>
-          ))}
+          {candidateSpots.map(
+            ({ id, stickerId, title, partner, timestamp }) => (
+              <$.SpotItem key={`candidate-${id}`}>
+                <SpotCard
+                  status={status[id]}
+                  id={id}
+                  stickerId={stickerId}
+                  title={title}
+                  partner={partner}
+                  timestamp={timestamp}
+                />
+              </$.SpotItem>
+            )
+          )}
         </$.SpotList>
       </$.AreaSpots>
     </$.CandidateSpots>

@@ -6,6 +6,7 @@ import type { Sugar } from '~/constants/sugar';
 export const AreaFilter = styled.div`
   flex-grow: 0;
   flex-shrink: 0;
+  margin-bottom: 30px;
 `;
 
 export const SugarList = styled.ul`

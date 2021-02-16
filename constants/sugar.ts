@@ -73,60 +73,320 @@ const sugar: SugarMap = sugarValueMapper({
   sugar0: {
     stickers: [
       {
-        id: 'sticker0',
-        imageUrl: '/stickers/sticker_dummy.png',
+        id: 'sweets_0_0',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/0_0.png',
       },
       {
-        id: 'sticker1',
-        imageUrl: '/stickers/sticker_dummy.png',
+        id: 'sweets_0_1',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/0_1.png',
+      },
+      {
+        id: 'sweets_0_2',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/0_2.png',
+      },
+      {
+        id: 'sweets_0_3',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/0_3.png',
+      },
+      {
+        id: 'sweets_0_4',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/0_4.png',
+      },
+      {
+        id: 'sweets_0_5',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/0_5.png',
+      },
+      {
+        id: 'sweets_0_6',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/0_6.png',
+      },
+      {
+        id: 'sweets_0_7',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/0_7.png',
+      },
+      {
+        id: 'sweets_0_8',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/0_8.png',
+      },
+      {
+        id: 'sweets_0_9',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/0_9.png',
+      },
+      {
+        id: 'sweets_0_10',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/0_10.png',
+      },
+      {
+        id: 'sweets_0_11',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/0_11.png',
       },
     ],
   },
   sugar30: {
     stickers: [
       {
-        id: 'sticker0',
-        imageUrl: '/stickers/sticker_dummy.png',
+        id: 'sweets_30_0',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/30_0.png',
       },
       {
-        id: 'sticker1',
-        imageUrl: '/stickers/sticker_dummy.png',
+        id: 'sweets_30_1',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/30_1.png',
+      },
+      {
+        id: 'sweets_30_2',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/30_2.png',
+      },
+      {
+        id: 'sweets_30_3',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/30_3.png',
+      },
+      {
+        id: 'sweets_30_4',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/30_4.png',
+      },
+      {
+        id: 'sweets_30_5',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/30_5.png',
+      },
+      {
+        id: 'sweets_30_6',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/30_6.png',
+      },
+      {
+        id: 'sweets_30_7',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/30_7.png',
+      },
+      {
+        id: 'sweets_30_8',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/30_8.png',
+      },
+      {
+        id: 'sweets_30_9',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/30_9.png',
+      },
+      {
+        id: 'sweets_30_10',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/30_10.png',
+      },
+      {
+        id: 'sweets_30_11',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/30_11.png',
       },
     ],
   },
   sugar50: {
     stickers: [
       {
-        id: 'sticker0',
-        imageUrl: '/stickers/sticker_dummy.png',
+        id: 'sweets_50_0',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/50_0.png',
       },
       {
-        id: 'sticker1',
-        imageUrl: '/stickers/sticker_dummy.png',
+        id: 'sweets_50_1',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/50_1.png',
+      },
+      {
+        id: 'sweets_50_2',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/50_2.png',
+      },
+      {
+        id: 'sweets_50_3',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/50_3.png',
+      },
+      {
+        id: 'sweets_50_4',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/50_4.png',
+      },
+      {
+        id: 'sweets_50_5',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/50_5.png',
+      },
+      {
+        id: 'sweets_50_6',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/50_6.png',
+      },
+      {
+        id: 'sweets_50_7',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/50_7.png',
+      },
+      {
+        id: 'sweets_50_8',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/50_8.png',
+      },
+      {
+        id: 'sweets_50_9',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/50_9.png',
+      },
+      {
+        id: 'sweets_50_10',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/50_10.png',
+      },
+      {
+        id: 'sweets_50_11',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/50_11.png',
       },
     ],
   },
   sugar70: {
     stickers: [
       {
-        id: 'sticker0',
-        imageUrl: '/stickers/sticker_dummy.png',
+        id: 'sweets_70_0',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/70_0.png',
       },
       {
-        id: 'sticker1',
-        imageUrl: '/stickers/sticker_dummy.png',
+        id: 'sweets_70_1',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/70_1.png',
+      },
+      {
+        id: 'sweets_70_2',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/70_2.png',
+      },
+      {
+        id: 'sweets_70_3',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/70_3.png',
+      },
+      {
+        id: 'sweets_70_4',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/70_4.png',
+      },
+      {
+        id: 'sweets_70_5',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/70_5.png',
+      },
+      {
+        id: 'sweets_70_6',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/70_6.png',
+      },
+      {
+        id: 'sweets_70_7',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/70_7.png',
+      },
+      {
+        id: 'sweets_70_8',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/70_8.png',
+      },
+      {
+        id: 'sweets_70_9',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/70_9.png',
+      },
+      {
+        id: 'sweets_70_10',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/70_10.png',
+      },
+      {
+        id: 'sweets_70_11',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/70_11.png',
       },
     ],
   },
   sugar100: {
     stickers: [
       {
-        id: 'sticker0',
-        imageUrl: '/stickers/sticker_dummy.png',
+        id: 'sweets_100_0',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/100_0.png',
       },
       {
-        id: 'sticker1',
-        imageUrl: '/stickers/sticker_dummy.png',
+        id: 'sweets_100_1',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/100_1.png',
+      },
+      {
+        id: 'sweets_100_2',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/100_2.png',
+      },
+      {
+        id: 'sweets_100_3',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/100_3.png',
+      },
+      {
+        id: 'sweets_100_4',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/100_4.png',
+      },
+      {
+        id: 'sweets_100_5',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/100_5.png',
+      },
+      {
+        id: 'sweets_100_6',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/100_6.png',
+      },
+      {
+        id: 'sweets_100_7',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/100_7.png',
+      },
+      {
+        id: 'sweets_100_8',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/100_8.png',
+      },
+      {
+        id: 'sweets_100_9',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/100_9.png',
+      },
+      {
+        id: 'sweets_100_10',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/100_10.png',
+      },
+      {
+        id: 'sweets_100_11',
+        imageUrl:
+          'https://storage.googleapis.com/sticker_images/sweets/100_11.png',
       },
     ],
   },
