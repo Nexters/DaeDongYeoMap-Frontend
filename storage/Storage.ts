@@ -33,8 +33,9 @@ class Storage {
       return item.id === spotId;
     });
 
-    if (spotIndex === -1) {
+    if (spotIndex !== -1) {
       spots.splice(spotIndex, 1);
+      console.log(spots);
       localStorage.setItem(SPOTS_KEY, JSON.stringify(spots));
     }
 

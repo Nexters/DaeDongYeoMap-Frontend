@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import SpotCard from './SpotCard';
 import {
   DraggedStatus,
   DraggedStatusMap,
+  useCandidateSpotsState,
   useDraggedStatus,
 } from './CandidateSpotsState';
 import * as $ from './CandidateSpotsView';
@@ -10,12 +11,17 @@ import { SpotView } from '../EditorState';
 import storage from '~/storage';
 
 const CandidateSpots: React.FC = () => {
-  const [candidateSpots, setCandidateSpots] = useState<SpotView[]>([]);
+  const [candidateSpots, setCandidateSpots] = useCandidateSpotsState();
   const [status, setStatus] = useDraggedStatus();
 
   useEffect(() => {
-    const storedSpots = storage.getSpots();
-    const initialStatus = storedSpots.reduce(
+    const spots = storage.getSpots();
+
+    setCandidateSpots(spots);
+  }, []);
+
+  useEffect(() => {
+    const initialStatus = candidateSpots.reduce(
       (obj: DraggedStatusMap, spot: SpotView) => {
         obj[spot.id] = DraggedStatus.Wait;
         return obj;
@@ -23,9 +29,8 @@ const CandidateSpots: React.FC = () => {
       {}
     );
 
-    setCandidateSpots(storedSpots);
     setStatus(initialStatus);
-  }, []);
+  }, [candidateSpots]);
 
   return (
     <$.CandidateSpots>
