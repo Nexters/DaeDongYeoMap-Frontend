@@ -1,4 +1,4 @@
-import { makeVar, gql, useMutation } from '@apollo/client';
+import { makeVar, gql } from '@apollo/client';
 import sugar from '~/constants/sugar';
 import storage from '~/storage';
 import createReactiveVarHooks from '~/util/createReactiveVarHooks';

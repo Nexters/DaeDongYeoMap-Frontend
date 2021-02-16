@@ -14,7 +14,9 @@ const SpotForm: React.FC = () => {
             {
               row.map((item, j) => (
                 <SpotItem
-                  key={item?.data?.id || `col-${i}-${j}`}
+                  key={
+                    item?.data?.id ? `item-${item.data.id}` : `col-${i}-${j}`
+                  }
                   item={item}
                   rowIndex={i}
                   columnIndex={j}
