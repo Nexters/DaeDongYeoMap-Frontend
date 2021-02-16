@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import SpotCard from './SpotCard';
 import {
   DraggedStatus,
@@ -7,20 +7,15 @@ import {
 } from './CandidateSpotsState';
 import * as $ from './CandidateSpotsView';
 import { SpotView } from '../EditorState';
-
-const mockSpots = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((key) => ({
-  id: `candidate-spot-${key}`,
-  stickerId: 'sticker0',
-  title: '애버랜드',
-  partner: '남자친구',
-  timestamp: 1609513200,
-}));
+import storage from '~/storage';
 
 const CandidateSpots: React.FC = () => {
+  const [candidateSpots, setCandidateSpots] = useState<SpotView[]>([]);
   const [status, setStatus] = useDraggedStatus();
 
   useEffect(() => {
-    const initialStatus = mockSpots.reduce(
+    const storedSpots = storage.getSpots();
+    const initialStatus = storedSpots.reduce(
       (obj: DraggedStatusMap, spot: SpotView) => {
         obj[spot.id] = DraggedStatus.Wait;
         return obj;
@@ -28,6 +23,7 @@ const CandidateSpots: React.FC = () => {
       {}
     );
 
+    setCandidateSpots(storedSpots);
     setStatus(initialStatus);
   }, []);
 
@@ -36,18 +32,20 @@ const CandidateSpots: React.FC = () => {
       <$.AreaTitle>스팟 리스트</$.AreaTitle>
       <$.AreaSpots>
         <$.SpotList>
-          {mockSpots.map(({ id, stickerId, title, partner, timestamp }, i) => (
-            <$.SpotItem key={`candidate-spot-${i}`}>
-              <SpotCard
-                status={status[id]}
-                id={id}
-                stickerId={stickerId}
-                title={title}
-                partner={partner}
-                timestamp={timestamp}
-              />
-            </$.SpotItem>
-          ))}
+          {candidateSpots.map(
+            ({ id, stickerId, title, partner, timestamp }) => (
+              <$.SpotItem key={`candidate-${id}`}>
+                <SpotCard
+                  status={status[id]}
+                  id={id}
+                  stickerId={stickerId}
+                  title={title}
+                  partner={partner}
+                  timestamp={timestamp}
+                />
+              </$.SpotItem>
+            )
+          )}
         </$.SpotList>
       </$.AreaSpots>
     </$.CandidateSpots>

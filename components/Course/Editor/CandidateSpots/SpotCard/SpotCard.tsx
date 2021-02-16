@@ -25,7 +25,7 @@ const SpotCard: React.FC<Props> = (props) => {
   return (
     <$.SpotCard draggable={isDraggable} onDragStart={handleDragStart}>
       <$.AreaSticker>
-        <StickerIcon width="72" height="72" />
+        {StickerIcon && <StickerIcon width="72" height="72" />}
       </$.AreaSticker>
       <$.AreaDescription>
         <$.SpotTitle>{title}</$.SpotTitle>
