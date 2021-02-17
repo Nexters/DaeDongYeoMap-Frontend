@@ -15,9 +15,9 @@ const PLACES_AND_SPOTS_BY_KEYWORDID = gql`
     $keyword: String!
     $X: Float
     $Y: Float
-    $page: Int
+    $currentPage: Int
   ) {
-    places(filters: { query: $query, x: $X, y: $Y, page: $page }) {
+    places(filters: { query: $query, x: $X, y: $Y, page: $currentPage }) {
       pageInfo {
         total_count
         is_end
@@ -126,6 +126,12 @@ const SearchPlace: React.FC = () => {
   const handleClickSpotBtn = (e: React.MouseEvent, key: string) => {
     e.preventDefault();
     setSelectedSpot(key);
+  };
+
+  const changePage = (e: React.MouseEvent, page: number) => {
+    e.preventDefault();
+    setCurrentPage(page);
+    loadData();
   };
 
   return (
@@ -271,17 +277,14 @@ const SearchPlace: React.FC = () => {
                   }
                 }}
               />
-              {pages.map((page) => {
-                console.log(page == currentPage, page);
-                return (
-                  <$.PageNum
-                    page-selected={page == currentPage}
-                    onClick={(e) => setCurrentPage(page)}
-                  >
-                    {page}
-                  </$.PageNum>
-                );
-              })}
+              {pages.map((page) => (
+                <$.PageNum
+                  page-selected={page == currentPage}
+                  onClick={(e) => changePage(e, page)}
+                >
+                  {page}
+                </$.PageNum>
+              ))}
               <$.NextPage
                 onClick={(e) => {
                   setPagination(pagination + 1);
