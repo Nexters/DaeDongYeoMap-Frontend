@@ -14,13 +14,14 @@ export const SearchDiv = styled.div`
 export const SearchForm = styled.form`
   z-index: 5;
   position: absolute;
-  width: 400px;
-  height: 45px;
-  left: 96px;
+  width: 320px;
+  height: 40px;
+  left: 95px;
   top: 20px;
   display: flex;
-  border: none
-  border-radius: 8px 8px 0 0;
+  align-items: center;
+  border: none;
+  border-radius: 8px;
   outline: none;
   background-color: ${painter.basic.white};
   &::focus {
@@ -29,12 +30,13 @@ export const SearchForm = styled.form`
 `;
 
 export const InputField = styled.input`
-  font-size: 18px;
-  padding: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  font-family: ${painter.font.roboto};
+  padding: 10px 0;
+  margin: 7px;
   border: none;
   outline: none;
-  font-family: ${painter.font.roboto};
-  font-weight: bold;
   color: ${painter.grayscale['9']};
   ::placeholder {
     color: ${painter.grayscale['6']};
@@ -48,10 +50,10 @@ export const PlacesAndSpots = styled.ul`
   border-radius: 0 0 8px 8px;
   background-color: ${painter.basic.white};
   position: absolute;
-  width: 400px;
-  height: 515px;
-  left: 96px;
-  top: 80px;
+  width: 320px;
+  height: 285px;
+  left: 95px;
+  top: 60px;
   padding-bottom: 10px;
 `;
 
@@ -67,7 +69,7 @@ export const SpotsName = styled.div`
 export const SpotsCategory = styled.div`
   color: ${painter.grayscale['6']};
   font-size: 14px;
-  margin-left: 10px;
+  margin-left: 8px;
 `;
 
 export const PlacesAndSpotsItem = styled.li`
@@ -99,7 +101,9 @@ export const AddressDiv = styled.div`
 export const SearchIcon = styled.img.attrs({
   src: '/search_pink.png',
 })`
-  margin: 8px 7px 0 8px;
+  width: 24px;
+  height: 24px;
+  margin-left: 7px;
 `;
 
 export const SpotButton = styled.button`
@@ -109,9 +113,9 @@ export const SpotButton = styled.button`
   background-color: ${painter.primary.basic};
   cursor: pointer;
   position: absolute;
-  width: 155px;
-  height: 45px;
-  left: 512px;
+  width: 150px;
+  height: 40px;
+  left: 450px;
   top: 20px;
   z-index: 5;
   color: white;
@@ -135,11 +139,11 @@ export const EnterDiv = styled.div`
   background-color: #fff;
   z-index: 4;
   position: absolute;
-  width: 430px;
+  width: 370px;
   height: 722px;
   left: 7px;
   top: 0px;
-  padding: 70px 24px 15px 25px;
+  padding: 60px 24px 15px 25px;
   margin-left: 65px;
 `;
 
@@ -147,7 +151,7 @@ export const CloseBtn = styled.button`
   z-index: 5;
   position: absolute;
   top: 300px;
-  left: 500px;
+  left: 440px;
   background-color: #fff;
   outline: none;
   border: none;
@@ -171,8 +175,8 @@ export const CustomBtnDiv = styled.div`
   display: flex;
   justify-content: center;
   position: absolute;
-  top: 75px;
-  left: 120px;
+  top: 70px;
+  left: 95px;
 `;
 
 export const CustomBtn = styled.button`
@@ -201,7 +205,7 @@ export const CustomBtn = styled.button`
 `;
 
 export const searchedSpots = styled.li`
-  padding: 10px 0 10px 35px;
+  padding: 10px 0 10px 20px;
   margin: 0;
   display: flex;
   align-items: center;
@@ -226,7 +230,7 @@ export const SpotImg = styled.img.attrs({
 export const SpotsInfo = styled.div`
   display: flex;
   flex-direction: column;
-  margin-left: 7px;
+  margin-left: 3px;
 `;
 
 export const SpotsNameAndCategory = styled.div`
@@ -267,8 +271,8 @@ export const SearchAgain = styled.div`
 
 export const PageDiv = styled.div`
   position: absolute;
-  top: 682px;
-  left: 120px;
+  top: 685px;
+  left: 90px;
   width: 175px;
   height: 20px;
   display: flex;

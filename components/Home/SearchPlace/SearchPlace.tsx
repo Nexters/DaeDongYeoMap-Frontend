@@ -95,6 +95,7 @@ const SearchPlace: React.FC = () => {
 
   const submitValue = (e: any) => {
     e.preventDefault();
+    setPagination(0);
     setCurrentPage(1);
     loadData();
     setSearchKeyword(keyword);
@@ -144,11 +145,13 @@ const SearchPlace: React.FC = () => {
     }
   };
 
-  const nextPages = (e: React.MouseEvent, page: number) => {
+  const nextPages = (e: React.MouseEvent) => {
     e.preventDefault();
-    setPagination(pagination + 1);
-    setCurrentPage(5 * (pagination + 1) + 1);
-    loadData();
+    if (pagination < 8) {
+      setPagination(pagination + 1);
+      setCurrentPage(5 * (pagination + 1) + 1);
+      loadData();
+    }
   };
 
   return (
