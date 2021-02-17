@@ -1,5 +1,6 @@
 export enum PopupType {
   SPOT_GENERATOR,
+  COURSE_SHARE,
 }
 
 export type PopupProps = {

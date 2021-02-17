@@ -4,6 +4,7 @@ import GNB from '~/components/_layout/GNB';
 import Wrap from '~/components/_layout/Wrap';
 import Main from '~/components/_layout/Main';
 import CourseEditor from '~/components/Course/Editor';
+import Popup from '~/components/Popup';
 import { addApolloState, initializeApollo } from '~/lib/apollo/client';
 import type { GetStaticProps } from 'next';
 
@@ -27,6 +28,7 @@ const CourseEditorPage: React.FC = () => {
         <GNB />
         <Main>
           <CourseEditor />
+          <Popup />
         </Main>
       </Wrap>
     </>

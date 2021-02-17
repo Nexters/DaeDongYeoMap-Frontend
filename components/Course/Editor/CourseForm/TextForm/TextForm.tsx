@@ -3,6 +3,8 @@ import {
   useFormSubmitter,
   useFormTitleState,
 } from '~/components/Course/Editor/CourseForm/CourseFormState';
+import { PopupType } from '~/@types/popup.d';
+import { usePopupOpener } from '~/lib/apollo/hooks/usePopup';
 import * as $ from './TextFormView';
 
 const CHECKBOX_ID = 'daedong_chbox_allow';
@@ -10,10 +12,14 @@ const CHECKBOX_ID = 'daedong_chbox_allow';
 const TextForm: React.FC = () => {
   const [formTitle, setFormTitle] = useFormTitleState();
   const submitForm = useFormSubmitter();
+  const openPopup = usePopupOpener();
 
   const handleClickSubmit = (e: React.MouseEvent) => {
     e.preventDefault();
     submitForm();
+    openPopup({
+      popupType: PopupType.COURSE_SHARE,
+    });
   };
 
   return (
