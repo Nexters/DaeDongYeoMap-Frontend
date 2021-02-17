@@ -67,6 +67,7 @@ const SearchPlace: React.FC = () => {
   console.log(X, 'x');
   console.log(Y, 'y');
   const [page, setPage] = useState(1);
+  const [pagination, setPagination] = useState(1);
   const [loadData, { loading, data: placesAndSpotsByKeyword }] = useLazyQuery(
     PLACES_AND_SPOTS_BY_KEYWORDID,
     {
@@ -263,6 +264,7 @@ const SearchPlace: React.FC = () => {
                   </$.NoSpotsContainer>
                 )}
             </$.SearchContainer>
+            <$.PageDiv></$.PageDiv>
           </$.EnterDiv>
           <$.CloseBtn onClick={(e) => setIsEnter(false)}>
             <$.CloseIcon></$.CloseIcon>
