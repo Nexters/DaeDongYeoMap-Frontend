@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import * as $ from './CourseShareView';
 import { usePopupCloser } from '~/lib/apollo/hooks/usePopup';
 import SuccessCard from './SuccessCard';
+import ShareCard from './ShareCard';
 import type { PopupChildProps } from '~/@types/popup.d';
 
 export type Props = PopupChildProps;
@@ -26,7 +27,9 @@ const CourseShare: React.FC<Props> = ({ zIndex }) => {
         <$.CloseLayerButton onClick={handleClickCloseButton} />
         {!isSharePage ? (
           <SuccessCard onClickShareButton={handleClickShareButton} />
-        ) : null}
+        ) : (
+          <ShareCard />
+        )}
       </$.Layer>
     </$.CourseShare>
   );
