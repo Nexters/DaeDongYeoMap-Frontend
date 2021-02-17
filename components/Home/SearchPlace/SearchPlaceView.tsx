@@ -290,4 +290,11 @@ export const NextPage = styled.img.attrs({
 export const PageNum = styled.span`
   margin: 0 2px;
   cursor: pointer;
+  color: ${painter.grayscale['6']};
+  ${(props) =>
+    props['page-selected'] &&
+    `
+    color: ${painter.grayscale['9'](props)};
+    font-weight: bold;
+    `}
 `;
