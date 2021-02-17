@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
 import * as $ from './MapAreaView';
 import emojis from '~/constants/sugar';
-import SearchPlace from '../SearchPlace';
-import MainMood from '../Mood';
 import { usePopupOpener } from '~/lib/apollo/hooks/usePopup';
 import { PopupType } from '~/@types/popup.d';
 import { gql, useLazyQuery, useReactiveVar } from '@apollo/client';
@@ -225,12 +223,7 @@ const MapArea: React.FC = () => {
     });
   }, [spotsState, currentPosition, isCustomSpotSetting]);
 
-  return (
-    <$.MapArea>
-      <SearchPlace />
-      <MainMood />
-    </$.MapArea>
-  );
+  return <$.MapArea></$.MapArea>;
 };
 
 export default MapArea;

@@ -19,12 +19,17 @@ export const MoodButton = styled.button`
   border-radius: 16px;
   cursor: pointer;
   font-weight: 600;
-  transition: 0.25s;
+  transition: 0.2s;
+  color: ${(props) => painter.secondary[props.color](props)};
   background-color: ${painter.basic.white};
-  color: ${(props) => painter.secondary[props.color]};
-  &:hover,
-  &:focus {
-    background-color: ${(props) => painter.secondary[props.color]};
+  ${(props) =>
+    props['mood-selected'] &&
+    `
+  color: ${painter.basic.white(props)};
+  background-color: ${painter.secondary[props.color](props)};
+  `}
+  &:hover {
+    background-color: ${(props) => painter.secondary[props.color](props)};
     color: ${painter.basic.white};
   }
 `;
