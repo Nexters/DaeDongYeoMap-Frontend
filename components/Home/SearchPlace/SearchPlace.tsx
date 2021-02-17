@@ -95,6 +95,7 @@ const SearchPlace: React.FC = () => {
 
   const submitValue = (e: any) => {
     e.preventDefault();
+    setCurrentPage(1);
     loadData();
     setSearchKeyword(keyword);
     setIsClicked(false);
@@ -108,7 +109,7 @@ const SearchPlace: React.FC = () => {
 
   const handleClickSpots = (e: React.MouseEvent, x: number, y: number) => {
     e.preventDefault();
-    console.log(y, x);
+    console.log(y, x, '스팟의 y,x');
     myPosition.latY = y;
     myPosition.lngX = x;
     // useCurrentPosition({ latY: y, lngX: x });
@@ -131,6 +132,22 @@ const SearchPlace: React.FC = () => {
   const changePage = (e: React.MouseEvent, page: number) => {
     e.preventDefault();
     setCurrentPage(page);
+    loadData();
+  };
+
+  const prevPages = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (pagination > 0) {
+      setPagination(pagination - 1);
+      setCurrentPage(5 * (pagination - 1) + 1);
+      loadData();
+    }
+  };
+
+  const nextPages = (e: React.MouseEvent, page: number) => {
+    e.preventDefault();
+    setPagination(pagination + 1);
+    setCurrentPage(5 * (pagination + 1) + 1);
     loadData();
   };
 
@@ -182,7 +199,6 @@ const SearchPlace: React.FC = () => {
           <$.EnterDiv onClick={(e) => setIsClicked(false)}>
             <$.CustomBtnDiv>
               {buttons.map(({ key, label }) => {
-                console.log(key == selectedSpot, key);
                 return (
                   <$.CustomBtn
                     key={key}
@@ -269,14 +285,7 @@ const SearchPlace: React.FC = () => {
                 )}
             </$.SearchContainer>
             <$.PageDiv>
-              <$.PrevPage
-                onClick={(e) => {
-                  if (pagination > 0) {
-                    setPagination(pagination - 1);
-                    setCurrentPage(5 * (pagination - 1) + 1);
-                  }
-                }}
-              />
+              <$.PrevPage onClick={(e) => prevPages(e)} />
               {pages.map((page) => (
                 <$.PageNum
                   page-selected={page == currentPage}
@@ -285,12 +294,7 @@ const SearchPlace: React.FC = () => {
                   {page}
                 </$.PageNum>
               ))}
-              <$.NextPage
-                onClick={(e) => {
-                  setPagination(pagination + 1);
-                  setCurrentPage(5 * (pagination + 1) + 1);
-                }}
-              />
+              <$.NextPage onClick={(e) => nextPages(e)} />
             </$.PageDiv>
           </$.EnterDiv>
           <$.CloseBtn onClick={(e) => setIsEnter(false)}>
