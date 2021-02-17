@@ -15,16 +15,24 @@ const PLACES_AND_SPOTS_BY_KEYWORDID = gql`
     $keyword: String!
     $X: Float
     $Y: Float
+    $page: Int
   ) {
-    places(filters: { query: $query, x: $X, y: $Y }) {
-      id
-      place_name
-      category_name
-      category_group_name
-      address_name
-      road_address_name
-      x
-      y
+    places(filters: { query: $query, x: $X, y: $Y, page: $page }) {
+      pageInfo {
+        total_count
+        is_end
+        cur_page
+      }
+      places {
+        id
+        place_name
+        category_name
+        category_group_name
+        address_name
+        road_address_name
+        x
+        y
+      }
     }
     spots(searchSpotDto: { keyword: $keyword, x: $X, y: $Y }) {
       _id
@@ -58,10 +66,11 @@ const SearchPlace: React.FC = () => {
   const Y = myPosition.latY;
   console.log(X, 'x');
   console.log(Y, 'y');
+  const [page, setPage] = useState(1);
   const [loadData, { loading, data: placesAndSpotsByKeyword }] = useLazyQuery(
     PLACES_AND_SPOTS_BY_KEYWORDID,
     {
-      variables: { query, keyword, X, Y },
+      variables: { query, keyword, X, Y, page },
       onError(error) {
         console.log('error', error);
       },
@@ -116,6 +125,10 @@ const SearchPlace: React.FC = () => {
     setSelectedSpot(key);
   };
 
+  if (placesAndSpotsByKeyword) {
+    console.log(placesAndSpotsByKeyword);
+  }
+
   return (
     <>
       <$.SearchForm onClick={clickForm} onSubmit={submitValue}>
@@ -137,8 +150,8 @@ const SearchPlace: React.FC = () => {
       {isClicked && placesAndSpotsByKeyword && (
         <$.PlacesAndSpots>
           {placesAndSpotsByKeyword &&
-            placesAndSpotsByKeyword.places &&
-            placesAndSpotsByKeyword.places
+            placesAndSpotsByKeyword.places.places &&
+            placesAndSpotsByKeyword.places.places
               .slice(0, 7)
               .map(({ id, place_name, x, y }) => (
                 <$.PlacesAndSpotsItem key={id}>
@@ -178,8 +191,8 @@ const SearchPlace: React.FC = () => {
             </$.CustomBtnDiv>
             <$.SearchContainer>
               {placesAndSpotsByKeyword &&
-                placesAndSpotsByKeyword.places &&
-                placesAndSpotsByKeyword.places
+                placesAndSpotsByKeyword.places.places &&
+                placesAndSpotsByKeyword.places.places
                   .slice(0, 10)
                   .map(
                     ({
