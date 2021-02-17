@@ -264,3 +264,12 @@ export const SearchAgain = styled.div`
   font-weight: bold;
   color: ${painter.grayscale['7']};
 `;
+
+export const PageDiv = styled.div`
+  position: absolute;
+  top: 685px;
+  left: 80px;
+  width: 250px;
+  height: 20px;
+  background-color: green;
+`;
