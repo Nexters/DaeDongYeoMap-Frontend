@@ -67,7 +67,9 @@ const SearchPlace: React.FC = () => {
   console.log(X, 'x');
   console.log(Y, 'y');
   const [page, setPage] = useState(1);
-  const [pagination, setPagination] = useState(1);
+  const [pagination, setPagination] = useState(0);
+  let nums = [1, 2, 3, 4, 5];
+  let pages = nums.map((num) => 5 * pagination + num);
   const [loadData, { loading, data: placesAndSpotsByKeyword }] = useLazyQuery(
     PLACES_AND_SPOTS_BY_KEYWORDID,
     {
@@ -264,7 +266,13 @@ const SearchPlace: React.FC = () => {
                   </$.NoSpotsContainer>
                 )}
             </$.SearchContainer>
-            <$.PageDiv></$.PageDiv>
+            <$.PageDiv>
+              <$.PrevPage onClick={(e) => setPagination(pagination - 1)} />
+              {pages.map((page) => (
+                <$.PageNum>{page}</$.PageNum>
+              ))}
+              <$.NextPage onClick={(e) => setPagination(pagination + 1)} />
+            </$.PageDiv>
           </$.EnterDiv>
           <$.CloseBtn onClick={(e) => setIsEnter(false)}>
             <$.CloseIcon></$.CloseIcon>

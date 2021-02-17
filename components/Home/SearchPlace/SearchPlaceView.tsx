@@ -267,9 +267,27 @@ export const SearchAgain = styled.div`
 
 export const PageDiv = styled.div`
   position: absolute;
-  top: 685px;
-  left: 80px;
-  width: 250px;
+  top: 682px;
+  left: 120px;
+  width: 175px;
   height: 20px;
-  background-color: green;
+  display: flex;
+  justify-content: space-between;
+`;
+
+export const PrevPage = styled.img.attrs({
+  src: '/prev_page.png',
+})`
+  cursor: pointer;
+`;
+
+export const NextPage = styled.img.attrs({
+  src: '/next_page.png',
+})`
+  cursor: pointer;
+`;
+
+export const PageNum = styled.span`
+  margin: 0 2px;
+  cursor: pointer;
 `;
