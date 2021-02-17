@@ -15,16 +15,24 @@ const PLACES_AND_SPOTS_BY_KEYWORDID = gql`
     $keyword: String!
     $X: Float
     $Y: Float
+    $currentPage: Int
   ) {
-    places(filters: { query: $query, x: $X, y: $Y }) {
-      id
-      place_name
-      category_name
-      category_group_name
-      address_name
-      road_address_name
-      x
-      y
+    places(filters: { query: $query, x: $X, y: $Y, page: $currentPage }) {
+      pageInfo {
+        total_count
+        is_end
+        cur_page
+      }
+      places {
+        id
+        place_name
+        category_name
+        category_group_name
+        address_name
+        road_address_name
+        x
+        y
+      }
     }
     spots(searchSpotDto: { keyword: $keyword, x: $X, y: $Y }) {
       _id
@@ -58,10 +66,14 @@ const SearchPlace: React.FC = () => {
   const Y = myPosition.latY;
   console.log(X, 'x');
   console.log(Y, 'y');
+  const [pagination, setPagination] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  let nums = [1, 2, 3, 4, 5];
+  let pages = nums.map((num) => 5 * pagination + num);
   const [loadData, { loading, data: placesAndSpotsByKeyword }] = useLazyQuery(
     PLACES_AND_SPOTS_BY_KEYWORDID,
     {
-      variables: { query, keyword, X, Y },
+      variables: { query, keyword, X, Y, currentPage },
       onError(error) {
         console.log('error', error);
       },
@@ -83,6 +95,8 @@ const SearchPlace: React.FC = () => {
 
   const submitValue = (e: any) => {
     e.preventDefault();
+    setPagination(0);
+    setCurrentPage(1);
     loadData();
     setSearchKeyword(keyword);
     setIsClicked(false);
@@ -96,7 +110,7 @@ const SearchPlace: React.FC = () => {
 
   const handleClickSpots = (e: React.MouseEvent, x: number, y: number) => {
     e.preventDefault();
-    console.log(y, x);
+    console.log(y, x, '스팟의 y,x');
     myPosition.latY = y;
     myPosition.lngX = x;
     // useCurrentPosition({ latY: y, lngX: x });
@@ -116,6 +130,30 @@ const SearchPlace: React.FC = () => {
     setSelectedSpot(key);
   };
 
+  const changePage = (e: React.MouseEvent, page: number) => {
+    e.preventDefault();
+    setCurrentPage(page);
+    loadData();
+  };
+
+  const prevPages = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (pagination > 0) {
+      setPagination(pagination - 1);
+      setCurrentPage(5 * (pagination - 1) + 1);
+      loadData();
+    }
+  };
+
+  const nextPages = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (pagination < 8) {
+      setPagination(pagination + 1);
+      setCurrentPage(5 * (pagination + 1) + 1);
+      loadData();
+    }
+  };
+
   return (
     <>
       <$.SearchForm onClick={clickForm} onSubmit={submitValue}>
@@ -129,6 +167,7 @@ const SearchPlace: React.FC = () => {
           autoFocus={true}
           autoComplete="off"
         />
+        <$.ResetKeyword onClick={(e) => setKeyword('')} />
       </$.SearchForm>
       <$.SpotButton onClick={handleCustomSpotSetting}>
         <$.SpotButtonImg />
@@ -137,8 +176,8 @@ const SearchPlace: React.FC = () => {
       {isClicked && placesAndSpotsByKeyword && (
         <$.PlacesAndSpots>
           {placesAndSpotsByKeyword &&
-            placesAndSpotsByKeyword.places &&
-            placesAndSpotsByKeyword.places
+            placesAndSpotsByKeyword.places.places &&
+            placesAndSpotsByKeyword.places.places
               .slice(0, 7)
               .map(({ id, place_name, x, y }) => (
                 <$.PlacesAndSpotsItem key={id}>
@@ -164,7 +203,6 @@ const SearchPlace: React.FC = () => {
           <$.EnterDiv onClick={(e) => setIsClicked(false)}>
             <$.CustomBtnDiv>
               {buttons.map(({ key, label }) => {
-                console.log(key == selectedSpot, key);
                 return (
                   <$.CustomBtn
                     key={key}
@@ -178,8 +216,8 @@ const SearchPlace: React.FC = () => {
             </$.CustomBtnDiv>
             <$.SearchContainer>
               {placesAndSpotsByKeyword &&
-                placesAndSpotsByKeyword.places &&
-                placesAndSpotsByKeyword.places
+                placesAndSpotsByKeyword.places.places &&
+                placesAndSpotsByKeyword.places.places
                   .slice(0, 10)
                   .map(
                     ({
@@ -250,6 +288,18 @@ const SearchPlace: React.FC = () => {
                   </$.NoSpotsContainer>
                 )}
             </$.SearchContainer>
+            <$.PageDiv>
+              <$.PrevPage onClick={(e) => prevPages(e)} />
+              {pages.map((page) => (
+                <$.PageNum
+                  page-selected={page == currentPage}
+                  onClick={(e) => changePage(e, page)}
+                >
+                  {page}
+                </$.PageNum>
+              ))}
+              <$.NextPage onClick={(e) => nextPages(e)} />
+            </$.PageDiv>
           </$.EnterDiv>
           <$.CloseBtn onClick={(e) => setIsEnter(false)}>
             <$.CloseIcon></$.CloseIcon>
