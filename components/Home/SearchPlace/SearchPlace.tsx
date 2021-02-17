@@ -66,14 +66,14 @@ const SearchPlace: React.FC = () => {
   const Y = myPosition.latY;
   console.log(X, 'x');
   console.log(Y, 'y');
-  const [page, setPage] = useState(1);
   const [pagination, setPagination] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
   let nums = [1, 2, 3, 4, 5];
   let pages = nums.map((num) => 5 * pagination + num);
   const [loadData, { loading, data: placesAndSpotsByKeyword }] = useLazyQuery(
     PLACES_AND_SPOTS_BY_KEYWORDID,
     {
-      variables: { query, keyword, X, Y, page },
+      variables: { query, keyword, X, Y, currentPage },
       onError(error) {
         console.log('error', error);
       },
@@ -127,10 +127,6 @@ const SearchPlace: React.FC = () => {
     e.preventDefault();
     setSelectedSpot(key);
   };
-
-  if (placesAndSpotsByKeyword) {
-    console.log(placesAndSpotsByKeyword);
-  }
 
   return (
     <>
@@ -267,11 +263,31 @@ const SearchPlace: React.FC = () => {
                 )}
             </$.SearchContainer>
             <$.PageDiv>
-              <$.PrevPage onClick={(e) => setPagination(pagination - 1)} />
-              {pages.map((page) => (
-                <$.PageNum>{page}</$.PageNum>
-              ))}
-              <$.NextPage onClick={(e) => setPagination(pagination + 1)} />
+              <$.PrevPage
+                onClick={(e) => {
+                  if (pagination > 0) {
+                    setPagination(pagination - 1);
+                    setCurrentPage(5 * (pagination - 1) + 1);
+                  }
+                }}
+              />
+              {pages.map((page) => {
+                console.log(page == currentPage, page);
+                return (
+                  <$.PageNum
+                    page-selected={page == currentPage}
+                    onClick={(e) => setCurrentPage(page)}
+                  >
+                    {page}
+                  </$.PageNum>
+                );
+              })}
+              <$.NextPage
+                onClick={(e) => {
+                  setPagination(pagination + 1);
+                  setCurrentPage(5 * (pagination + 1) + 1);
+                }}
+              />
             </$.PageDiv>
           </$.EnterDiv>
           <$.CloseBtn onClick={(e) => setIsEnter(false)}>
