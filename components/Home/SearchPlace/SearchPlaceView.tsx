@@ -43,6 +43,12 @@ export const InputField = styled.input`
   }
 `;
 
+export const ResetKeyword = styled.img.attrs({
+  src: '/close_btn.png',
+})`
+  cursor: pointer;
+`;
+
 export const PlacesAndSpots = styled.ul`
   list-style: none;
   z-index: 5;

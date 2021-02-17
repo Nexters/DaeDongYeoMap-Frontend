@@ -167,6 +167,7 @@ const SearchPlace: React.FC = () => {
           autoFocus={true}
           autoComplete="off"
         />
+        <$.ResetKeyword onClick={(e) => setKeyword('')} />
       </$.SearchForm>
       <$.SpotButton onClick={handleCustomSpotSetting}>
         <$.SpotButtonImg />
