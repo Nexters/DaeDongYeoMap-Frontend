@@ -307,6 +307,11 @@ const MapArea: React.FC = () => {
     new Marker({
       position: kakaoMap.getCenter(),
     });
+    // TODO - 이벤트 리스너가 안 먹는다..
+    kakaoMap.addListener(kakaoMap, 'center_changed', function () {
+      const latlng = kakaoMap.getCenter();
+      console.log(latlng.getLat(), latlng.getLng());
+    });
 
     return () => {
       circle.setMap(null);
