@@ -17,11 +17,14 @@ const PLACES_AND_SPOTS_BY_KEYWORDID = gql`
     $Y: Float
     $currentPage: Int
   ) {
-    places(filters: { query: $query, x: $X, y: $Y, page: $currentPage }) {
+    places(
+      filters: { query: $query, x: $X, y: $Y, page: $currentPage, size: 10 }
+    ) {
       pageInfo {
         total_count
         is_end
         cur_page
+        total_page_count
       }
       places {
         id
@@ -167,7 +170,12 @@ const SearchPlace: React.FC = () => {
           autoFocus={true}
           autoComplete="off"
         />
-        <$.ResetKeyword onClick={(e) => setKeyword('')} />
+        <$.ResetKeyword
+          onClick={(e) => {
+            setKeyword('');
+            setSearchKeyword('');
+          }}
+        />
       </$.SearchForm>
       <$.SpotButton onClick={handleCustomSpotSetting}>
         <$.SpotButtonImg />
