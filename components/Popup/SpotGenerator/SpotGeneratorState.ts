@@ -1,9 +1,9 @@
 import { makeVar, gql, useMutation } from '@apollo/client';
-import sugar from '~/constants/sugar';
-// import storage from '~/storage';
+import sugar, { parseStickerId } from '~/constants/sugar';
+import storage from '~/storage';
 import createReactiveVarHooks from '~/util/createReactiveVarHooks';
-import { v1 as uuidv1 } from 'uuid';
 import type { Sugar } from '~/constants/sugar';
+import type { Props as SpotGeneratorProps } from './SpotGenerator';
 
 type FormSugarState = Sugar;
 type FormStickerState = string;
@@ -61,54 +61,55 @@ export type CreateSticker = (place: {
 }) => void;
 
 export const CREATE_STICKER = gql`
-  mutation CreateSticker($createStickerInput: CreateStickerInput) {
+  mutation CreateSticker($createStickerInput: CreateStickerInput!) {
     createSticker(createStickerInput: $createStickerInput) {
       _id
-      sticker_category
+      sticker_index
+      sweet_percent
       is_used
-      spot
+      spot(populate: true) {
+        place_name
+      }
     }
   }
 `;
 
 export const useCreateSticker = (): CreateSticker => {
+  let partner: string = formPartnerState() || '';
+  let stickerId: string = formStickerState();
+
   const [request] = useMutation<
     GQL.CreateSticker.Data,
     GQL.CreateSticker.Variables
-  >(CREATE_STICKER);
+  >(CREATE_STICKER, {
+    onCompleted({ createSticker: data }) {
+      const sticker = {
+        id: data._id,
+        stickerId,
+        title: data.spot.place_name,
+        partner,
+        timestamp: Math.floor(Date.now() / 1000),
+      };
 
-  const [x, y] = createMockCoord();
-  const createSticker: CreateSticker = (
-    place = {
-      id: 'placeId',
-      name: '모킹 장소',
-      x,
-      y,
-    }
-  ) => {
-    const sticker_category = `${formStickerState()}`;
-    const partner = formPartnerState() || '';
-    const spot = {
-      id: uuidv1(),
-      stickerId: sticker_category,
-      title: place.name,
-      partner,
-      timestamp: Math.floor(Date.now() / 1000),
-    };
+      storage.addSpot(sticker);
+    },
+  });
 
-    console.log(spot);
+  const createSticker: CreateSticker = (place: SpotGeneratorProps['place']) => {
+    stickerId = formStickerState();
 
-    // storage.addSpot(spot);
+    const [sweetPercent, stickerIndex] = parseStickerId(stickerId);
 
-    // TODO: 추후 지도 상태와 연동
+    partner = formPartnerState();
     request({
       variables: {
         createStickerInput: {
-          place_id: place?.id,
-          place_name: place?.name,
-          sticker_category,
-          x,
-          y,
+          place_id: place.id,
+          place_name: place.name,
+          x: place.x,
+          y: place.y,
+          sticker_index: stickerIndex,
+          sweet_percent: sweetPercent,
         },
       },
     });
@@ -116,13 +117,3 @@ export const useCreateSticker = (): CreateSticker => {
 
   return createSticker;
 };
-
-function createMockCoord(): [number, number] {
-  const xRange = 127;
-  const yRange = 37.4;
-
-  const x = (Math.random() / 10) * 2 + xRange;
-  const y = (Math.random() / 10) * 2 + yRange;
-
-  return [x, y];
-}

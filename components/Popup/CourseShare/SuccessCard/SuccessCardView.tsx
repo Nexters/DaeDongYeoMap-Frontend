@@ -12,6 +12,12 @@ export const AreaCourse = styled.div`
   border-bottom: 1px solid ${painter.grayscale[1]};
 `;
 
+export const CourseImage = styled.img`
+  display: block;
+  width: 496px;
+  height: 496px;
+`;
+
 export const AreaFooter = styled.div`
   padding: 40px 40px 0;
   text-align: center;

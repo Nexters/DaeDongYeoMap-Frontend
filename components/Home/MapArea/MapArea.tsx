@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import * as $ from './MapAreaView';
 import emojis from '~/constants/sugar';
+import storage from '~/storage';
 import { gql, useLazyQuery, useReactiveVar } from '@apollo/client';
 import {
-  useCurrentPosition,
+  useCurrentPositionState,
   useIsCustomSpotSetting,
   useMapSpotsState,
 } from '~/lib/apollo/vars/home';
@@ -16,9 +17,9 @@ declare global {
   }
 }
 
-const FETCH_ALL_SPOTS = gql`
-  {
-    spots {
+const GET_MAP_SPOTS = gql`
+  query GetMapSpots($searchSpotDto: SearchSpotDto) {
+    spots(searchSpotDto: $searchSpotDto) {
       _id
       place_id
       stickers(populate: true) {
@@ -57,7 +58,7 @@ const getLocation = () => {
       },
       {
         enableHighAccuracy: false,
-        maximumAge: 0,
+        maximumAge: 1000 * 60,
         timeout: Infinity,
       }
     );
@@ -86,14 +87,13 @@ const MapArea: React.FC = () => {
   } = (window as any).kakao.maps;
 
   const [kakaoMap, setKakaoMap] = useState(null);
-  const [getAllSpots, { loading, data, called }] = useLazyQuery(
-    FETCH_ALL_SPOTS
-  );
+  const [getMapSpots, { loading, data, called }] = useLazyQuery<
+    GQL.GetMapSpots.Data,
+    GQL.GetMapSpots.Variables
+  >(GET_MAP_SPOTS);
   const [mapSpots, setMapSpots] = useMapSpotsState();
-  const currentPosition = useCurrentPosition();
+  const [currentPosition, setCurrentPosition] = useCurrentPositionState();
   const isCustomSpotSetting = useReactiveVar(useIsCustomSpotSetting);
-
-  console.log('SPOTS_STATE: ', mapSpots);
 
   // 카카오에서 지원하는 오버레이 클릭 방식이
   // 아키텍쳐나 OOP 상 좋지 않은 방식이라서, 직접 event delegation으로 구현하는게 나을듯 함.
@@ -118,15 +118,26 @@ const MapArea: React.FC = () => {
       lat: currentPosition.latY,
       lng: currentPosition.lngX,
     });
+    const storedPosition = storage.getCurrentPosition();
 
     setKakaoMap(kakaoMap);
+    if (storedPosition) {
+      setCurrentPosition(storedPosition);
+    }
     getLocation().then((position: any) => {
-      useCurrentPosition({
+      setCurrentPosition({
         latY: position.coords.latitude,
         lngX: position.coords.longitude,
       });
     });
-    getAllSpots();
+    getMapSpots({
+      variables: {
+        searchSpotDto: {
+          x: currentPosition.lngX,
+          y: currentPosition.latY,
+        },
+      },
+    });
   }, []);
 
   useEffect(() => {
@@ -134,6 +145,19 @@ const MapArea: React.FC = () => {
       setMapSpots(data?.spots);
     }
   }, [data, called, loading]);
+
+  useEffect(() => {
+    kakaoMap?.setCenter(new LatLng(currentPosition.latY, currentPosition.lngX));
+    storage.setCurrentPosition(currentPosition);
+    getMapSpots({
+      variables: {
+        searchSpotDto: {
+          x: currentPosition.lngX,
+          y: currentPosition.latY,
+        },
+      },
+    });
+  }, [currentPosition]);
 
   useEffect(() => {
     if (!kakaoMap) {
@@ -202,6 +226,11 @@ const MapArea: React.FC = () => {
     new Marker({
       position: kakaoMap.getCenter(),
     });
+
+    return () => {
+      circle.setMap(null);
+      circle2.setMap(null);
+    };
   }, [mapSpots, currentPosition, isCustomSpotSetting]);
 
   return (
