@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import * as $ from './MapAreaView';
 import emojis from '~/constants/sugar';
+import storage from '~/storage';
 import { gql, useLazyQuery, useReactiveVar } from '@apollo/client';
 import {
   useCurrentPositionState,
@@ -117,8 +118,12 @@ const MapArea: React.FC = () => {
       lat: currentPosition.latY,
       lng: currentPosition.lngX,
     });
+    const storedPosition = storage.getCurrentPosition();
 
     setKakaoMap(kakaoMap);
+    if (storedPosition) {
+      setCurrentPosition(storedPosition);
+    }
     getLocation().then((position: any) => {
       setCurrentPosition({
         latY: position.coords.latitude,
@@ -143,6 +148,7 @@ const MapArea: React.FC = () => {
 
   useEffect(() => {
     kakaoMap?.setCenter(new LatLng(currentPosition.latY, currentPosition.lngX));
+    storage.setCurrentPosition(currentPosition);
     getMapSpots({
       variables: {
         searchSpotDto: {
