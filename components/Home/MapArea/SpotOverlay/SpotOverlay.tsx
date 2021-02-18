@@ -5,28 +5,40 @@ type Props = {
   spot: GQL.Spot;
   kakaoCoord: any;
   kakaoMap: any;
+  eventHandlerMap: any;
 };
 
-const SpotOverlay: React.FC<Props> = ({ spot, kakaoCoord, kakaoMap }) => {
-  const CustomOverlay = (window as any).kakao.maps.CustomOverlay;
+const SpotOverlay: React.FC<Props> = ({
+  spot,
+  kakaoCoord,
+  kakaoMap,
+  eventHandlerMap,
+}) => {
+  const { CustomOverlay } = (window as any).kakao.maps;
 
   console.log('RENDER CUSTOM OVERLAY: ', spot);
   useEffect(() => {
-    const customOverlay = new CustomOverlay({
+    const spotOverlay = new CustomOverlay({
       map: kakaoMap,
       position: kakaoCoord,
       content: templateSpotOverlay({
+        spotId: spot._id,
         placeName: spot.place_name,
       }),
       yAnchor: 1,
     });
 
-    const removeOverlay = () => {
-      customOverlay.setMap(null);
+    const handleClickOverlay = () => {
+      console.log('CLICK OVERLAY: ', spot);
     };
-    customOverlay.setMap(kakaoMap);
 
-    return removeOverlay;
+    eventHandlerMap[spot._id] = handleClickOverlay;
+    spotOverlay.setMap(kakaoMap);
+
+    return () => {
+      spotOverlay.setMap(null);
+      delete eventHandlerMap[spot._id];
+    };
   }, [spot, kakaoMap]);
 
   return null;

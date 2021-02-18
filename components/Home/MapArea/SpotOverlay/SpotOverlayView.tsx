@@ -1,7 +1,11 @@
+import { CLASS_OVERLAY, ATTR_OVERLAY_ID } from '~/constants/kakaoMap';
+
 export const templateSpotOverlay = ({
+  spotId,
   placeName,
 }: {
+  spotId: string;
   placeName: string;
 }): string => {
-  return `<div class="custom-overlay"><a href="#" target="_blank"><span class="title">${placeName}</span></a></div>`;
+  return `<div class="${CLASS_OVERLAY}" ${ATTR_OVERLAY_ID}="${spotId}"><a ><span class="title">${placeName}</span></a></div>`;
 };
