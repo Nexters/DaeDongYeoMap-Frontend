@@ -57,7 +57,7 @@ const getLocation = () => {
       },
       {
         enableHighAccuracy: false,
-        maximumAge: 0,
+        maximumAge: 1000 * 60,
         timeout: Infinity,
       }
     );
@@ -94,8 +94,6 @@ const MapArea: React.FC = () => {
   const [currentPosition, setCurrentPosition] = useCurrentPositionState();
   const isCustomSpotSetting = useReactiveVar(useIsCustomSpotSetting);
 
-  console.log('SPOTS_STATE: ', mapSpots);
-
   // 카카오에서 지원하는 오버레이 클릭 방식이
   // 아키텍쳐나 OOP 상 좋지 않은 방식이라서, 직접 event delegation으로 구현하는게 나을듯 함.
   // 마커 클릭은 카카오에서 지원하는 클릭이벤트 방식을 써도 될듯.
@@ -122,7 +120,6 @@ const MapArea: React.FC = () => {
 
     setKakaoMap(kakaoMap);
     getLocation().then((position: any) => {
-      console.log('GELOCATION_POSITION: ', position);
       setCurrentPosition({
         latY: position.coords.latitude,
         lngX: position.coords.longitude,
@@ -145,7 +142,6 @@ const MapArea: React.FC = () => {
   }, [data, called, loading]);
 
   useEffect(() => {
-    console.log('MOVE POSITION:', currentPosition);
     kakaoMap?.setCenter(new LatLng(currentPosition.latY, currentPosition.lngX));
     getMapSpots({
       variables: {
