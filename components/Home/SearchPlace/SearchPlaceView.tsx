@@ -20,6 +20,7 @@ export const SearchForm = styled.form`
   top: 20px;
   display: flex;
   align-items: center;
+  justify-content: start;
   border: none;
   border-radius: 8px;
   outline: none;
@@ -47,6 +48,7 @@ export const ResetKeyword = styled.img.attrs({
   src: '/close_btn.png',
 })`
   cursor: pointer;
+  margin-left: 55px;
 `;
 
 export const PlacesAndSpots = styled.ul`
