@@ -7,6 +7,7 @@ import {
   useCurrentPositionState,
   useIsCustomSpotSetting,
   useMapSpotsState,
+  useSearchPlacesState,
 } from '~/lib/apollo/vars/home';
 import SpotOverlay from './SpotOverlay';
 import { ATTR_OVERLAY_ID, CLASS_OVERLAY } from '~/constants/kakaoMap';
@@ -93,6 +94,7 @@ const MapArea: React.FC = () => {
   >(GET_MAP_SPOTS);
   const [mapSpots, setMapSpots] = useMapSpotsState();
   const [currentPosition, setCurrentPosition] = useCurrentPositionState();
+  const [searchPlaces, setSearchPlaces] = useSearchPlacesState();
   const isCustomSpotSetting = useReactiveVar(useIsCustomSpotSetting);
 
   // 카카오에서 지원하는 오버레이 클릭 방식이
@@ -165,7 +167,7 @@ const MapArea: React.FC = () => {
     }
 
     // TODO - 커스텀 커서 만들기
-    console.log(isCustomSpotSetting);
+    console.log('isCustomSpotSetting', isCustomSpotSetting);
     // if (isCustomSpotSetting) el.classList.add('spot-marker');
     // else el.classList.remove('spot-marker');
 
@@ -219,6 +221,35 @@ const MapArea: React.FC = () => {
         marker.setMap(kakaoMap);
       });
 
+    searchPlaces
+      .map((places) => {
+        const placeObj = {
+          pos: new LatLng(places.y, places.x),
+          imgSrc:
+            'https://storage.googleapis.com/sticker_images/marker-deji.png',
+          imgSize: new Size(44, 50),
+          imgOptions: {
+            spriteOrigin: new Point(0, 0),
+            spriteSize: new Size(44, 50),
+          },
+        };
+
+        const markerImg = new MarkerImage(
+          placeObj.imgSrc,
+          placeObj.imgSize,
+          placeObj.imgOptions
+        );
+        const marker = new Marker({
+          position: placeObj.pos,
+          image: markerImg,
+        });
+
+        return { marker };
+      })
+      .forEach(({ marker }) => {
+        marker.setMap(kakaoMap);
+      });
+
     circle.setMap(kakaoMap);
     circle2.setMap(kakaoMap);
 
@@ -231,7 +262,7 @@ const MapArea: React.FC = () => {
       circle.setMap(null);
       circle2.setMap(null);
     };
-  }, [mapSpots, currentPosition, isCustomSpotSetting]);
+  }, [mapSpots, currentPosition, isCustomSpotSetting, searchPlaces]);
 
   return (
     <>
@@ -242,6 +273,16 @@ const MapArea: React.FC = () => {
             key={`mapspot-${spot._id}`}
             spot={spot}
             kakaoCoord={new (window as any).kakao.maps.LatLng(spot.y, spot.x)}
+            kakaoMap={kakaoMap}
+            eventHandlerMap={overlayEventHandlerMap}
+          />
+        ))}
+      {kakaoMap &&
+        searchPlaces.map((place: GQL.Place) => (
+          <SpotOverlay
+            key={`place-${place.id}`}
+            place={place}
+            kakaoCoord={new (window as any).kakao.maps.LatLng(place.y, place.x)}
             kakaoMap={kakaoMap}
             eventHandlerMap={overlayEventHandlerMap}
           />

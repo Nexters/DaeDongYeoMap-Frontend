@@ -4,7 +4,8 @@ import { usePopupOpener } from '~/lib/apollo/hooks/usePopup';
 import { PopupType } from '~/@types/popup.d';
 
 type Props = {
-  spot: GQL.Spot;
+  spot?: GQL.Spot;
+  place?: GQL.Place;
   kakaoCoord: any;
   kakaoMap: any;
   eventHandlerMap: any;
@@ -12,6 +13,7 @@ type Props = {
 
 const SpotOverlay: React.FC<Props> = ({
   spot,
+  place,
   kakaoCoord,
   kakaoMap,
   eventHandlerMap,
@@ -24,8 +26,8 @@ const SpotOverlay: React.FC<Props> = ({
       map: kakaoMap,
       position: kakaoCoord,
       content: templateSpotOverlay({
-        spotId: spot._id,
-        placeName: spot.place_name,
+        spotId: spot?._id || place?.id,
+        placeName: spot?.place_name || place?.place_name,
       }),
       yAnchor: 1,
     });
@@ -35,23 +37,23 @@ const SpotOverlay: React.FC<Props> = ({
         popupType: PopupType.SPOT_GENERATOR,
         popupProps: {
           place: {
-            id: spot._id,
-            name: spot.place_name,
-            x: spot.x,
-            y: spot.y,
+            id: spot?._id || place?.id,
+            name: spot?.place_name || place?.place_name,
+            x: spot?.x || place?.x,
+            y: spot?.y || place?.y,
           },
         },
       });
     };
 
-    eventHandlerMap[spot._id] = handleClickOverlay;
+    eventHandlerMap[spot?._id || place?.id] = handleClickOverlay;
     spotOverlay.setMap(kakaoMap);
 
     return () => {
       spotOverlay.setMap(null);
-      delete eventHandlerMap[spot._id];
+      delete eventHandlerMap[spot?._id || place?.id];
     };
-  }, [spot, kakaoMap]);
+  }, [spot, place, kakaoMap]);
 
   return null;
 };

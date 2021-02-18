@@ -21,3 +21,11 @@ export const [
 ] = createReactiveVarHooks(currentPosition);
 
 export const useIsCustomSpotSetting = makeVar(false);
+
+export const searchPlaces = makeVar<GQL.Place[]>([]);
+
+export const [
+  useSearchPlaces,
+  useSearchPlacesSetter,
+  useSearchPlacesState,
+] = createReactiveVarHooks(searchPlaces);

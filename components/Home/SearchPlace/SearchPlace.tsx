@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as $ from './SearchPlaceView';
 import { gql, useLazyQuery } from '@apollo/client';
 import { debounce } from 'lodash';
@@ -7,9 +7,9 @@ import {
   currentPosition,
   useCurrentPositionSetter,
   useIsCustomSpotSetting,
+  useSearchPlacesState,
 } from '~/lib/apollo/vars/home';
 
-//TODO: 스팟 클릭시 지도 이동
 const PLACES_AND_SPOTS_BY_KEYWORDID = gql`
   query placesAndSpotsByKeyword(
     $query: String!
@@ -66,11 +66,11 @@ const SearchPlace: React.FC = () => {
   const [searchKeyword, setSearchKeyword] = useState('');
   const myPosition = currentPosition();
   const setCurrentPosition = useCurrentPositionSetter();
-  console.log(myPosition, '내 위치');
+  // console.log(myPosition, '내 위치');
   const X = myPosition.lngX;
   const Y = myPosition.latY;
-  console.log(X, 'x');
-  console.log(Y, 'y');
+  // console.log(X, 'x');
+  // console.log(Y, 'y');
   const [pagination, setPagination] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const nums = [1, 2, 3, 4, 5];
@@ -84,6 +84,18 @@ const SearchPlace: React.FC = () => {
       },
     }
   );
+  const [searchPlaces, setSearchPlaces] = useSearchPlacesState();
+
+  useEffect(() => {
+    if (
+      placesAndSpotsByKeyword &&
+      placesAndSpotsByKeyword.places &&
+      placesAndSpotsByKeyword.places.places
+    ) {
+      console.log(placesAndSpotsByKeyword.places.places);
+      setSearchPlaces(placesAndSpotsByKeyword.places.places);
+    }
+  }, [placesAndSpotsByKeyword, loading]);
   const debounceFunc = React.useCallback(
     debounce(() => !loading && loadData(), 300),
     [loadData]
@@ -161,7 +173,7 @@ const SearchPlace: React.FC = () => {
 
   const resetSearch = () => {
     setIsClicked(false);
-    console.log(isClicked, '??');
+    // console.log(isClicked, '??');
     setKeyword('');
     setSearchKeyword('');
   };
