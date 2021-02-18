@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
 import { templateSpotOverlay } from './SpotOverlayView';
+import { usePopupOpener } from '~/lib/apollo/hooks/usePopup';
+import { PopupType } from '~/@types/popup.d';
 
 type Props = {
   spot: GQL.Spot;
@@ -15,8 +17,8 @@ const SpotOverlay: React.FC<Props> = ({
   eventHandlerMap,
 }) => {
   const { CustomOverlay } = (window as any).kakao.maps;
+  const openPopup = usePopupOpener();
 
-  console.log('RENDER CUSTOM OVERLAY: ', spot);
   useEffect(() => {
     const spotOverlay = new CustomOverlay({
       map: kakaoMap,
@@ -29,7 +31,17 @@ const SpotOverlay: React.FC<Props> = ({
     });
 
     const handleClickOverlay = () => {
-      console.log('CLICK OVERLAY: ', spot);
+      openPopup({
+        popupType: PopupType.SPOT_GENERATOR,
+        popupProps: {
+          place: {
+            id: spot._id,
+            name: spot.place_name,
+            x: spot.x,
+            y: spot.y,
+          },
+        },
+      });
     };
 
     eventHandlerMap[spot._id] = handleClickOverlay;

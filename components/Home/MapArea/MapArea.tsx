@@ -95,8 +95,9 @@ const MapArea: React.FC = () => {
 
   console.log('SPOTS_STATE: ', mapSpots);
 
-  // 카카오에서 지원하는 overlay 클릭 방식이
+  // 카카오에서 지원하는 오버레이 클릭 방식이
   // 아키텍쳐나 OOP 상 좋지 않은 방식이라서, 직접 event delegation으로 구현하는게 나을듯 함.
+  // 마커 클릭은 카카오에서 지원하는 클릭이벤트 방식을 써도 될듯.
   // 일단 시간이 없어서 해당 컴포넌트에서 다 구현하는데 추후 리팩토링 필요할듯.
   const handleClickKakaoMap = (e: React.MouseEvent) => {
     const elTarget: HTMLElement = e.target as HTMLElement;
