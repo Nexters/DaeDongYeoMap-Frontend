@@ -17,11 +17,14 @@ const PLACES_AND_SPOTS_BY_KEYWORDID = gql`
     $Y: Float
     $currentPage: Int
   ) {
-    places(filters: { query: $query, x: $X, y: $Y, page: $currentPage }) {
+    places(
+      filters: { query: $query, x: $X, y: $Y, page: $currentPage, size: 10 }
+    ) {
       pageInfo {
         total_count
         is_end
         cur_page
+        total_page_count
       }
       places {
         id
@@ -104,7 +107,7 @@ const SearchPlace: React.FC = () => {
     // setKeyword('');
   };
 
-  const clickForm = (e: any) => {
+  const clickInput = (e: any) => {
     setIsClicked(true);
   };
 
@@ -154,27 +157,44 @@ const SearchPlace: React.FC = () => {
     }
   };
 
+  const resetSearch = () => {
+    setIsClicked(false);
+    console.log(isClicked, '??');
+    setKeyword('');
+    setSearchKeyword('');
+  };
+
   return (
     <>
-      <$.SearchForm onClick={clickForm} onSubmit={submitValue}>
+      <$.SearchForm
+        onSubmit={submitValue}
+        is-focused={isClicked || keyword}
+        is-autocomplete={isClicked && placesAndSpotsByKeyword}
+      >
         <$.SearchIcon />
         <$.InputField
           type="text"
           name="searchValue"
           placeholder={'데이트 스팟 검색'}
           value={keyword}
+          onClick={clickInput}
           onChange={onChangeInput}
           autoFocus={true}
           autoComplete="off"
         />
-        <$.ResetKeyword onClick={(e) => setKeyword('')} />
+        <$.ResetKeyword onClick={resetSearch} />
       </$.SearchForm>
       <$.SpotButton onClick={handleCustomSpotSetting}>
         <$.SpotButtonImg />
         <$.SpotButtonDiv>스팟 추가하기</$.SpotButtonDiv>
       </$.SpotButton>
       {isClicked && placesAndSpotsByKeyword && (
-        <$.PlacesAndSpots>
+        <$.PlacesAndSpots
+          no-data={
+            placesAndSpotsByKeyword.places.places.length == 0 &&
+            placesAndSpotsByKeyword.spots.length == 0
+          }
+        >
           {placesAndSpotsByKeyword &&
             placesAndSpotsByKeyword.places.places &&
             placesAndSpotsByKeyword.places.places
@@ -276,7 +296,7 @@ const SearchPlace: React.FC = () => {
                     )
                   )}
               {placesAndSpotsByKeyword &&
-                placesAndSpotsByKeyword.places.length == 0 &&
+                placesAndSpotsByKeyword.places.places.length == 0 &&
                 placesAndSpotsByKeyword.spots.length == 0 && (
                   <$.NoSpotsContainer>
                     <$.NoSpots key={keyword}>
