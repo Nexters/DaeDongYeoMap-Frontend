@@ -8,6 +8,7 @@ import {
   useMapSpotsState,
 } from '~/lib/apollo/vars/home';
 import SpotOverlay from './SpotOverlay';
+import { ATTR_OVERLAY_ID, CLASS_OVERLAY } from '~/constants/kakaoMap';
 
 declare global {
   interface Window {
@@ -70,7 +71,20 @@ const createKakaoMap = (center: { lat: number; lng: number }) => {
   });
 };
 
+const overlayEventHandlerMap: {
+  [spotId: string]: any;
+} = {};
+
 const MapArea: React.FC = () => {
+  const {
+    Circle,
+    LatLng,
+    MarkerImage,
+    Marker,
+    Size,
+    Point,
+  } = (window as any).kakao.maps;
+
   const [kakaoMap, setKakaoMap] = useState(null);
   const [getAllSpots, { loading, data, called }] = useLazyQuery(
     FETCH_ALL_SPOTS
@@ -80,6 +94,23 @@ const MapArea: React.FC = () => {
   const isCustomSpotSetting = useReactiveVar(useIsCustomSpotSetting);
 
   console.log('SPOTS_STATE: ', mapSpots);
+
+  // 카카오에서 지원하는 overlay 클릭 방식이
+  // 아키텍쳐나 OOP 상 좋지 않은 방식이라서, 직접 event delegation으로 구현하는게 나을듯 함.
+  // 일단 시간이 없어서 해당 컴포넌트에서 다 구현하는데 추후 리팩토링 필요할듯.
+  const handleClickKakaoMap = (e: React.MouseEvent) => {
+    const elTarget: HTMLElement = e.target as HTMLElement;
+    const elOverlay = elTarget.closest(`.${CLASS_OVERLAY}`);
+
+    if (!elOverlay) {
+      return;
+    }
+
+    const spotIdOfOverlay = elOverlay.getAttribute(ATTR_OVERLAY_ID);
+    const eventHandler = overlayEventHandlerMap[spotIdOfOverlay];
+
+    eventHandler && eventHandler();
+  };
 
   useEffect(() => {
     const kakaoMap = createKakaoMap({
@@ -113,11 +144,8 @@ const MapArea: React.FC = () => {
     // if (isCustomSpotSetting) el.classList.add('spot-marker');
     // else el.classList.remove('spot-marker');
 
-    const circle = new (window as any).kakao.maps.Circle({
-      center: new (window as any).kakao.maps.LatLng(
-        currentPosition.latY,
-        currentPosition.lngX
-      ), // 원의 중심좌표 입니다
+    const circle = new Circle({
+      center: new LatLng(currentPosition.latY, currentPosition.lngX), // 원의 중심좌표 입니다
       radius: 500,
       strokeWeight: 1, // 선의 두께입니다
       strokeColor: '#FD476D', // 선의 색깔입니다
@@ -127,11 +155,8 @@ const MapArea: React.FC = () => {
       fillOpacity: 0.3,
     });
 
-    const circle2 = new (window as any).kakao.maps.Circle({
-      center: new (window as any).kakao.maps.LatLng(
-        currentPosition.latY,
-        currentPosition.lngX
-      ), // 원의 중심좌표 입니다
+    const circle2 = new Circle({
+      center: new LatLng(currentPosition.latY, currentPosition.lngX), // 원의 중심좌표 입니다
       radius: 1000,
       strokeWeight: 1, // 선의 두께입니다
       strokeColor: '#FD476D', // 선의 색깔입니다
@@ -144,21 +169,21 @@ const MapArea: React.FC = () => {
     mapSpots
       .map((spot) => {
         const emojiObj = {
-          pos: new (window as any).kakao.maps.LatLng(spot.y, spot.x),
+          pos: new LatLng(spot.y, spot.x),
           imgSrc: emojis.sugar0.stickers[0].imageUrl,
-          imgSize: new (window as any).kakao.maps.Size(50, 50),
+          imgSize: new Size(50, 50),
           imgOptions: {
-            spriteOrigin: new (window as any).kakao.maps.Point(0, 0),
-            spriteSize: new (window as any).kakao.maps.Size(50, 50),
+            spriteOrigin: new Point(0, 0),
+            spriteSize: new Size(50, 50),
           },
         };
 
-        const markerImg = new (window as any).kakao.maps.MarkerImage(
+        const markerImg = new MarkerImage(
           emojiObj.imgSrc,
           emojiObj.imgSize,
           emojiObj.imgOptions
         );
-        const marker = new (window as any).kakao.maps.Marker({
+        const marker = new Marker({
           position: emojiObj.pos,
           image: markerImg,
         });
@@ -173,14 +198,14 @@ const MapArea: React.FC = () => {
     circle2.setMap(kakaoMap);
 
     // 지도를 클릭한 위치에 표출할 마커입니다
-    new (window as any).kakao.maps.Marker({
+    new Marker({
       position: kakaoMap.getCenter(),
     });
   }, [mapSpots, currentPosition, isCustomSpotSetting]);
 
   return (
     <>
-      <$.MapArea />
+      <$.MapArea onClick={handleClickKakaoMap} />
       {kakaoMap &&
         mapSpots.map((spot: GQL.Spot) => (
           <SpotOverlay
@@ -188,6 +213,7 @@ const MapArea: React.FC = () => {
             spot={spot}
             kakaoCoord={new (window as any).kakao.maps.LatLng(spot.y, spot.x)}
             kakaoMap={kakaoMap}
+            eventHandlerMap={overlayEventHandlerMap}
           />
         ))}
     </>
