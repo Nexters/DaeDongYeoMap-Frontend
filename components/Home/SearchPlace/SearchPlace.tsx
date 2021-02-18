@@ -1,10 +1,11 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import * as $ from './SearchPlaceView';
-import { gql, useLazyQuery, useQuery } from '@apollo/client';
+import { gql, useLazyQuery } from '@apollo/client';
 import { debounce } from 'lodash';
 import { useReactiveVar } from '@apollo/client';
 import {
-  useCurrentPosition,
+  currentPosition,
+  useCurrentPositionSetter,
   useIsCustomSpotSetting,
 } from '~/lib/apollo/vars/home';
 
@@ -63,7 +64,8 @@ const SearchPlace: React.FC = () => {
   const [isEnter, setIsEnter] = useState(false);
   const [selectedSpot, setSelectedSpot] = useState('recommend');
   const [searchKeyword, setSearchKeyword] = useState('');
-  const myPosition = useCurrentPosition();
+  const myPosition = currentPosition();
+  const setCurrentPosition = useCurrentPositionSetter();
   console.log(myPosition, '내 위치');
   const X = myPosition.lngX;
   const Y = myPosition.latY;
@@ -71,8 +73,8 @@ const SearchPlace: React.FC = () => {
   console.log(Y, 'y');
   const [pagination, setPagination] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  let nums = [1, 2, 3, 4, 5];
-  let pages = nums.map((num) => 5 * pagination + num);
+  const nums = [1, 2, 3, 4, 5];
+  const pages = nums.map((num) => 5 * pagination + num);
   const [loadData, { loading, data: placesAndSpotsByKeyword }] = useLazyQuery(
     PLACES_AND_SPOTS_BY_KEYWORDID,
     {
@@ -116,7 +118,7 @@ const SearchPlace: React.FC = () => {
     console.log(y, x, '스팟의 y,x');
     myPosition.latY = y;
     myPosition.lngX = x;
-    // useCurrentPosition({ latY: y, lngX: x });
+    setCurrentPosition({ latY: y, lngX: x });
     console.log(myPosition, '변경된 위치');
     // const selectedPosition = useCurrentPosition();
     // console.log(selectedPosition, '변경된 위치'); //위치 상태 변경 확인

@@ -115,10 +115,26 @@ declare namespace GQL {
     export type Variables = {
       courseInput: {
         courseId: string;
+        courseImageInput: {
+          theme: string;
+          width: number;
+          height: number;
+        };
       };
     };
     export type Data = {
       course: Course;
+    };
+  }
+  export namespace GetMapSpots {
+    export type Variables = {
+      searchSpotDto?: {
+        x: number;
+        y: number;
+      };
+    };
+    export type Data = {
+      spots: Array<Spot>;
     };
   }
 }
