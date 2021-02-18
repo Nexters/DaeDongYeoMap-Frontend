@@ -1,4 +1,4 @@
-import { makeVar, gql, useMutation } from '@apollo/client';
+import { makeVar, gql, useMutation, useApolloClient } from '@apollo/client';
 import createReactiveVarHooks from '~/util/createReactiveVarHooks';
 import type { SpotView } from '../EditorState';
 import { useEndSpotsRemover } from '../CandidateSpots/CandidateSpotsState';
@@ -21,6 +21,18 @@ export const [
   useFormSpotsState,
 ] = createReactiveVarHooks(formSpots);
 
+const GET_COURSE = gql`
+  query Course($courseInput: CourseInput!) {
+    course(courseInput: $courseInput) {
+      _id
+      stickers
+      title
+      is_share
+      courseImage
+    }
+  }
+`;
+
 const CREATE_COURSE = gql`
   mutation CreateCourse($createCourseInput: CreateCourseInput!) {
     createCourse(createCourseInput: $createCourseInput) {
@@ -34,18 +46,30 @@ const CREATE_COURSE = gql`
 `;
 
 export const useFormSubmitter = (): (() => void) => {
+  const client = useApolloClient();
   const openPopup = usePopupOpener();
   const [createCourse] = useMutation<
     GQL.CreateCourse.Data,
     GQL.CreateCourse.Variables
   >(CREATE_COURSE, {
     onCompleted({ createCourse: data }) {
-      openPopup({
-        popupType: PopupType.COURSE_SHARE,
-        popupProps: {
-          course: data,
-        },
-      });
+      client
+        .query<GQL.GetCourse.Data, GQL.GetCourse.Variables>({
+          query: GET_COURSE,
+          variables: {
+            courseInput: {
+              courseId: data._id,
+            },
+          },
+        })
+        .then(({ data: { course } }) => {
+          openPopup({
+            popupType: PopupType.COURSE_SHARE,
+            popupProps: {
+              course,
+            },
+          });
+        });
     },
   });
 

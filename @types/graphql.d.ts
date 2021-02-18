@@ -111,4 +111,14 @@ declare namespace GQL {
       createCourse: Course;
     };
   }
+  export namespace GetCourse {
+    export type Variables = {
+      courseInput: {
+        courseId: string;
+      };
+    };
+    export type Data = {
+      course: Course;
+    };
+  }
 }
