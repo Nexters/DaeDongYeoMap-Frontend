@@ -2,6 +2,9 @@ import { findIndex } from '~/util/Array';
 import type { SpotView } from '~/components/Course/Editor/EditorState';
 
 const SPOTS_KEY = 'dedong_spots';
+const CURRENT_POSITION_KEY = 'daedong_current_pos';
+
+type CurrentPosition = { lngX: number; latY: number };
 
 class Storage {
   public getSpots(): SpotView[] {
@@ -35,11 +38,26 @@ class Storage {
 
     if (spotIndex !== -1) {
       spots.splice(spotIndex, 1);
-      console.log(spots);
       localStorage.setItem(SPOTS_KEY, JSON.stringify(spots));
     }
 
     return spots;
+  }
+
+  public getCurrentPosition(): CurrentPosition {
+    const posStorageItem: string = localStorage.getItem(CURRENT_POSITION_KEY);
+    const position: CurrentPosition = posStorageItem
+      ? JSON.parse(posStorageItem)
+      : {
+          lngX: 127.0671244,
+          latY: 37.2968082,
+        };
+
+    return position;
+  }
+
+  public setCurrentPosition(position: CurrentPosition): void {
+    localStorage.setItem(CURRENT_POSITION_KEY, JSON.stringify(position));
   }
 }
 
