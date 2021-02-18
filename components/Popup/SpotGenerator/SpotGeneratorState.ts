@@ -76,6 +76,7 @@ export const CREATE_STICKER = gql`
 
 export const useCreateSticker = (): CreateSticker => {
   let partner: string = formPartnerState() || '';
+  let stickerId: string = formStickerState();
 
   const [request] = useMutation<
     GQL.CreateSticker.Data,
@@ -84,7 +85,7 @@ export const useCreateSticker = (): CreateSticker => {
     onCompleted({ createSticker: data }) {
       const sticker = {
         id: data._id,
-        stickerId: `${formStickerState()}`,
+        stickerId,
         title: data.spot.place_name,
         partner,
         timestamp: Math.floor(Date.now() / 1000),
@@ -95,8 +96,9 @@ export const useCreateSticker = (): CreateSticker => {
   });
 
   const createSticker: CreateSticker = (place: SpotGeneratorProps['place']) => {
-    const stickerState = `${formStickerState()}`;
-    const [sweetPercent, stickerIndex] = parseStickerId(stickerState);
+    stickerId = formStickerState();
+
+    const [sweetPercent, stickerIndex] = parseStickerId(stickerId);
 
     partner = formPartnerState();
     request({
