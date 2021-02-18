@@ -8,6 +8,7 @@ import {
   usePressedSpotSetter,
 } from './SpotItem/SpotItemState';
 import type { SpotView } from '~/components/Course/Editor/EditorState';
+import { useFormSpotsSetter } from '../CourseFormState';
 
 export enum SpotTableItemType {
   Spot = 'Spot',
@@ -100,6 +101,7 @@ export const [
 ] = createReactiveVarHooks(spotItems);
 
 export const useSpotFormHook = (): SpotFormHook => {
+  const setFormSpots = useFormSpotsSetter();
   const spots = useSpotItemsValue();
   const setPressedSpotId = usePressedSpotSetter();
   const spotTable: SpotTable = useMemo(() => mapToSpotTable(spots), [spots]);
@@ -119,9 +121,21 @@ export const useSpotFormHook = (): SpotFormHook => {
     document.addEventListener('click', handleClickDocument);
 
     return () => document.removeEventListener('click', handleClickDocument);
-  });
+  }, []);
+
+  useEffect(() => {
+    setFormSpots(spots);
+  }, [spots]);
 
   return {
     spotTable,
+  };
+};
+
+export const useSpotFormResetter = (): (() => void) => {
+  const setSpotItems = useSpotItemsSetter();
+
+  return () => {
+    setSpotItems([createPlacholderData()]);
   };
 };

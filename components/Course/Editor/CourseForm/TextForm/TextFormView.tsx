@@ -26,21 +26,16 @@ export const FieldBox = styled.div`
   flex-grow: 1;
   flex-shrink: 1;
   width: 50%;
-  &:first-child {
-    margin-right: 18px;
-  }
-  &:last-child {
-    margin-left: 18px;
-  }
 `;
 
 export const FieldSet = styled.div``;
 
 export const Label = styled.div`
   padding-left: 2px;
+  font-weight: bold;
   font-size: 14px;
   line-height: 20px;
-  color: ${painter.grayscale[7]};
+  color: ${painter.grayscale[9]};
 `;
 
 export const InputBox = styled.div`

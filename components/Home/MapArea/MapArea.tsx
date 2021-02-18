@@ -1,14 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as $ from './MapAreaView';
 import emojis from '~/constants/sugar';
-import { usePopupOpener } from '~/lib/apollo/hooks/usePopup';
-import { PopupType } from '~/@types/popup.d';
 import { gql, useLazyQuery, useReactiveVar } from '@apollo/client';
 import {
   useCurrentPosition,
   useIsCustomSpotSetting,
-  useSpotsState,
+  useMapSpotsState,
 } from '~/lib/apollo/vars/home';
+import SpotOverlay from './SpotOverlay';
+import { ATTR_OVERLAY_ID, CLASS_OVERLAY } from '~/constants/kakaoMap';
 
 declare global {
   interface Window {
@@ -40,190 +40,222 @@ const FETCH_ALL_SPOTS = gql`
   }
 `;
 
+const getLocation = () => {
+  return new Promise((resolve, reject) => {
+    if (!navigator.geolocation) {
+      alert('GPS를 지원하지 않습니다');
+      return;
+    }
+
+    // GPS를 지원하면
+    navigator.geolocation.getCurrentPosition(
+      function (position) {
+        resolve(position);
+      },
+      function (error) {
+        reject(error);
+      },
+      {
+        enableHighAccuracy: false,
+        maximumAge: 0,
+        timeout: Infinity,
+      }
+    );
+  });
+};
+
+const createKakaoMap = (center: { lat: number; lng: number }) => {
+  return new (window as any).kakao.maps.Map(document.getElementById('map'), {
+    center: new (window as any).kakao.maps.LatLng(center.lat, center.lng),
+    level: 4,
+  });
+};
+
+const overlayEventHandlerMap: {
+  [spotId: string]: any;
+} = {};
+
 const MapArea: React.FC = () => {
-  const openPopup = usePopupOpener();
+  const {
+    Circle,
+    LatLng,
+    MarkerImage,
+    Marker,
+    Size,
+    Point,
+  } = (window as any).kakao.maps;
+
+  const [kakaoMap, setKakaoMap] = useState(null);
   const [getAllSpots, { loading, data, called }] = useLazyQuery(
     FETCH_ALL_SPOTS
   );
-  const initPos = useEffect(() => {
-    getAllSpots();
-  }, [data]);
-
-  const spotsState = useSpotsState();
+  const [mapSpots, setMapSpots] = useMapSpotsState();
   const currentPosition = useCurrentPosition();
   const isCustomSpotSetting = useReactiveVar(useIsCustomSpotSetting);
 
-  useEffect(() => {
-    if (data && data?.spots) {
-      useSpotsState(data?.spots);
-    }
-  }, [data, called, loading]);
+  console.log('SPOTS_STATE: ', mapSpots);
 
-  console.log(spotsState);
-  console.log(currentPosition);
+  // 카카오에서 지원하는 오버레이 클릭 방식이
+  // 아키텍쳐나 OOP 상 좋지 않은 방식이라서, 직접 event delegation으로 구현하는게 나을듯 함.
+  // 마커 클릭은 카카오에서 지원하는 클릭이벤트 방식을 써도 될듯.
+  // 일단 시간이 없어서 해당 컴포넌트에서 다 구현하는데 추후 리팩토링 필요할듯.
+  const handleClickKakaoMap = (e: React.MouseEvent) => {
+    const elTarget: HTMLElement = e.target as HTMLElement;
+    const elOverlay = elTarget.closest(`.${CLASS_OVERLAY}`);
 
-  useEffect(() => {
-    function getLocation() {
-      if (navigator.geolocation) {
-        // GPS를 지원하면
-        navigator.geolocation.getCurrentPosition(
-          function (position) {
-            useCurrentPosition({
-              latY: position.coords.latitude,
-              lngX: position.coords.longitude,
-            });
-          },
-          function (error) {
-            console.error(error);
-          },
-          {
-            enableHighAccuracy: false,
-            maximumAge: 0,
-            timeout: Infinity,
-          }
-        );
-      } else {
-        alert('GPS를 지원하지 않습니다');
-      }
+    if (!elOverlay) {
+      return;
     }
 
-    getLocation();
+    const spotIdOfOverlay = elOverlay.getAttribute(ATTR_OVERLAY_ID);
+    const eventHandler = overlayEventHandlerMap[spotIdOfOverlay];
+
+    eventHandler && eventHandler();
+  };
+
+  useEffect(() => {
+    const kakaoMap = createKakaoMap({
+      lat: currentPosition.latY,
+      lng: currentPosition.lngX,
+    });
+
+    setKakaoMap(kakaoMap);
+    getLocation().then((position: any) => {
+      useCurrentPosition({
+        latY: position.coords.latitude,
+        lngX: position.coords.longitude,
+      });
+    });
+    getAllSpots();
   }, []);
 
   useEffect(() => {
-    openPopup({
-      popupType: PopupType.SPOT_GENERATOR,
-      popupProps: {
-        placeId: '',
-      },
+    if (data && data?.spots) {
+      setMapSpots(data?.spots);
+    }
+  }, [data, called, loading]);
+
+  useEffect(() => {
+    if (!kakaoMap) {
+      return;
+    }
+
+    // TODO - 커스텀 커서 만들기
+    console.log(isCustomSpotSetting);
+    // if (isCustomSpotSetting) el.classList.add('spot-marker');
+    // else el.classList.remove('spot-marker');
+
+    const circle = new Circle({
+      center: new LatLng(currentPosition.latY, currentPosition.lngX), // 원의 중심좌표 입니다
+      radius: 500,
+      strokeWeight: 1, // 선의 두께입니다
+      strokeColor: '#FD476D', // 선의 색깔입니다
+      strokeOpacity: 0, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+      strokeStyle: 'solid',
+      fillColor: '#FD476D',
+      fillOpacity: 0.3,
     });
 
-    (window as any).kakao.maps.load(() => {
-      const el = document.getElementById('map');
-      // TODO - 커스텀 커서 만들기
-      console.log(isCustomSpotSetting);
-      // if (isCustomSpotSetting) el.classList.add('spot-marker');
-      // else el.classList.remove('spot-marker');
+    const circle2 = new Circle({
+      center: new LatLng(currentPosition.latY, currentPosition.lngX), // 원의 중심좌표 입니다
+      radius: 1000,
+      strokeWeight: 1, // 선의 두께입니다
+      strokeColor: '#FD476D', // 선의 색깔입니다
+      strokeOpacity: 0, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+      strokeStyle: 'solid',
+      fillColor: '#FD476D',
+      fillOpacity: 0.12,
+    });
 
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const map = new (window as any).kakao.maps.Map(el, {
-        center: new (window as any).kakao.maps.LatLng(
-          currentPosition.latY,
-          currentPosition.lngX
-        ),
-        level: 4,
-      });
+    mapSpots
+      .map((spot) => {
+        const emojiObj = {
+          pos: new LatLng(spot.y, spot.x),
+          imgSrc: emojis.sugar0.stickers[0].imageUrl,
+          imgSize: new Size(50, 50),
+          imgOptions: {
+            spriteOrigin: new Point(0, 0),
+            spriteSize: new Size(50, 50),
+          },
+        };
 
-      const circle = new (window as any).kakao.maps.Circle({
-        center: new (window as any).kakao.maps.LatLng(
-          currentPosition.latY,
-          currentPosition.lngX
-        ), // 원의 중심좌표 입니다
-        radius: 500,
-        strokeWeight: 1, // 선의 두께입니다
-        strokeColor: '#FD476D', // 선의 색깔입니다
-        strokeOpacity: 0, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
-        strokeStyle: 'solid',
-        fillColor: '#FD476D',
-        fillOpacity: 0.3,
-      });
-
-      const circle2 = new (window as any).kakao.maps.Circle({
-        center: new (window as any).kakao.maps.LatLng(
-          currentPosition.latY,
-          currentPosition.lngX
-        ), // 원의 중심좌표 입니다
-        radius: 1000,
-        strokeWeight: 1, // 선의 두께입니다
-        strokeColor: '#FD476D', // 선의 색깔입니다
-        strokeOpacity: 0, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
-        strokeStyle: 'solid',
-        fillColor: '#FD476D',
-        fillOpacity: 0.12,
-      });
-
-      spotsState
-        .map((spot) => {
-          const emojiObj = {
-            pos: new (window as any).kakao.maps.LatLng(spot.y, spot.x),
-            imgSrc: emojis.sugar0.stickers[0].imageUrl,
-            imgSize: new (window as any).kakao.maps.Size(50, 50),
-            imgOptions: {
-              spriteOrigin: new (window as any).kakao.maps.Point(0, 0),
-              spriteSize: new (window as any).kakao.maps.Size(50, 50),
-            },
-          };
-
-          const markerImg = new (window as any).kakao.maps.MarkerImage(
-            emojiObj.imgSrc,
-            emojiObj.imgSize,
-            emojiObj.imgOptions
-          );
-          const marker = new (window as any).kakao.maps.Marker({
-            position: emojiObj.pos,
-            image: markerImg,
-          });
-          // TODO - click 시 함수는 어디에 위치시켜야 하는가?
-          const content = `<div class="custom-overlay"><a href="#" target="_blank"><span class="title">${spot.place_name}</span></a></div>`;
-          const customOverlay = new (window as any).kakao.maps.CustomOverlay({
-            map: map,
-            position: emojiObj.pos,
-            content: content,
-            yAnchor: 1,
-          });
-
-          return { marker, customOverlay };
-        })
-        .forEach(({ marker, customOverlay }) => {
-          marker.setMap(map);
-          customOverlay.setMap(map);
+        const markerImg = new MarkerImage(
+          emojiObj.imgSrc,
+          emojiObj.imgSize,
+          emojiObj.imgOptions
+        );
+        const marker = new Marker({
+          position: emojiObj.pos,
+          image: markerImg,
         });
 
-      circle.setMap(map);
-      circle2.setMap(map);
-
-      // 지도를 클릭한 위치에 표출할 마커입니다
-      const marker = new (window as any).kakao.maps.Marker({
-        position: map.getCenter(),
+        return { marker };
+      })
+      .forEach(({ marker }) => {
+        marker.setMap(kakaoMap);
       });
 
-      (window as any).kakao.maps.event.addListener(
-        map,
-        'mouseup',
-        function (mouseEvent) {
-          // 클릭한 위도, 경도 정보를 가져옵니다
-          const latlng = mouseEvent.latLng;
-          if (false) {
-            marker.setPosition(latlng);
-            const spotEmoji = {
-              pos: new (window as any).kakao.maps.LatLng(
-                latlng.getLat(),
-                latlng.getLng()
-              ),
-              imgSrc: '',
-              imgSize: new (window as any).kakao.maps.Size(50, 50),
-              imgOptions: {
-                spriteOrigin: new (window as any).kakao.maps.Point(0, 0),
-                spriteSize: new (window as any).kakao.maps.Size(50, 50),
-              },
-            };
-            const emojiImg = new (window as any).kakao.maps.MarkerImage(
-              spotEmoji.imgSrc,
-              spotEmoji.imgSize,
-              spotEmoji.imgOptions
-            );
-            const emoji = new (window as any).kakao.maps.Marker({
-              position: spotEmoji.pos,
-              image: emojiImg,
-            });
-            emoji.setMap(map);
-          }
-        }
-      );
-    });
-  }, [spotsState, currentPosition, isCustomSpotSetting]);
+    circle.setMap(kakaoMap);
+    circle2.setMap(kakaoMap);
 
-  return <$.MapArea></$.MapArea>;
+    // 지도를 클릭한 위치에 표출할 마커입니다
+    new Marker({
+      position: kakaoMap.getCenter(),
+    });
+  }, [mapSpots, currentPosition, isCustomSpotSetting]);
+
+  return (
+    <>
+      <$.MapArea onClick={handleClickKakaoMap} />
+      {kakaoMap &&
+        mapSpots.map((spot: GQL.Spot) => (
+          <SpotOverlay
+            key={`mapspot-${spot._id}`}
+            spot={spot}
+            kakaoCoord={new (window as any).kakao.maps.LatLng(spot.y, spot.x)}
+            kakaoMap={kakaoMap}
+            eventHandlerMap={overlayEventHandlerMap}
+          />
+        ))}
+    </>
+  );
 };
 
 export default MapArea;
+
+// < useEffect 안에서 마우스 이벤트 리스너 추가하던 부분 >
+// 현재 호출되지 않는 소스코드라 임시로 빼둔 상태
+
+// (window as any).kakao.maps.event.addListener(
+//   kakaoMap,
+//   'mouseup',
+//   function (mouseEvent) {
+//     // 클릭한 위도, 경도 정보를 가져옵니다
+//     const latlng = mouseEvent.latLng;
+//     if (false) {
+//       marker.setPosition(latlng);
+//       const spotEmoji = {
+//         pos: new (window as any).kakao.maps.LatLng(
+//           latlng.getLat(),
+//           latlng.getLng()
+//         ),
+//         imgSrc: '',
+//         imgSize: new (window as any).kakao.maps.Size(50, 50),
+//         imgOptions: {
+//           spriteOrigin: new (window as any).kakao.maps.Point(0, 0),
+//           spriteSize: new (window as any).kakao.maps.Size(50, 50),
+//         },
+//       };
+//       const emojiImg = new (window as any).kakao.maps.MarkerImage(
+//         spotEmoji.imgSrc,
+//         spotEmoji.imgSize,
+//         spotEmoji.imgOptions
+//       );
+//       const emoji = new (window as any).kakao.maps.Marker({
+//         position: spotEmoji.pos,
+//         image: emojiImg,
+//       });
+//       emoji.setMap(map);
+//     }
+//   }
+// );
