@@ -54,7 +54,8 @@ declare namespace GQL {
   }
   export interface Sticker {
     _id: string;
-    sticker_category: string;
+    sticker_index: number;
+    sweet_percent: number;
     is_used: boolean;
     spot: Spot;
   }
@@ -80,7 +81,8 @@ declare namespace GQL {
         place_name: string;
         x: number;
         y: number;
-        sticker_category: string;
+        sticker_index: number;
+        sweet_percent: number;
         category_name?: string;
         category_group_code?: string;
         category_group_name?: string;
@@ -89,9 +91,12 @@ declare namespace GQL {
         road_address_name?: string;
         place_url?: string;
         distance?: string;
+        is_used?: boolean;
       };
     };
-    export type Data = Sticker;
+    export type Data = {
+      createSticker: Sticker;
+    };
   }
   export namespace CreateCourse {
     export type Variables = {
@@ -101,6 +106,8 @@ declare namespace GQL {
         is_share: boolean;
       };
     };
-    export type Data = Course;
+    export type Data = {
+      createCourse: Course;
+    };
   }
 }
