@@ -4,6 +4,7 @@ import * as $ from './SpotCardView';
 import { DRAG_IDENTIFIER_VALUE, DRAG_KEY } from '~/constants/dom';
 import { DraggedStatus, setDraggedSpot } from '../CandidateSpotsState';
 import type { SpotView } from '~/components/Course/Editor/EditorState';
+import { formatDate } from '~/util';
 
 type Props = SpotView & {
   status: DraggedStatus;
@@ -31,7 +32,7 @@ const SpotCard: React.FC<Props> = (props) => {
         <$.SpotTitle>{title}</$.SpotTitle>
         <$.SpotInfo>
           <$.Partner>{partner}</$.Partner>
-          <$.Timestamp>{timestamp}</$.Timestamp>
+          <$.Timestamp>{formatDate(timestamp, true)}</$.Timestamp>
         </$.SpotInfo>
       </$.AreaDescription>
     </$.SpotCard>

@@ -13,6 +13,12 @@ export const AreaCourse = styled.div`
   height: 416px;
 `;
 
+export const CourseImage = styled.img`
+  display: block;
+  width: 416px;
+  height: 416px;
+`;
+
 export const Title = styled.strong`
   display: block;
   height: 28px;
