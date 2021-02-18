@@ -3,7 +3,7 @@ import MapArea from '~/components/Home/MapArea';
 import ScriptLoader from '~/components/_common/ScriptLoader';
 import Popup from '~/components/Popup';
 import SearchPlace from '~/components/Home/SearchPlace';
-
+import MainMood from '~/components/Home/Mood/MainMood';
 const Home: React.FC = () => {
   return (
     <>
@@ -18,6 +18,7 @@ const Home: React.FC = () => {
         {({ isScriptLoaded }) => isScriptLoaded && <MapArea />}
       </ScriptLoader>
       <SearchPlace />
+      <MainMood />
       <Popup />
     </>
   );
