@@ -107,7 +107,7 @@ const SearchPlace: React.FC = () => {
     // setKeyword('');
   };
 
-  const clickForm = (e: any) => {
+  const clickInput = (e: any) => {
     setIsClicked(true);
   };
 
@@ -157,25 +157,32 @@ const SearchPlace: React.FC = () => {
     }
   };
 
+  const resetSearch = () => {
+    setIsClicked(false);
+    console.log(isClicked, '??');
+    setKeyword('');
+    setSearchKeyword('');
+  };
+
   return (
     <>
-      <$.SearchForm onClick={clickForm} onSubmit={submitValue}>
+      <$.SearchForm
+        onSubmit={submitValue}
+        is-focused={isClicked || keyword}
+        is-autocomplete={isClicked && placesAndSpotsByKeyword}
+      >
         <$.SearchIcon />
         <$.InputField
           type="text"
           name="searchValue"
           placeholder={'데이트 스팟 검색'}
           value={keyword}
+          onClick={clickInput}
           onChange={onChangeInput}
           autoFocus={true}
           autoComplete="off"
         />
-        <$.ResetKeyword
-          onClick={(e) => {
-            setKeyword('');
-            setSearchKeyword('');
-          }}
-        />
+        <$.ResetKeyword onClick={resetSearch} />
       </$.SearchForm>
       <$.SpotButton onClick={handleCustomSpotSetting}>
         <$.SpotButtonImg />
