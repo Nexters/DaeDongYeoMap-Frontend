@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
-// import CourseCard from './CourseCard';
+import CourseCard from './CourseCard';
 import {
   useCourseHistoriesState,
   useFormDateState,
 } from './CourseHistoryState';
 import { CourseView } from '../HistoryState';
+
 import storage from '~/storage';
 
 import * as $ from './CourseHistoryView';
@@ -17,7 +18,7 @@ const CourseHistory: React.FC = () => {
 
   useEffect(() => {
     const courses = storage.getCourses();
-    // setCouseHistories(courses);
+    setCouseHistories(courses);
   }, []);
 
   const handleClickDate = (calendarDate: CalendarDate): void => {
@@ -32,19 +33,22 @@ const CourseHistory: React.FC = () => {
 
       <$.CoursePickerLayer>
         <div>코스 리스트</div>
-        {/* <CourseList>
-      {courses.map(({ id, title, stickers, timestamp }) => (
-        <CourseItem key={`candidate-${id}`}>
-          <CourseCard
-            id={id}
-            title={title}
-            stickers={stickers}
-            numStickers={stickers.length()}
-            timestamp={timestamp}
-          />
-        </CourseItem>
-      ))}
-    </CourseList> */}
+        <$.CourseList>
+          {couseHistories.map(
+            ({ _id, title, stickers, courseImage, timestamp }) => (
+              <$.CourseItem key={`course-${_id}`}>
+                <CourseCard
+                  id={_id}
+                  title={title}
+                  stickers={stickers}
+                  courseImage={courseImage}
+                  numStickers={stickers.length}
+                  timestamp={timestamp}
+                />
+              </$.CourseItem>
+            )
+          )}
+        </$.CourseList>
       </$.CoursePickerLayer>
     </>
   );

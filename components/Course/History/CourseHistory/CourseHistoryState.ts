@@ -9,9 +9,11 @@ type FormDateState = [number, number, number];
 export const courseHistories = makeVar<CourseView[]>([]);
 const formDateState = makeVar<FormDateState>(null);
 
-export const [useCourseHistoriesState] = createReactiveVarHooks(
-  courseHistories
-);
+export const [
+  useCourseHistories,
+  useCourseHistoriesSetter,
+  useCourseHistoriesState,
+] = createReactiveVarHooks(courseHistories);
 
 export const [
   useFormDate,
