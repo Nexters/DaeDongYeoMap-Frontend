@@ -42,6 +42,23 @@ const GET_MAP_SPOTS = gql`
   }
 `;
 
+const GET_PLACES = gql`
+  query getPlaces($X: Float, $Y: Float) {
+    places(filters: { x: $X, y: $Y, size: 10 }) {
+      places {
+        id
+        place_name
+        category_name
+        category_group_name
+        address_name
+        road_address_name
+        x
+        y
+      }
+    }
+  }
+`;
+
 const getLocation = () => {
   return new Promise((resolve, reject) => {
     if (!navigator.geolocation) {
@@ -92,10 +109,15 @@ const MapArea: React.FC = () => {
     GQL.GetMapSpots.Data,
     GQL.GetMapSpots.Variables
   >(GET_MAP_SPOTS);
+
   const [mapSpots, setMapSpots] = useMapSpotsState();
   const [currentPosition, setCurrentPosition] = useCurrentPositionState();
   const [searchPlaces, setSearchPlaces] = useSearchPlacesState();
   const isCustomSpotSetting = useReactiveVar(useIsCustomSpotSetting);
+  const [
+    getPlaces,
+    { loading: placesLoading, data: placesData, called: placesCalled },
+  ] = useLazyQuery<GQL.GetPlace.Data, GQL.GetPlace.Variables>(GET_PLACES);
 
   // 카카오에서 지원하는 오버레이 클릭 방식이
   // 아키텍쳐나 OOP 상 좋지 않은 방식이라서, 직접 event delegation으로 구현하는게 나을듯 함.
@@ -140,6 +162,17 @@ const MapArea: React.FC = () => {
         },
       },
     });
+    getPlaces({
+      variables: {
+        keywordSearchDto: {
+          query: '',
+          x: currentPosition.lngX,
+          y: currentPosition.latY,
+          category_group_code: '',
+          radius: 10,
+        },
+      },
+    });
   }, []);
 
   useEffect(() => {
@@ -149,6 +182,12 @@ const MapArea: React.FC = () => {
   }, [data, called, loading]);
 
   useEffect(() => {
+    if (placesData) {
+      console.log(placesData);
+    }
+  }, [placesData, placesCalled, placesLoading]);
+
+  useEffect(() => {
     kakaoMap?.setCenter(new LatLng(currentPosition.latY, currentPosition.lngX));
     storage.setCurrentPosition(currentPosition);
     getMapSpots({
@@ -156,6 +195,17 @@ const MapArea: React.FC = () => {
         searchSpotDto: {
           x: currentPosition.lngX,
           y: currentPosition.latY,
+        },
+      },
+    });
+    getPlaces({
+      variables: {
+        keywordSearchDto: {
+          query: '',
+          x: currentPosition.lngX,
+          y: currentPosition.latY,
+          category_group_code: '',
+          radius: 10,
         },
       },
     });

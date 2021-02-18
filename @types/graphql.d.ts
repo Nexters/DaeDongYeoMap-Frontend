@@ -137,4 +137,22 @@ declare namespace GQL {
       spots: Array<Spot>;
     };
   }
+  export namespace GetPlace {
+    export type Variables = {
+      keywordSearchDto?: {
+        x: number;
+        y: number;
+        query: string;
+        category_group_code: string;
+        radius: number;
+        rect?: string;
+        page?: number;
+        size?: number;
+        sort?: 'distance' | 'accuracy';
+      };
+    };
+    export type Data = {
+      places: Array<Place>;
+    };
+  }
 }
