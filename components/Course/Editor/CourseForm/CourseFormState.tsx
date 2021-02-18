@@ -59,6 +59,11 @@ export const useFormSubmitter = (): (() => void) => {
           variables: {
             courseInput: {
               courseId: data._id,
+              courseImageInput: {
+                theme: 'street',
+                width: 800,
+                height: 800,
+              },
             },
           },
         })

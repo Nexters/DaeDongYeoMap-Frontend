@@ -3,7 +3,7 @@ import * as $ from './MapAreaView';
 import emojis from '~/constants/sugar';
 import { gql, useLazyQuery, useReactiveVar } from '@apollo/client';
 import {
-  useCurrentPosition,
+  useCurrentPositionState,
   useIsCustomSpotSetting,
   useMapSpotsState,
 } from '~/lib/apollo/vars/home';
@@ -16,9 +16,9 @@ declare global {
   }
 }
 
-const FETCH_ALL_SPOTS = gql`
-  {
-    spots {
+const GET_MAP_SPOTS = gql`
+  query GetMapSpots($searchSpotDto: SearchSpotDto) {
+    spots(searchSpotDto: $searchSpotDto) {
       _id
       place_id
       stickers(populate: true) {
@@ -86,11 +86,12 @@ const MapArea: React.FC = () => {
   } = (window as any).kakao.maps;
 
   const [kakaoMap, setKakaoMap] = useState(null);
-  const [getAllSpots, { loading, data, called }] = useLazyQuery(
-    FETCH_ALL_SPOTS
-  );
+  const [getMapSpots, { loading, data, called }] = useLazyQuery<
+    GQL.GetMapSpots.Data,
+    GQL.GetMapSpots.Variables
+  >(GET_MAP_SPOTS);
   const [mapSpots, setMapSpots] = useMapSpotsState();
-  const currentPosition = useCurrentPosition();
+  const [currentPosition, setCurrentPosition] = useCurrentPositionState();
   const isCustomSpotSetting = useReactiveVar(useIsCustomSpotSetting);
 
   console.log('SPOTS_STATE: ', mapSpots);
@@ -121,12 +122,20 @@ const MapArea: React.FC = () => {
 
     setKakaoMap(kakaoMap);
     getLocation().then((position: any) => {
-      useCurrentPosition({
+      console.log('GELOCATION_POSITION: ', position);
+      setCurrentPosition({
         latY: position.coords.latitude,
         lngX: position.coords.longitude,
       });
     });
-    getAllSpots();
+    getMapSpots({
+      variables: {
+        searchSpotDto: {
+          x: currentPosition.lngX,
+          y: currentPosition.latY,
+        },
+      },
+    });
   }, []);
 
   useEffect(() => {
@@ -134,6 +143,19 @@ const MapArea: React.FC = () => {
       setMapSpots(data?.spots);
     }
   }, [data, called, loading]);
+
+  useEffect(() => {
+    console.log('MOVE POSITION:', currentPosition);
+    kakaoMap?.setCenter(new LatLng(currentPosition.latY, currentPosition.lngX));
+    getMapSpots({
+      variables: {
+        searchSpotDto: {
+          x: currentPosition.lngX,
+          y: currentPosition.latY,
+        },
+      },
+    });
+  }, [currentPosition]);
 
   useEffect(() => {
     if (!kakaoMap) {
@@ -202,6 +224,11 @@ const MapArea: React.FC = () => {
     new Marker({
       position: kakaoMap.getCenter(),
     });
+
+    return () => {
+      circle.setMap(null);
+      circle2.setMap(null);
+    };
   }, [mapSpots, currentPosition, isCustomSpotSetting]);
 
   return (
