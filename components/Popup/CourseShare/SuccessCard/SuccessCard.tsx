@@ -3,10 +3,11 @@ import * as $ from './SuccessCardView';
 import { usePopupCloser } from '~/lib/apollo/hooks/usePopup';
 
 export type Props = {
+  course: GQL.Course;
   onClickShareButton: (e: React.MouseEvent) => void;
 };
 
-const CourseShare: React.FC<Props> = ({ onClickShareButton }) => {
+const CourseShare: React.FC<Props> = ({ course, onClickShareButton }) => {
   const closePopup = usePopupCloser();
 
   const handleClickCloseButton = (e: React.MouseEvent) => {
@@ -16,7 +17,9 @@ const CourseShare: React.FC<Props> = ({ onClickShareButton }) => {
 
   return (
     <$.SuccessCard>
-      <$.AreaCourse></$.AreaCourse>
+      <$.AreaCourse>
+        <$.CourseImage src={course.courseImage} />
+      </$.AreaCourse>
       <$.AreaFooter>
         <$.Title>데이트 코스가 등록되었어요!</$.Title>
         <$.Description>

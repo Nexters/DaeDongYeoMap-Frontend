@@ -64,6 +64,7 @@ declare namespace GQL {
     stickers: string[];
     title: string;
     is_share: boolean;
+    courseImage: string;
   }
   export namespace GetPlace {
     export type Data = Place;

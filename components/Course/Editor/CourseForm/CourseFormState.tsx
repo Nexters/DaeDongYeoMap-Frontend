@@ -3,6 +3,8 @@ import createReactiveVarHooks from '~/util/createReactiveVarHooks';
 import type { SpotView } from '../EditorState';
 import { useEndSpotsRemover } from '../CandidateSpots/CandidateSpotsState';
 import { useSpotFormResetter } from './SpotForm/SpotFormState';
+import { PopupType } from '~/@types/popup.d';
+import { usePopupOpener } from '~/lib/apollo/hooks/usePopup';
 
 const formTitle = makeVar<string>('');
 const formSpots = makeVar<SpotView[]>([]);
@@ -20,7 +22,7 @@ export const [
 ] = createReactiveVarHooks(formSpots);
 
 const CREATE_COURSE = gql`
-  mutation CreateCourse($createCourseInput: CreateCourseInput) {
+  mutation CreateCourse($createCourseInput: CreateCourseInput!) {
     createCourse(createCourseInput: $createCourseInput) {
       _id
       stickers
@@ -32,12 +34,18 @@ const CREATE_COURSE = gql`
 `;
 
 export const useFormSubmitter = (): (() => void) => {
+  const openPopup = usePopupOpener();
   const [createCourse] = useMutation<
     GQL.CreateCourse.Data,
     GQL.CreateCourse.Variables
   >(CREATE_COURSE, {
     onCompleted({ createCourse: data }) {
-      console.log(data);
+      openPopup({
+        popupType: PopupType.COURSE_SHARE,
+        popupProps: {
+          course: data,
+        },
+      });
     },
   });
 
