@@ -2,6 +2,7 @@ import React, { ReactElement } from 'react';
 
 type Props = {
   src: string;
+  blocker: () => Promise<void>;
   children: ({ isScriptLoaded: boolean }) => ReactElement;
 };
 
@@ -31,13 +32,15 @@ class ScriptLoader extends React.Component<Props, State> {
 
   private loadScript(): Promise<void> {
     const script = document.createElement('script');
-
-    return new Promise((resolve) => {
-      script.async = true;
+    const loadScript: Promise<void> = new Promise((resolve) => {
       script.src = this.props.src;
       script.onload = () => resolve();
       document.head.appendChild(script);
     });
+
+    return this.props.blocker
+      ? loadScript.then(() => this.props.blocker())
+      : loadScript;
   }
 
   private checkScript(): boolean {

@@ -1,6 +1,14 @@
-import { makeVar } from '@apollo/client';
+import { makeVar, useReactiveVar } from '@apollo/client';
+import createReactiveVarHooks from '~/util/createReactiveVarHooks';
 
-export const useSpotsState = makeVar([]);
+export const mapSpots = makeVar<GQL.Spot[]>([]);
+
+export const [
+  useMapSpots,
+  useMapSpotsSetter,
+  useMapSpotsState,
+] = createReactiveVarHooks(mapSpots);
+
 export const useCurrentPosition = makeVar({
   lngX: 127.0671244,
   latY: 37.2968082,

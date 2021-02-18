@@ -1,7 +1,7 @@
 import {
   useCurrentPosition,
   useIsCustomSpotSetting,
-  useSpotsState,
+  mapSpots,
 } from '~/lib/apollo/vars/home';
 
 const home = {
@@ -10,7 +10,7 @@ const home = {
       fields: {
         spotsState: {
           read() {
-            return useSpotsState();
+            return mapSpots();
           },
         },
         currentPosition: {

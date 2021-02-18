@@ -1,11 +1,25 @@
 import React from 'react';
+import {
+  useFormSubmitter,
+  useFormTitleState,
+} from '~/components/Course/Editor/CourseForm/CourseFormState';
+import { PopupType } from '~/@types/popup.d';
+import { usePopupOpener } from '~/lib/apollo/hooks/usePopup';
 import * as $ from './TextFormView';
 
 const CHECKBOX_ID = 'daedong_chbox_allow';
 
 const TextForm: React.FC = () => {
+  const [formTitle, setFormTitle] = useFormTitleState();
+  const submitForm = useFormSubmitter();
+  const openPopup = usePopupOpener();
+
   const handleClickSubmit = (e: React.MouseEvent) => {
     e.preventDefault();
+    submitForm();
+    openPopup({
+      popupType: PopupType.COURSE_SHARE,
+    });
   };
 
   return (
@@ -15,17 +29,13 @@ const TextForm: React.FC = () => {
         <$.AreaFieldBox>
           <$.FieldBox>
             <$.FieldSet>
-              <$.Label>제목</$.Label>
+              <$.Label>코스 이름</$.Label>
               <$.InputBox>
-                <$.Input placeholder="코스 제목을 입력해주세요" />
-              </$.InputBox>
-            </$.FieldSet>
-          </$.FieldBox>
-          <$.FieldBox>
-            <$.FieldSet>
-              <$.Label>초대하기</$.Label>
-              <$.InputBox>
-                <$.Input placeholder="코스를 같이 공유할 사람을 초대하세요" />
+                <$.Input
+                  value={formTitle}
+                  onChange={(e) => setFormTitle(e.target.value)}
+                  placeholder="코스 이름을 입력해주세요"
+                />
               </$.InputBox>
             </$.FieldSet>
           </$.FieldBox>

@@ -23,7 +23,7 @@ a {
   cursor: url("/public/spot_marker.png"), auto;
 }
 
-.custom-overlay {
+.map-spotoverlay {
   position: relative;
   padding: 12px;
   background: white;
@@ -36,7 +36,7 @@ a {
   font-weight: 600;
 }
 
-.custom-overlay:after {
+.map-spotoverlay:after {
   content: "";
   position: absolute;
   bottom: -15px;

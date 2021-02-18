@@ -1,8 +1,7 @@
-import { makeVar, gql } from '@apollo/client';
+import { makeVar, gql, useMutation } from '@apollo/client';
 import sugar from '~/constants/sugar';
-import storage from '~/storage';
+// import storage from '~/storage';
 import createReactiveVarHooks from '~/util/createReactiveVarHooks';
-import IdGenerator from '~/util/IdGenerator';
 import { v1 as uuidv1 } from 'uuid';
 import type { Sugar } from '~/constants/sugar';
 
@@ -11,10 +10,6 @@ type FormStickerState = string;
 type FormPartnerState = string;
 type FormDateState = [number, number, number];
 type FormResetter = () => void;
-
-const spotIdGenerator = IdGenerator.create(
-  (index: number) => `dedong_spot_${index}`
-);
 
 const formSugarState = makeVar<FormSugarState>('sugar100');
 const formStickerState = makeVar<FormStickerState>(
@@ -77,10 +72,10 @@ export const CREATE_STICKER = gql`
 `;
 
 export const useCreateSticker = (): CreateSticker => {
-  // const [request] = useMutation<
-  //   GQL.CreateSticker.Data,
-  //   GQL.CreateSticker.Variables
-  // >(CREATE_STICKER);
+  const [request] = useMutation<
+    GQL.CreateSticker.Data,
+    GQL.CreateSticker.Variables
+  >(CREATE_STICKER);
 
   const [x, y] = createMockCoord();
   const createSticker: CreateSticker = (
@@ -103,20 +98,20 @@ export const useCreateSticker = (): CreateSticker => {
 
     console.log(spot);
 
-    storage.addSpot(spot);
+    // storage.addSpot(spot);
 
     // TODO: 추후 지도 상태와 연동
-    // request({
-    //   variables: {
-    //     createStickerInput: {
-    //       place_id: place?.id,
-    //       place_name: place?.name,
-    //       sticker_category,
-    //       x,
-    //       y,
-    //     },
-    //   },
-    // });
+    request({
+      variables: {
+        createStickerInput: {
+          place_id: place?.id,
+          place_name: place?.name,
+          sticker_category,
+          x,
+          y,
+        },
+      },
+    });
   };
 
   return createSticker;

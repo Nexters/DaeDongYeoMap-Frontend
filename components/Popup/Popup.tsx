@@ -1,6 +1,7 @@
 import React from 'react';
 import { useReactiveVar } from '@apollo/client';
 import SpotGenerator, { Props as SpotGeneratorProps } from './SpotGenerator';
+import CourseShare, { Props as CourseShareProps } from './CourseShare';
 import { PopupType } from '~/@types/popup.d';
 import { popupState } from '~/lib/apollo/vars/global';
 import Modal from '~/components/_common/Modal';
@@ -25,6 +26,16 @@ const Popup: React.FC = () => {
     return (
       <Modal>
         <SpotGenerator zIndex="10000" {...props} />
+      </Modal>
+    );
+  }
+
+  if (popupType === PopupType.COURSE_SHARE) {
+    const props = popupProps as CourseShareProps;
+
+    return (
+      <Modal>
+        <CourseShare zIndex="10001" {...props} />
       </Modal>
     );
   }
