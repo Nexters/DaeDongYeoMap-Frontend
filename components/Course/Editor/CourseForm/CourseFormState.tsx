@@ -1,4 +1,4 @@
-import { makeVar } from '@apollo/client';
+import { makeVar, gql, useMutation } from '@apollo/client';
 import createReactiveVarHooks from '~/util/createReactiveVarHooks';
 import type { SpotView } from '../EditorState';
 import { useEndSpotsRemover } from '../CandidateSpots/CandidateSpotsState';
@@ -19,12 +19,39 @@ export const [
   useFormSpotsState,
 ] = createReactiveVarHooks(formSpots);
 
+const CREATE_COURSE = gql`
+  mutation CreateCourse($createCourseInput: CreateCourseInput) {
+    createCourse(createCourseInput: $createCourseInput) {
+      _id
+      stickers
+      title
+      is_share
+      courseImage
+    }
+  }
+`;
+
 export const useFormSubmitter = (): (() => void) => {
+  const [createCourse, { data }] = useMutation<
+    GQL.CreateCourse.Data,
+    GQL.CreateCourse.Variables
+  >(CREATE_COURSE);
+  console.log('course: ', data);
+
   const removeEndSpots = useEndSpotsRemover();
   const resetSpotForm = useSpotFormResetter();
 
   return () => {
     removeEndSpots();
     resetSpotForm();
+    createCourse({
+      variables: {
+        createCourseInput: {
+          stickers: formSpots().map((spot) => spot.id),
+          title: formTitle(),
+          is_share: true,
+        },
+      },
+    });
   };
 };

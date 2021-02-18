@@ -58,6 +58,12 @@ declare namespace GQL {
     is_used: boolean;
     spot: Spot;
   }
+  export interface Course {
+    _id: string;
+    stickers: string[];
+    title: string;
+    is_share: boolean;
+  }
   export namespace GetPlace {
     export type Data = Place;
   }
@@ -86,5 +92,15 @@ declare namespace GQL {
       };
     };
     export type Data = Sticker;
+  }
+  export namespace CreateCourse {
+    export type Variables = {
+      createCourseInput: {
+        stickers: string[];
+        title: string;
+        is_share: boolean;
+      };
+    };
+    export type Data = Course;
   }
 }
