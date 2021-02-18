@@ -16,6 +16,10 @@ class Storage {
     return spots;
   }
 
+  public getCourses(): any {
+    return {};
+  }
+
   public addSpot(spot: SpotView): SpotView[] {
     const spots: SpotView[] = this.getSpots();
     const spotIndex: number = findIndex<SpotView>(spots, (item) => {

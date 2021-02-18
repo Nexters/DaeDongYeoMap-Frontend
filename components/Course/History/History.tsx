@@ -1,5 +1,8 @@
 import React from 'react';
+import CourseHistory from './CourseHistory';
+
 import CourseTab from '~/components/Course/Tab';
+
 import {
   Wrap,
   Sidebar,
@@ -10,7 +13,9 @@ import {
 const History: React.FC = () => {
   return (
     <Wrap>
-      <Sidebar></Sidebar>
+      <Sidebar>
+        <CourseHistory />
+      </Sidebar>
       <Content>
         <ContentInner>
           <CourseTab />
