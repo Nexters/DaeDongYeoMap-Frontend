@@ -20,13 +20,22 @@ export const SearchForm = styled.form`
   top: 20px;
   display: flex;
   align-items: center;
+  justify-content: start;
   border: none;
   border-radius: 8px;
   outline: none;
   background-color: ${painter.basic.white};
-  &::focus {
-    border: 2px solid ${painter.primary.basic};
-  }
+  ${(props) =>
+    props['is-focused'] &&
+    `
+    border: 2px solid ${painter.primary.basic(props)};
+    `}
+  ${(props) =>
+    props['is-autocomplete'] &&
+    `
+    border-radius: 8px 8px 0 0;
+    border-bottom:none;
+      `}
 `;
 
 export const InputField = styled.input`
@@ -34,7 +43,7 @@ export const InputField = styled.input`
   font-weight: bold;
   font-family: ${painter.font.roboto};
   padding: 10px 0;
-  margin: 7px;
+  width: 250px;
   border: none;
   outline: none;
   color: ${painter.grayscale['9']};
@@ -54,6 +63,9 @@ export const PlacesAndSpots = styled.ul`
   z-index: 5;
   border-top: 1px solid ${painter.grayscale['5']};
   border-radius: 0 0 8px 8px;
+  border-bottom: 2px solid ${painter.primary.basic};
+  border-left: 2px solid ${painter.primary.basic};
+  border-right: 2px solid ${painter.primary.basic};
   background-color: ${painter.basic.white};
   position: absolute;
   width: 320px;
@@ -61,6 +73,11 @@ export const PlacesAndSpots = styled.ul`
   left: 95px;
   top: 60px;
   padding-bottom: 10px;
+  ${(props) =>
+    props['no-data'] &&
+    `
+    display:none;
+    `}
 `;
 
 export const SearchGrayImg = styled.img.attrs({
@@ -109,7 +126,7 @@ export const SearchIcon = styled.img.attrs({
 })`
   width: 24px;
   height: 24px;
-  margin-left: 7px;
+  margin: 0 7px;
 `;
 
 export const SpotButton = styled.button`
