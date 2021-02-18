@@ -109,7 +109,7 @@ const SearchPlace: React.FC = () => {
     // setKeyword('');
   };
 
-  const clickInput = (e: any) => {
+  const clickInput = () => {
     setIsClicked(true);
   };
 
@@ -213,7 +213,7 @@ const SearchPlace: React.FC = () => {
             placesAndSpotsByKeyword.spots &&
             placesAndSpotsByKeyword.spots
               .slice(0, 6)
-              .map(({ _id, place_name, address_name }) => (
+              .map(({ _id, place_name }) => (
                 <$.PlacesAndSpotsItem key={_id}>
                   {place_name}
                 </$.PlacesAndSpotsItem>
@@ -222,7 +222,7 @@ const SearchPlace: React.FC = () => {
       )}
       {isEnter && searchKeyword && (
         <>
-          <$.EnterDiv onClick={(e) => setIsClicked(false)}>
+          <$.EnterDiv onClick={() => setIsClicked(false)}>
             <$.CustomBtnDiv>
               {buttons.map(({ key, label }) => {
                 return (
@@ -312,8 +312,9 @@ const SearchPlace: React.FC = () => {
             </$.SearchContainer>
             <$.PageDiv>
               <$.PrevPage onClick={(e) => prevPages(e)} />
-              {pages.map((page) => (
+              {pages.map((page, i) => (
                 <$.PageNum
+                  key={`searchplace-page-${i}`}
                   page-selected={page == currentPage}
                   onClick={(e) => changePage(e, page)}
                 >
@@ -323,7 +324,7 @@ const SearchPlace: React.FC = () => {
               <$.NextPage onClick={(e) => nextPages(e)} />
             </$.PageDiv>
           </$.EnterDiv>
-          <$.CloseBtn onClick={(e) => setIsEnter(false)}>
+          <$.CloseBtn onClick={() => setIsEnter(false)}>
             <$.CloseIcon></$.CloseIcon>
           </$.CloseBtn>
         </>
