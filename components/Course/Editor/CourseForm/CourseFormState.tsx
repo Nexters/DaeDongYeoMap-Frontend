@@ -68,6 +68,7 @@ export const useFormSubmitter = (): (() => void) => {
           },
         })
         .then(({ data: { course } }) => {
+          // TODO: 로컬스토리지에 코스 저장
           openPopup({
             popupType: PopupType.COURSE_SHARE,
             popupProps: {
