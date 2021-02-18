@@ -32,11 +32,14 @@ const CREATE_COURSE = gql`
 `;
 
 export const useFormSubmitter = (): (() => void) => {
-  const [createCourse, { data }] = useMutation<
+  const [createCourse] = useMutation<
     GQL.CreateCourse.Data,
     GQL.CreateCourse.Variables
-  >(CREATE_COURSE);
-  console.log('course: ', data);
+  >(CREATE_COURSE, {
+    onCompleted({ createCourse: data }) {
+      console.log(data);
+    },
+  });
 
   const removeEndSpots = useEndSpotsRemover();
   const resetSpotForm = useSpotFormResetter();
