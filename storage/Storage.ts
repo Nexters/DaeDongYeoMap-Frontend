@@ -1,7 +1,9 @@
 import { findIndex } from '~/util/Array';
 import type { SpotView } from '~/components/Course/Editor/EditorState';
+import type { CourseView } from '~/components/Course/History/HistoryState';
 
 const SPOTS_KEY = 'dedong_spots';
+const COURSES_KEY = 'dedong_courses';
 const CURRENT_POSITION_KEY = 'daedong_current_pos';
 
 type CurrentPosition = { lngX: number; latY: number };
@@ -14,10 +16,6 @@ class Storage {
       : [];
 
     return spots;
-  }
-
-  public getCourses(): any {
-    return {};
   }
 
   public addSpot(spot: SpotView): SpotView[] {
@@ -62,6 +60,27 @@ class Storage {
 
   public setCurrentPosition(position: CurrentPosition): void {
     localStorage.setItem(CURRENT_POSITION_KEY, JSON.stringify(position));
+  }
+
+  public getCourses(): CourseView[] {
+    const coursesStorageItem: string = localStorage.getItem(COURSES_KEY);
+    const courses: CourseView[] = coursesStorageItem
+      ? JSON.parse(coursesStorageItem)
+      : [];
+
+    return courses;
+  }
+
+  public addCourse(course: CourseView): void {
+    const courses: CourseView[] = this.getCourses();
+    const courseIndex: number = findIndex<CourseView>(courses, ({ _id }) => {
+      return _id === course._id;
+    });
+
+    if (courseIndex === -1) {
+      courses.push(course);
+      localStorage.setItem(COURSES_KEY, JSON.stringify(courses));
+    }
   }
 }
 
