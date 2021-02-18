@@ -48,7 +48,7 @@ export const ResetKeyword = styled.img.attrs({
   src: '/close_btn.png',
 })`
   cursor: pointer;
-  margin-left: 55px;
+  margin-left: 60px;
 `;
 
 export const PlacesAndSpots = styled.ul`
@@ -63,6 +63,11 @@ export const PlacesAndSpots = styled.ul`
   left: 95px;
   top: 60px;
   padding-bottom: 10px;
+  ${(props) =>
+    props['no-data'] &&
+    `
+    display:none;
+    `}
 `;
 
 export const SearchGrayImg = styled.img.attrs({

@@ -182,7 +182,12 @@ const SearchPlace: React.FC = () => {
         <$.SpotButtonDiv>스팟 추가하기</$.SpotButtonDiv>
       </$.SpotButton>
       {isClicked && placesAndSpotsByKeyword && (
-        <$.PlacesAndSpots>
+        <$.PlacesAndSpots
+          no-data={
+            placesAndSpotsByKeyword.places.places.length == 0 &&
+            placesAndSpotsByKeyword.spots.length == 0
+          }
+        >
           {placesAndSpotsByKeyword &&
             placesAndSpotsByKeyword.places.places &&
             placesAndSpotsByKeyword.places.places
@@ -284,7 +289,7 @@ const SearchPlace: React.FC = () => {
                     )
                   )}
               {placesAndSpotsByKeyword &&
-                placesAndSpotsByKeyword.places.length == 0 &&
+                placesAndSpotsByKeyword.places.places.length == 0 &&
                 placesAndSpotsByKeyword.spots.length == 0 && (
                   <$.NoSpotsContainer>
                     <$.NoSpots key={keyword}>
