@@ -6,23 +6,25 @@ import {
 } from './CourseHistoryState';
 import { CourseView } from '../HistoryState';
 
-import storage from '~/storage';
-
 import * as $ from './CourseHistoryView';
 import DatePicker from '~/components/_common/DatePicker';
 import CalendarDate from '~/util/Calendar/CalendarDate';
 
-const CourseHistory: React.FC = () => {
-  const [couseHistories, setCouseHistories] = useCourseHistoriesState();
-  const [formDate, setFormDate] = useFormDateState();
+type Props = {
+  courses: CourseView[];
+  onClickCourse?: (courseImage: string) => void;
+};
 
-  useEffect(() => {
-    const courses = storage.getCourses();
-    setCouseHistories(courses);
-  }, []);
+const CourseHistory: React.FC<Props> = ({ courses, onClickCourse }) => {
+  const [formDate, setFormDate] = useFormDateState();
 
   const handleClickDate = (calendarDate: CalendarDate): void => {
     setFormDate(calendarDate.getFullDate());
+  };
+
+  const handleClickCourse = (courseImage: string) => (e: React.MouseEvent) => {
+    e.preventDefault();
+    onClickCourse && onClickCourse(courseImage);
   };
 
   return (
@@ -34,20 +36,19 @@ const CourseHistory: React.FC = () => {
       <$.CoursePickerLayer>
         <div>코스 리스트</div>
         <$.CourseList>
-          {couseHistories.map(
-            ({ _id, title, stickers, courseImage, timestamp }) => (
-              <$.CourseItem key={`course-${_id}`}>
-                <CourseCard
-                  id={_id}
-                  title={title}
-                  stickers={stickers}
-                  courseImage={courseImage}
-                  numStickers={stickers.length}
-                  timestamp={timestamp}
-                />
-              </$.CourseItem>
-            )
-          )}
+          {courses.map(({ _id, title, stickers, courseImage, timestamp }) => (
+            <$.CourseItem key={`course-${_id}`}>
+              <CourseCard
+                id={_id}
+                title={title}
+                stickers={stickers}
+                courseImage={courseImage}
+                numStickers={stickers.length}
+                timestamp={timestamp}
+                courseClicked={handleClickCourse}
+              />
+            </$.CourseItem>
+          ))}
         </$.CourseList>
       </$.CoursePickerLayer>
     </>

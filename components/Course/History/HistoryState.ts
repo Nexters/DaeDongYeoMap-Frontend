@@ -1,7 +1,8 @@
 export type CourseView = {
-  _id: string;
+  id: string;
   title: string;
   stickers: string[];
   courseImage: string;
+  numStickers?: number;
   timestamp?: number;
 };

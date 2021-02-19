@@ -73,11 +73,11 @@ class Storage {
 
   public addCourse(course: CourseView): void {
     const courses: CourseView[] = this.getCourses();
-    const courseIndex: number = findIndex<CourseView>(courses, ({ _id }) => {
-      return _id === course._id;
+    const courseIdx: number = findIndex<CourseView>(courses, ({ id }) => {
+      return id === course.id;
     });
 
-    if (courseIndex === -1) {
+    if (courseIdx === -1) {
       courses.push(course);
       localStorage.setItem(COURSES_KEY, JSON.stringify(courses));
     }

@@ -70,6 +70,8 @@ export const useFormSubmitter = (): (() => void) => {
         })
         .then(({ data: { course } }) => {
           storage.addCourse({
+            id: course._id,
+            numStickers: course.stickers.length,
             timestamp: Math.floor(Date.now() / 1000),
             ...course,
           });
