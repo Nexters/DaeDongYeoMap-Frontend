@@ -8,7 +8,7 @@ const Home: React.FC = () => {
   return (
     <>
       <ScriptLoader
-        src="http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=dbf0edb12357b5358056521649e9a8de"
+        src="http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=0e6db48d0c7634cd2e3eec3354bd4145"
         blocker={() =>
           new Promise((resolve) => {
             (window as any).kakao.maps.load(resolve);
