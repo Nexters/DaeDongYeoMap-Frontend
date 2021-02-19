@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import CourseCard from './CourseCard';
 import {
   useCourseHistoriesState,
@@ -17,6 +17,7 @@ type Props = {
 
 const CourseHistory: React.FC<Props> = ({ courses, onClickCourse }) => {
   const [formDate, setFormDate] = useFormDateState();
+  const [DateText, setDateText] = useState('');
 
   const handleClickDate = (calendarDate: CalendarDate): void => {
     setFormDate(calendarDate.getFullDate());
@@ -27,6 +28,23 @@ const CourseHistory: React.FC<Props> = ({ courses, onClickCourse }) => {
     onClickCourse && onClickCourse(courseImage);
   };
 
+  useEffect(() => {
+    let year = String(formDate[0]);
+    let month = String(formDate[1]);
+    let date = String(formDate[2]);
+
+    if (formDate[1] < 10) {
+      month = '0' + String(formDate[1]);
+    }
+    if (formDate[2] < 10) {
+      date = '0' + String(formDate[2]);
+    }
+
+    setDateText(`${year}.${month}.${date}`);
+    console.log(formDate, 'formDate');
+    console.log(DateText, 'DateText');
+  }, [formDate]);
+
   return (
     <>
       <$.DatePickerLayer>
@@ -36,16 +54,17 @@ const CourseHistory: React.FC<Props> = ({ courses, onClickCourse }) => {
       <$.CoursePickerLayer>
         <div>코스 리스트</div>
         <$.CourseList>
-          {courses.map(({ _id, title, stickers, courseImage, timestamp }) => (
-            <$.CourseItem key={`course-${_id}`}>
+          {courses.map(({ id, title, stickers, courseImage, timestamp }) => (
+            <$.CourseItem key={`course-${id}`}>
               <CourseCard
-                id={_id}
+                id={id}
                 title={title}
                 stickers={stickers}
                 courseImage={courseImage}
                 numStickers={stickers.length}
                 timestamp={timestamp}
                 courseClicked={handleClickCourse}
+                selectedDate={DateText}
               />
             </$.CourseItem>
           ))}

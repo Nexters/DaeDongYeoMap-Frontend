@@ -7,7 +7,13 @@ import type { CourseView } from '~/components/Course/History/HistoryState';
 type FormDateState = [number, number, number];
 
 export const courseHistories = makeVar<CourseView[]>([]);
-const formDateState = makeVar<FormDateState>(null);
+
+const todayDate = new Date();
+const formDateState = makeVar<FormDateState>([
+  todayDate.getFullYear(),
+  todayDate.getMonth() + 1,
+  todayDate.getDate(),
+]);
 
 export const [
   useCourseHistories,

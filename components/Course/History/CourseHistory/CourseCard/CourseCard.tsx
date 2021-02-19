@@ -15,6 +15,7 @@ const CourseCard: React.FC<Props> = ({
   courseImage,
   numStickers,
   timestamp,
+  selectedDate,
   courseClicked,
 }) => {
   // const StickerIcon = sticker[stickerId] && sticker[stickerId].IconWithSugar;
@@ -29,6 +30,8 @@ const CourseCard: React.FC<Props> = ({
       numsticker: {numStickers}
       <br />
       time: {formatDate(timestamp, true)}
+      <br />
+      DateText : {selectedDate}
     </$.CourseCard>
   );
 };
