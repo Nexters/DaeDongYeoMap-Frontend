@@ -221,7 +221,7 @@ const SearchPlace: React.FC = () => {
         </$.PlacesAndSpots>
       )}
       {isEnter && searchKeyword && (
-        <>
+        <$.Test>
           <$.EnterDiv onClick={() => setIsClicked(false)}>
             <$.CustomBtnDiv>
               {buttons.map(({ key, label }) => {
@@ -327,7 +327,7 @@ const SearchPlace: React.FC = () => {
           <$.CloseBtn onClick={() => setIsEnter(false)}>
             <$.CloseIcon></$.CloseIcon>
           </$.CloseBtn>
-        </>
+        </$.Test>
       )}
     </>
   );

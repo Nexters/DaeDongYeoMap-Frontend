@@ -2,26 +2,28 @@ import React, { useState } from 'react';
 import * as $ from './MainMoodView';
 
 const buttons = [
-  { key: 'all', label: '전체' },
-  { key: 'sugar0', label: '당도 0%' },
-  { key: 'sugar30', label: '당도 30%' },
-  { key: 'sugar50', label: '당도 50%' },
-  { key: 'sugar70', label: '당도 70%' },
-  { key: 'sugar100', label: '당도 100%' },
+  { id: 'Icon_0.png', label: '당도 0%:풋풋한 데이트' },
+  { id: 'Icon_30.png', label: '당도 30%:유쾌한 데이트' },
+  { id: 'Icon_50.png', label: '당도 50%:설레는 데이트' },
+  { id: 'Icon_70.png', label: '당도 70%:강렬한 데이트' },
+  { id: 'Icon_100.png', label: '당도 100%:화끈한 데이트' },
 ];
 
 const MainMood: React.FC = () => {
-  const [selectedMood, setSelectedMood] = useState('all');
-  const handleClickButton = (e: React.MouseEvent, key: string) => {
+  const [moodShow, setMoodShow] = useState(false);
+  const [selectedMood, setSelectedMood] = useState('');
+  const handleClickButton = (e: React.MouseEvent, id: string) => {
     e.preventDefault();
-    if (selectedMood !== key) {
-      setSelectedMood(key);
+    if (selectedMood !== id) {
+      setSelectedMood(id);
+      console.log(selectedMood, 'mood');
     }
+    console.log(selectedMood, 'mood');
   };
 
   return (
     <$.MainMood>
-      {buttons.map(({ key, label }) => (
+      {/* {buttons.map(({ key, label }) => (
         <$.MoodButton
           key={`mood-filter-${key}`}
           color={key}
@@ -30,7 +32,18 @@ const MainMood: React.FC = () => {
         >
           {label}
         </$.MoodButton>
-      ))}
+      ))} */}
+      <$.MoodDropDownBtn onClick={() => setMoodShow(!moodShow)} />
+      <$.MoodBtnsContainer is-moodShow={!moodShow}>
+        {buttons.map(({ id, label }) => (
+          <$.MoodBtn
+            key={id}
+            src={id}
+            mood-selected={id == selectedMood}
+            onClick={(e) => handleClickButton(e, id)}
+          ></$.MoodBtn>
+        ))}
+      </$.MoodBtnsContainer>
     </$.MainMood>
   );
 };

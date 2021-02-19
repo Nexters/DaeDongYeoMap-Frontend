@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useEffect } from 'react';
 import CourseHistory from './CourseHistory';
@@ -9,6 +10,7 @@ import {
   Content,
   ContentInner,
 } from '~/components/Course/CourseView';
+
 import storage from '~/storage';
 
 import styled from 'styled-components';

@@ -4,6 +4,7 @@ import type { CourseView } from '~/components/Course/History/HistoryState';
 
 const SPOTS_KEY = 'dedong_spots';
 const COURSES_KEY = 'dedong_courses';
+
 const CURRENT_POSITION_KEY = 'daedong_current_pos';
 
 type CurrentPosition = { lngX: number; latY: number };
