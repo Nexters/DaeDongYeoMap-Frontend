@@ -5,9 +5,11 @@ import SuccessCard from './SuccessCard';
 import ShareCard from './ShareCard';
 import type { PopupChildProps } from '~/@types/popup.d';
 
-export type Props = PopupChildProps;
+export type Props = PopupChildProps & {
+  course: GQL.Course;
+};
 
-const CourseShare: React.FC<Props> = ({ zIndex }) => {
+const CourseShare: React.FC<Props> = ({ zIndex, course }) => {
   const [isSharePage, setIsSharePage] = useState(false);
   const closePopup = usePopupCloser();
 
@@ -26,9 +28,12 @@ const CourseShare: React.FC<Props> = ({ zIndex }) => {
       <$.Layer>
         <$.CloseLayerButton onClick={handleClickCloseButton} />
         {!isSharePage ? (
-          <SuccessCard onClickShareButton={handleClickShareButton} />
+          <SuccessCard
+            course={course}
+            onClickShareButton={handleClickShareButton}
+          />
         ) : (
-          <ShareCard />
+          <ShareCard course={course} />
         )}
       </$.Layer>
     </$.CourseShare>

@@ -1,14 +1,20 @@
 import React from 'react';
 import * as $ from './ShareCardView';
 
-const ShareCard: React.FC = () => {
+type Props = {
+  course: GQL.Course;
+};
+
+const ShareCard: React.FC<Props> = ({ course }) => {
   const handleClickCopyButton = (e: React.MouseEvent) => {
     e.preventDefault();
   };
 
   return (
     <$.ShareCard>
-      <$.AreaCourse></$.AreaCourse>
+      <$.AreaCourse>
+        <$.CourseImage src={course.courseImage} />
+      </$.AreaCourse>
       <$.Title>코스 이미지 공유하기</$.Title>
       <$.DownloadButton>
         <$.DownloadButtonImage></$.DownloadButtonImage>

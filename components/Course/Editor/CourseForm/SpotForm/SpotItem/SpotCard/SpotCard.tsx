@@ -9,6 +9,7 @@ import {
 import { useSpotItemHook } from '../SpotItemState';
 import SpotOptionLayer from '~/components/Course/Editor/CourseForm/SpotForm/SpotItem/SpotOptionLayer';
 import type { Props as SpotItemProps } from '../SpotItem';
+import { formatDate } from '~/util';
 
 const SpotCard: React.FC<SpotItemProps> = ({
   item: {
@@ -43,7 +44,7 @@ const SpotCard: React.FC<SpotItemProps> = ({
             <$.SpotTitle>{title}</$.SpotTitle>
             <$.SpotInfo>
               <$.Partner>{partner}</$.Partner>
-              <$.Timestamp>{timestamp}</$.Timestamp>
+              <$.Timestamp>{formatDate(timestamp, true)}</$.Timestamp>
             </$.SpotInfo>
           </$.AreaDescription>
         </$.SpotCard>
