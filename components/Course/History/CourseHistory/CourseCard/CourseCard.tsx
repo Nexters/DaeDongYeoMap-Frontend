@@ -20,17 +20,23 @@ const CourseCard: React.FC<Props> = ({
 }) => {
   // const StickerIcon = sticker[stickerId] && sticker[stickerId].IconWithSugar;
 
+  function getDay(date) {
+    console.log(date, 'date');
+    const weekName = new Array('일', '월', '화', '수', '목', '금', '토');
+    const year = date.substring(0, 4);
+    const month = date.substring(5, 7);
+    const day = date.substring(8, 10);
+    let week = new Date(year, month - 1, day, 0, 0, 0, 0);
+    let dayName = weekName[week.getDay()];
+    return dayName;
+  }
+
   return (
     // <$.CourseCard onClick={handleClick}>
     <$.CourseCard onClick={courseClicked(courseImage)}>
-      id: {id}
-      <br />
-      title: {title}
-      <br />
-      numsticker: {numStickers}
-      <br />
-      time: {formatDate(timestamp, true)}
-      <br />
+      {title}총 {numStickers}개 스팟
+      {formatDate(timestamp, true)}
+      {getDay(formatDate(timestamp, true))}요일
     </$.CourseCard>
   );
 };

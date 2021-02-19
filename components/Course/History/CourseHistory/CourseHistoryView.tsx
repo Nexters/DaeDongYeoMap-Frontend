@@ -15,10 +15,7 @@ export const CourseList = styled.ul``;
 
 export const CourseItem = styled.li`
   display: inline-block;
-  width: 168px;
-  height: 168px;
-  margin: 16px;
-  vertical-align: top;
+  border: 2px solid red;
   ${(props) =>
     props['selectedTrue'] &&
     `

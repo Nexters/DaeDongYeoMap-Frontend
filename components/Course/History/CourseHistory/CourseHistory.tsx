@@ -54,7 +54,6 @@ const CourseHistory: React.FC<Props> = ({ courses, onClickCourse }) => {
       </$.DatePickerLayer>
 
       <$.CoursePickerLayer>
-        <div>코스 리스트</div>
         <$.CourseList>
           {courses.map(({ id, title, stickers, courseImage, timestamp }) => (
             <$.CourseItem
