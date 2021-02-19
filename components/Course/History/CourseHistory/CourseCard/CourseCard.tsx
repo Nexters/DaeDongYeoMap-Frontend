@@ -34,9 +34,15 @@ const CourseCard: React.FC<Props> = ({
   return (
     // <$.CourseCard onClick={handleClick}>
     <$.CourseCard onClick={courseClicked(courseImage)}>
-      {title}총 {numStickers}개 스팟
-      {formatDate(timestamp, true)}
-      {getDay(formatDate(timestamp, true))}요일
+      {/* <$.CourseSticker src={courseImage}></$.CourseSticker> */}
+      <$.CourseTitle>{title}</$.CourseTitle>
+      <$.CourseSpotsAndDate>
+        <$.CourseSpots>총 {numStickers}개 스팟</$.CourseSpots>
+        <$.CourseDate>
+          {formatDate(timestamp, true)}
+          {getDay(formatDate(timestamp, true))}요일
+        </$.CourseDate>
+      </$.CourseSpotsAndDate>
     </$.CourseCard>
   );
 };
