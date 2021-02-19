@@ -2,15 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import painter from '~/styles/theme/painter';
 
-export const SearchDiv = styled.div`
-  position: absolute;
-  top: 35px;
-  left: 20px;
-  z-index: 5;
-  display: flex;
-  border: 2px solid blue;
-`;
-
 export const SearchForm = styled.form`
   z-index: 5;
   position: absolute;
@@ -159,52 +150,49 @@ export const SpotButtonDiv = styled.div`
 `;
 
 export const EnterDiv = styled.div`
-  background-color: #fff;
+  background-color: ${painter.basic.white};
   z-index: 4;
-  position: absolute;
   width: 370px;
-  height: 722px;
-  left: 7px;
-  top: 0px;
-  padding: 60px 24px 15px 25px;
-  margin-left: 65px;
+  height: 100%;
+  padding-top: 75px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: auto;
 `;
 
 export const CloseBtn = styled.button`
   z-index: 5;
-  position: absolute;
-  top: 300px;
-  left: 440px;
-  background-color: #fff;
+  background-color: ${painter.basic.white};
   outline: none;
   border: none;
   border-radius: 0 8px 8px 0;
   width: 32px;
   height: 88px;
   cursor: pointer;
+  overflow: auto;
+  align-self: center;
 `;
 export const CloseIcon = styled.img.attrs({
   src: '/close_div.png',
 })``;
 
 export const SearchContainer = styled.div`
-  position: absolute;
-  top: 110px;
-  left: 0px;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-top: 2%;
 `;
 
 export const CustomBtnDiv = styled.div`
   display: flex;
   justify-content: center;
-  position: absolute;
-  top: 70px;
-  left: 95px;
 `;
 
 export const CustomBtn = styled.button`
   display: inline-block;
-  margin-right: 15px;
+  margin: 0 5px;
   outline: none;
   border: none;
   border-radius: 7px;
@@ -293,13 +281,10 @@ export const SearchAgain = styled.div`
 `;
 
 export const PageDiv = styled.div`
-  position: absolute;
-  top: 685px;
-  left: 90px;
-  width: 175px;
-  height: 20px;
+  width: 50%;
   display: flex;
   justify-content: space-between;
+  margin-top: 5px;
 `;
 
 export const PrevPage = styled.img.attrs({
@@ -324,4 +309,14 @@ export const PageNum = styled.span`
     color: ${painter.grayscale['9'](props)};
     font-weight: bold;
     `}
+`;
+
+export const Test = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  z-index: 4;
+  position: absolute;
+  left: 72px;
+  top: 0px;
+  height: 100vh;
 `;

@@ -57,4 +57,10 @@ export const MoodBtn = styled.img.attrs((props) => ({
   src: props.src,
 }))`
   cursor: pointer;
+  ${(props) =>
+    props['mood-selected'] &&
+    `
+    border: 2px solid ${painter.grayscale['8']};
+  border-radius: 20px;
+    `}
 `;

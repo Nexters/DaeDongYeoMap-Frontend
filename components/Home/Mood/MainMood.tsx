@@ -11,12 +11,14 @@ const buttons = [
 
 const MainMood: React.FC = () => {
   const [moodShow, setMoodShow] = useState(false);
-  const [selectedMood, setSelectedMood] = useState('Icon_0');
+  const [selectedMood, setSelectedMood] = useState('');
   const handleClickButton = (e: React.MouseEvent, id: string) => {
     e.preventDefault();
     if (selectedMood !== id) {
       setSelectedMood(id);
+      console.log(selectedMood, 'mood');
     }
+    console.log(selectedMood, 'mood');
   };
 
   return (
@@ -37,7 +39,7 @@ const MainMood: React.FC = () => {
           <$.MoodBtn
             key={id}
             src={id}
-            mood-selected={id === selectedMood}
+            mood-selected={id == selectedMood}
             onClick={(e) => handleClickButton(e, id)}
           ></$.MoodBtn>
         ))}
