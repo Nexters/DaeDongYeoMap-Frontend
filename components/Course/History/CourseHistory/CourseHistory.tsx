@@ -10,6 +10,8 @@ import * as $ from './CourseHistoryView';
 import DatePicker from '~/components/_common/DatePicker';
 import CalendarDate from '~/util/Calendar/CalendarDate';
 
+import { formatDate } from '~/util';
+
 type Props = {
   courses: CourseView[];
   onClickCourse?: (courseImage: string) => void;
@@ -55,7 +57,10 @@ const CourseHistory: React.FC<Props> = ({ courses, onClickCourse }) => {
         <div>코스 리스트</div>
         <$.CourseList>
           {courses.map(({ id, title, stickers, courseImage, timestamp }) => (
-            <$.CourseItem key={`course-${id}`}>
+            <$.CourseItem
+              key={`course-${id}`}
+              selectedTrue={formatDate(timestamp, true) != DateText}
+            >
               <CourseCard
                 id={id}
                 title={title}

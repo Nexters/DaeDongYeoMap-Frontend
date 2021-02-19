@@ -19,4 +19,9 @@ export const CourseItem = styled.li`
   height: 168px;
   margin: 16px;
   vertical-align: top;
+  ${(props) =>
+    props['selectedTrue'] &&
+    `
+  display:none;
+  `}
 `;

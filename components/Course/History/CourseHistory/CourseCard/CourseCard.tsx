@@ -31,7 +31,6 @@ const CourseCard: React.FC<Props> = ({
       <br />
       time: {formatDate(timestamp, true)}
       <br />
-      DateText : {selectedDate}
     </$.CourseCard>
   );
 };
