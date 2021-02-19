@@ -1,9 +1,14 @@
 export type CourseView = {
   id: string;
   title: string;
-  stickers: string[];
+  stickers: Sticker[];
   courseImage: string;
   numStickers?: number;
   timestamp?: number;
-  selectedDate: string;
+  // selectedDate: string;
+};
+
+export type Sticker = {
+  sweet_percent: number;
+  sticker_index: number;
 };

@@ -31,7 +31,7 @@ const CourseHistory: React.FC<Props> = ({ courses, onClickCourse }) => {
   };
 
   useEffect(() => {
-    let year = String(formDate[0]);
+    const year = String(formDate[0]);
     let month = String(formDate[1]);
     let date = String(formDate[2]);
 

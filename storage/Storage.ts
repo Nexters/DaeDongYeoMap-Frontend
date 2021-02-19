@@ -73,6 +73,8 @@ class Storage {
   }
 
   public addCourse(course: CourseView): void {
+    console.log(course);
+
     const courses: CourseView[] = this.getCourses();
     const courseIdx: number = findIndex<CourseView>(courses, ({ id }) => {
       return id === course.id;

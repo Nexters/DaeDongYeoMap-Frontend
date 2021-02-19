@@ -26,7 +26,10 @@ const GET_COURSE = gql`
   query Course($courseInput: CourseInput!) {
     course(courseInput: $courseInput) {
       _id
-      stickers
+      stickers(populate: true) {
+        sweet_percent
+        sticker_index
+      }
       title
       is_share
       courseImage
@@ -38,7 +41,10 @@ const CREATE_COURSE = gql`
   mutation CreateCourse($createCourseInput: CreateCourseInput!) {
     createCourse(createCourseInput: $createCourseInput) {
       _id
-      stickers
+      stickers(populate: true) {
+        sweet_percent
+        sticker_index
+      }
       title
       is_share
       courseImage
@@ -72,6 +78,7 @@ export const useFormSubmitter = (): (() => void) => {
           storage.addCourse({
             id: course._id,
             numStickers: course.stickers.length,
+            stickers: course.stickers,
             timestamp: Math.floor(Date.now() / 1000),
             ...course,
           });
@@ -81,6 +88,9 @@ export const useFormSubmitter = (): (() => void) => {
               course,
             },
           });
+        })
+        .catch((err) => {
+          console.error(err);
         });
     },
   });

@@ -22,19 +22,31 @@ const CourseCard: React.FC<Props> = ({
 
   function getDay(date) {
     console.log(date, 'date');
-    const weekName = new Array('일', '월', '화', '수', '목', '금', '토');
+    const weekName = ['일', '월', '화', '수', '목', '금', '토'];
     const year = date.substring(0, 4);
     const month = date.substring(5, 7);
     const day = date.substring(8, 10);
-    let week = new Date(year, month - 1, day, 0, 0, 0, 0);
-    let dayName = weekName[week.getDay()];
+    const week = new Date(year, month - 1, day, 0, 0, 0, 0);
+    const dayName = weekName[week.getDay()];
     return dayName;
   }
 
+  function getStickerImage(sweet_percent: number, sticker_index: number) {
+    const baseUrl =
+      'https://storage.googleapis.com/sticker_images/sweets_76_76';
+    return `${baseUrl}/${sweet_percent}_${sticker_index}.png`;
+  }
+
   return (
-    // <$.CourseCard onClick={handleClick}>
     <$.CourseCard onClick={courseClicked(courseImage)}>
-      {/* <$.CourseSticker src={courseImage}></$.CourseSticker> */}
+      {stickers &&
+        stickers.map(({ sweet_percent, sticker_index }, idx) => (
+          <$.CourseSticker
+            key={idx}
+            src={getStickerImage(sweet_percent, sticker_index)}
+          />
+        ))}
+
       <$.CourseTitle>{title}</$.CourseTitle>
       <$.CourseSpotsAndDate>
         <$.CourseSpots>총 {numStickers}개 스팟</$.CourseSpots>
