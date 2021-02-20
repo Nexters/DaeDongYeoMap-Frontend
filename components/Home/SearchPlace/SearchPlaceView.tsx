@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import painter from '~/styles/theme/painter';
 
-
 export const SearchForm = styled.form`
   z-index: 5;
   position: absolute;
@@ -160,6 +159,7 @@ export const EnterDiv = styled.div`
   flex-direction: column;
   align-items: center;
   overflow: auto;
+  justify-content: space-around;
 `;
 
 export const CloseBtn = styled.button`

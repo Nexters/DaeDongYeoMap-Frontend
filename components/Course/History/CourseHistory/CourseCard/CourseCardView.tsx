@@ -29,6 +29,7 @@ export const CourseTitle = styled.div`
 
 export const CourseSpotsAndDate = styled.div`
   display: flex;
+  margin-top: 5px;
 `;
 
 export const CourseSpots = styled.div`
