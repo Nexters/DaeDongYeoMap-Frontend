@@ -5,7 +5,6 @@ import { useEndSpotsRemover } from '../CandidateSpots/CandidateSpotsState';
 import { useSpotFormResetter } from './SpotForm/SpotFormState';
 import { PopupType } from '~/@types/popup.d';
 import { usePopupOpener } from '~/lib/apollo/hooks/usePopup';
-import storage from '~/storage';
 
 const formTitle = makeVar<string>('');
 const formSpots = makeVar<SpotView[]>([]);
@@ -69,12 +68,7 @@ export const useFormSubmitter = (): (() => void) => {
           },
         })
         .then(({ data: { course } }) => {
-          storage.addCourse({
-            id: course._id,
-            numStickers: course.stickers.length,
-            timestamp: Math.floor(Date.now() / 1000),
-            ...course,
-          });
+          // TODO: 로컬스토리지에 코스 저장
           openPopup({
             popupType: PopupType.COURSE_SHARE,
             popupProps: {
