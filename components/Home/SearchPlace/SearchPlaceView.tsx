@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import painter from '~/styles/theme/painter';
 
+
 export const SearchForm = styled.form`
   z-index: 5;
   position: absolute;
