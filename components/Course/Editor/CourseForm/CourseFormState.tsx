@@ -5,6 +5,7 @@ import { useEndSpotsRemover } from '../CandidateSpots/CandidateSpotsState';
 import { useSpotFormResetter } from './SpotForm/SpotFormState';
 import { PopupType } from '~/@types/popup.d';
 import { usePopupOpener } from '~/lib/apollo/hooks/usePopup';
+import storage from '~/storage';
 
 const formTitle = makeVar<string>('');
 const formSpots = makeVar<SpotView[]>([]);
@@ -25,7 +26,10 @@ const GET_COURSE = gql`
   query Course($courseInput: CourseInput!) {
     course(courseInput: $courseInput) {
       _id
-      stickers
+      stickers(populate: true) {
+        sweet_percent
+        sticker_index
+      }
       title
       is_share
       courseImage
@@ -37,7 +41,10 @@ const CREATE_COURSE = gql`
   mutation CreateCourse($createCourseInput: CreateCourseInput!) {
     createCourse(createCourseInput: $createCourseInput) {
       _id
-      stickers
+      stickers(populate: true) {
+        sweet_percent
+        sticker_index
+      }
       title
       is_share
       courseImage
@@ -68,13 +75,22 @@ export const useFormSubmitter = (): (() => void) => {
           },
         })
         .then(({ data: { course } }) => {
-          // TODO: 로컬스토리지에 코스 저장
+          storage.addCourse({
+            id: course._id,
+            numStickers: course.stickers.length,
+            stickers: course.stickers,
+            timestamp: Math.floor(Date.now() / 1000),
+            ...course,
+          });
           openPopup({
             popupType: PopupType.COURSE_SHARE,
             popupProps: {
               course,
             },
           });
+        })
+        .catch((err) => {
+          console.error(err);
         });
     },
   });

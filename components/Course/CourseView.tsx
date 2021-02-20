@@ -22,6 +22,7 @@ export const Sidebar = styled.div`
   height: 100%;
   box-shadow: 0 0 24px 2px ${painter.grayscale[4]};
   background-color: ${painter.basic.white};
+  overflow: auto;
 `;
 
 export const Content = styled.div`

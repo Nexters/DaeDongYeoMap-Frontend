@@ -61,7 +61,7 @@ declare namespace GQL {
   }
   export interface Course {
     _id: string;
-    stickers: string[];
+    stickers: Sticker[];
     title: string;
     is_share: boolean;
     courseImage: string;
@@ -102,7 +102,7 @@ declare namespace GQL {
   export namespace CreateCourse {
     export type Variables = {
       createCourseInput: {
-        stickers: string[];
+        stickers: Sticker[];
         title: string;
         is_share: boolean;
       };
