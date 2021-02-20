@@ -102,7 +102,7 @@ declare namespace GQL {
   export namespace CreateCourse {
     export type Variables = {
       createCourseInput: {
-        stickers: Sticker[];
+        stickers: string[];
         title: string;
         is_share: boolean;
       };

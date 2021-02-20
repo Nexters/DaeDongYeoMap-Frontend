@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import CourseCard from './CourseCard';
-import {
-  useCourseHistoriesState,
-  useFormDateState,
-} from './CourseHistoryState';
+import { useFormDateState } from './CourseHistoryState';
 import { CourseView } from '../HistoryState';
 
 import * as $ from './CourseHistoryView';
@@ -68,7 +65,6 @@ const CourseHistory: React.FC<Props> = ({ courses, onClickCourse }) => {
                 numStickers={stickers.length}
                 timestamp={timestamp}
                 courseClicked={handleClickCourse}
-                selectedDate={DateText}
               />
             </$.CourseItem>
           ))}

@@ -15,7 +15,7 @@ export const createApolloClient = (): ApolloClient<NormalizedCacheObject> => {
   const client = new ApolloClient({
     ssrMode,
     link: new HttpLink({
-      uri: 'https://korean-date-map.herokuapp.com/graphql',
+      uri: 'https://daedongyeomap-lgeeng2eia-du.a.run.app',
       credentials: 'same-origin',
     }),
     cache: createCache(),
