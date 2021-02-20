@@ -5,7 +5,6 @@ export type CourseView = {
   courseImage: string;
   numStickers?: number;
   timestamp?: number;
-  // selectedDate: string;
 };
 
 export type Sticker = {

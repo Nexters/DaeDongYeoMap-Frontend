@@ -17,7 +17,9 @@ export const CourseList = styled.ul`
   align-items: center;
 `;
 
-export const CourseItem = styled.li`
+export const CourseItem = styled.li<{
+  selectedTrue: boolean;
+}>`
   display: inline-block;
   margin-bottom: 20px;
   ${(props) =>
