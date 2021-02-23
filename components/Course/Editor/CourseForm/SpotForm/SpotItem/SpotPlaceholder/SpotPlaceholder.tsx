@@ -12,7 +12,7 @@ import {
   SpotOrder as $SpotOrder,
   SpotCard as $SpotCard,
 } from '../SpotItemView';
-import type { SpotView } from '~/components/Course/Editor/EditorState';
+import type { StickerCardRecord } from '~/@types/record.d';
 import type { Props as SpotItemProps } from '../SpotItem';
 
 const SpotPlaceholder: React.FC<SpotItemProps> = ({ item }) => {
@@ -44,7 +44,7 @@ const SpotPlaceholder: React.FC<SpotItemProps> = ({ item }) => {
       return;
     }
 
-    const spot: SpotView = getDraggedSpot();
+    const spot: StickerCardRecord = getDraggedSpot();
 
     replacePlaceholderToSpot(itemIndex, spot);
     changeStatusToEnd(spot.id);

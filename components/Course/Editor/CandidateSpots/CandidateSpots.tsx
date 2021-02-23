@@ -7,22 +7,22 @@ import {
   useDraggedStatus,
 } from './CandidateSpotsState';
 import * as $ from './CandidateSpotsView';
-import { SpotView } from '../EditorState';
-import storage from '~/storage';
+import { StickerCardRecord } from '~/@types/record.d';
+import Storage from '~/lib/storage';
 
 const CandidateSpots: React.FC = () => {
   const [candidateSpots, setCandidateSpots] = useCandidateSpotsState();
   const [status, setStatus] = useDraggedStatus();
 
   useEffect(() => {
-    const spots = storage.getSpots();
+    const spots = Storage.getStickerCards();
 
     setCandidateSpots(spots);
   }, []);
 
   useEffect(() => {
     const initialStatus = candidateSpots.reduce(
-      (obj: DraggedStatusMap, spot: SpotView) => {
+      (obj: DraggedStatusMap, spot: StickerCardRecord) => {
         obj[spot.id] = DraggedStatus.Wait;
         return obj;
       },

@@ -1,14 +1,14 @@
 import { makeVar, gql, useMutation, useApolloClient } from '@apollo/client';
 import createReactiveVarHooks from '~/util/createReactiveVarHooks';
-import type { SpotView } from '../EditorState';
 import { useEndSpotsRemover } from '../CandidateSpots/CandidateSpotsState';
 import { useSpotFormResetter } from './SpotForm/SpotFormState';
 import { PopupType } from '~/@types/popup.d';
 import { usePopupOpener } from '~/lib/apollo/hooks/usePopup';
-import storage from '~/storage';
+import Storage from '~/lib/storage';
+import type { StickerCardRecord } from '~/@types/record.d';
 
 const formTitle = makeVar<string>('');
-const formSpots = makeVar<SpotView[]>([]);
+const formSpots = makeVar<StickerCardRecord[]>([]);
 
 export const [
   useFormTitle,
@@ -75,7 +75,7 @@ export const useFormSubmitter = (): (() => void) => {
           },
         })
         .then(({ data: { course } }) => {
-          storage.addCourse({
+          Storage.addCourseCard({
             id: course._id,
             numStickers: course.stickers.length,
             stickers: course.stickers,

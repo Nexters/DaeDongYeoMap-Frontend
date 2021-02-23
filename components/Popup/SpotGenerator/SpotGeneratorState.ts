@@ -1,6 +1,6 @@
 import { makeVar, gql, useMutation } from '@apollo/client';
 import sugar, { parseStickerId } from '~/constants/sugar';
-import storage from '~/storage';
+import Storage from '~/lib/storage';
 import createReactiveVarHooks from '~/util/createReactiveVarHooks';
 import type { Sugar } from '~/constants/sugar';
 import type { Props as SpotGeneratorProps } from './SpotGenerator';
@@ -83,7 +83,7 @@ export const useCreateSticker = (): CreateSticker => {
     GQL.CreateSticker.Variables
   >(CREATE_STICKER, {
     onCompleted({ createSticker: data }) {
-      const sticker = {
+      const stickerCard = {
         id: data._id,
         stickerId,
         title: data.spot.place_name,
@@ -91,7 +91,7 @@ export const useCreateSticker = (): CreateSticker => {
         timestamp: Math.floor(Date.now() / 1000),
       };
 
-      storage.addSpot(sticker);
+      Storage.addStickerCard(stickerCard);
     },
   });
 

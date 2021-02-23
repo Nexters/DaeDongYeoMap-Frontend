@@ -7,7 +7,7 @@ import createReactiveVarHooks, {
   StateSetter,
 } from '~/util/createReactiveVarHooks';
 import IdGenerator from '~/util/IdGenerator';
-import type { SpotView } from '~/components/Course/Editor/EditorState';
+import type { StickerCardRecord } from '~/@types/record.d';
 
 /**
  * Placeholder ID Generator
@@ -16,11 +16,15 @@ const placholderIdGenerator = IdGenerator.create(
   (index: number) => `ph_${index}`
 );
 
-export const createPlacholderData = (): SpotView => ({
+export const createPlacholderData = (): StickerCardRecord => ({
   id: placholderIdGenerator.get(),
+  stickerId: null,
+  title: null,
+  partner: null,
+  timestamp: null,
 });
 
-export const checkPlaceholder = (spot: SpotView): boolean => {
+export const checkPlaceholder = (spot: StickerCardRecord): boolean => {
   return spot.id[0] === 'p' && spot.id[1] === 'h' && spot.id[2] === '_';
 };
 
@@ -51,7 +55,7 @@ type SpotItemHook = {
   pressedSpotId: SpotId;
   openSpotOptionLayer: StateSetter<SpotId>;
   removeSpotOrPlaceholder: (spotId: SpotId) => void;
-  replacePlaceholderToSpot: (index: number, spot: SpotView) => void;
+  replacePlaceholderToSpot: (index: number, spot: StickerCardRecord) => void;
 };
 
 export const useSpotItemHook = (): SpotItemHook => {
@@ -60,7 +64,7 @@ export const useSpotItemHook = (): SpotItemHook => {
   const [pressedSpotId, setPressedSpotId] = usePressedSpot();
 
   const removeSpotOrPlaceholder = (spotId: string) => {
-    const filteredSpots: SpotView[] = [];
+    const filteredSpots: StickerCardRecord[] = [];
 
     for (let i = 0; i < spotItems.length; ++i) {
       if (spotItems[i].id !== spotId) {
@@ -72,7 +76,7 @@ export const useSpotItemHook = (): SpotItemHook => {
     setSpotItems(filteredSpots);
   };
 
-  const replacePlaceholderToSpot = (index: number, spot: SpotView) => {
+  const replacePlaceholderToSpot = (index: number, spot: StickerCardRecord) => {
     const nextSpotItems = [...spotItems];
 
     nextSpotItems.splice(index, 1, spot);

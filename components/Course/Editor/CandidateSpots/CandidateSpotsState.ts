@@ -1,7 +1,7 @@
 import { makeVar } from '@apollo/client';
 import createReactiveVarHooks from '~/util/createReactiveVarHooks';
-import storage from '~/storage';
-import type { SpotView } from '~/components/Course/Editor/EditorState';
+import Storage from '~/lib/storage';
+import type { StickerCardRecord } from '~/@types/record.d';
 
 export enum DraggedStatus {
   Wait,
@@ -13,7 +13,7 @@ export type DraggedStatusMap = {
   [spotId: string]: DraggedStatus;
 };
 
-export const candidateSpots = makeVar<SpotView[]>([]);
+export const candidateSpots = makeVar<StickerCardRecord[]>([]);
 
 export const [
   useCandidateSpots,
@@ -31,7 +31,7 @@ export const useEndSpotsRemover = (): (() => void) => {
       const isEnded = status[spot.id] === DraggedStatus.End;
 
       if (isEnded) {
-        storage.removeSpot(spot.id);
+        Storage.removeStickerCard(spot.id);
       }
 
       return !isEnded;
@@ -57,10 +57,10 @@ export const changeStatusToEnd = (spotId: string): void => {
   setDragStatus(nextStatus);
 };
 
-let draggedSpot: SpotView = null;
+let draggedSpot: StickerCardRecord = null;
 
-export const getDraggedSpot = (): SpotView => draggedSpot;
+export const getDraggedSpot = (): StickerCardRecord => draggedSpot;
 
-export const setDraggedSpot = (spot: SpotView): void => {
+export const setDraggedSpot = (spot: StickerCardRecord): void => {
   draggedSpot = spot;
 };

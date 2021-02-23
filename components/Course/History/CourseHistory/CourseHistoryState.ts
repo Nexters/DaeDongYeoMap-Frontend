@@ -1,12 +1,10 @@
 import { makeVar } from '@apollo/client';
 import createReactiveVarHooks from '~/util/createReactiveVarHooks';
-import storage from '~/storage';
-
-import type { CourseView } from '~/components/Course/History/HistoryState';
+import type { CourseCardRecord } from '~/@types/record.d';
 
 type FormDateState = [number, number, number];
 
-export const courseHistories = makeVar<CourseView[]>([]);
+export const courseHistories = makeVar<CourseCardRecord[]>([]);
 
 const todayDate = new Date();
 const formDateState = makeVar<FormDateState>([

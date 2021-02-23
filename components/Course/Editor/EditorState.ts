@@ -1,4 +1,4 @@
-export type SpotView = {
+export type StickerCardModel = {
   id: string;
   stickerId?: string;
   title?: string;

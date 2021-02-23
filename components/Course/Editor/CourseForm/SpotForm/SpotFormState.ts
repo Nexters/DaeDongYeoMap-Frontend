@@ -7,8 +7,8 @@ import {
   createPlacholderData,
   usePressedSpotSetter,
 } from './SpotItem/SpotItemState';
-import type { SpotView } from '~/components/Course/Editor/EditorState';
 import { useFormSpotsSetter } from '../CourseFormState';
+import type { StickerCardRecord } from '~/@types/record.d';
 
 export enum SpotTableItemType {
   Spot = 'Spot',
@@ -21,7 +21,7 @@ export type SpotTableItem = {
   type: SpotTableItemType;
   itemIndex?: number;
   order?: number;
-  data?: SpotView;
+  data?: StickerCardRecord;
 };
 export type SpotTable = Array<Array<SpotTableItem>>;
 export type SpotFormHook = {
@@ -33,7 +33,7 @@ const COLUMN_COUNT = 3;
 // 실제 DOM의 열 개수
 const LAYOUT_COLUMN_COUNT = COLUMN_COUNT * 2 - 1;
 
-const mapToSpotTable = (spots: SpotView[]): SpotTable => {
+const mapToSpotTable = (spots: StickerCardRecord[]): SpotTable => {
   const spotTable: SpotTable = [[]];
   let order = 0;
 
@@ -90,9 +90,9 @@ const mapToSpotTable = (spots: SpotView[]): SpotTable => {
   return spotTable;
 };
 
-export const spotItems: ReactiveVar<SpotView[]> = makeVar<Array<SpotView>>([
-  createPlacholderData(),
-]);
+export const spotItems: ReactiveVar<StickerCardRecord[]> = makeVar<
+  StickerCardRecord[]
+>([createPlacholderData()]);
 
 export const [
   useSpotItemsValue,

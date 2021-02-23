@@ -10,7 +10,7 @@ import {
   ContentInner,
 } from '~/components/Course/CourseView';
 
-import storage from '~/storage';
+import Storage from '~/lib/storage';
 
 import styled from 'styled-components';
 export const CourseImage = styled.img`
@@ -26,7 +26,7 @@ const History: React.FC = () => {
   );
 
   useEffect(() => {
-    const courses = storage.getCourses();
+    const courses = Storage.getCourseCards();
     setCouseHistories(courses);
   }, []);
 

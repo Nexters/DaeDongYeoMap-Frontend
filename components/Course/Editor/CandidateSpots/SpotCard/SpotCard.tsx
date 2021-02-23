@@ -3,16 +3,16 @@ import { sticker } from '~/constants/sugar';
 import * as $ from './SpotCardView';
 import { DRAG_IDENTIFIER_VALUE, DRAG_KEY } from '~/constants/dom';
 import { DraggedStatus, setDraggedSpot } from '../CandidateSpotsState';
-import type { SpotView } from '~/components/Course/Editor/EditorState';
 import { formatDate } from '~/util';
+import type { StickerCardRecord } from '~/@types/record.d';
 
-type Props = SpotView & {
+type Props = StickerCardRecord & {
   status: DraggedStatus;
 };
 
 const SpotCard: React.FC<Props> = (props) => {
   const { status, id, stickerId, title, partner, timestamp } = props;
-  const spot: SpotView = { id, stickerId, title, partner, timestamp };
+  const spot: StickerCardRecord = { id, stickerId, title, partner, timestamp };
 
   const StickerIcon = sticker[stickerId] && sticker[stickerId].IconWithSugar;
   const isDraggable = status === DraggedStatus.Wait;

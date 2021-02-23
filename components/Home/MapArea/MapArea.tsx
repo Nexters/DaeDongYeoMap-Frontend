@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import * as $ from './MapAreaView';
 import emojis from '~/constants/sugar';
-import storage from '~/storage';
+import Storage from '~/lib/storage';
 import { gql, useLazyQuery, useReactiveVar } from '@apollo/client';
 import {
   useCurrentPositionState,
@@ -10,12 +10,6 @@ import {
 } from '~/lib/apollo/vars/home';
 import SpotOverlay from './SpotOverlay';
 import { ATTR_OVERLAY_ID, CLASS_OVERLAY } from '~/constants/kakaoMap';
-
-declare global {
-  interface Window {
-    kakao: any;
-  }
-}
 
 const GET_MAP_SPOTS = gql`
   query GetMapSpots($searchSpotDto: SearchSpotDto) {
@@ -118,7 +112,7 @@ const MapArea: React.FC = () => {
       lat: currentPosition.latY,
       lng: currentPosition.lngX,
     });
-    const storedPosition = storage.getCurrentPosition();
+    const storedPosition = Storage.getCurrentPosition();
 
     setKakaoMap(kakaoMap);
     if (storedPosition) {
@@ -148,7 +142,7 @@ const MapArea: React.FC = () => {
 
   useEffect(() => {
     kakaoMap?.setCenter(new LatLng(currentPosition.latY, currentPosition.lngX));
-    storage.setCurrentPosition(currentPosition);
+    Storage.setCurrentPosition(currentPosition);
     getMapSpots({
       variables: {
         searchSpotDto: {
@@ -163,11 +157,6 @@ const MapArea: React.FC = () => {
     if (!kakaoMap) {
       return;
     }
-
-    // TODO - 커스텀 커서 만들기
-    console.log(isCustomSpotSetting);
-    // if (isCustomSpotSetting) el.classList.add('spot-marker');
-    // else el.classList.remove('spot-marker');
 
     const circle = new Circle({
       center: new LatLng(currentPosition.latY, currentPosition.lngX), // 원의 중심좌표 입니다
@@ -251,40 +240,3 @@ const MapArea: React.FC = () => {
 };
 
 export default MapArea;
-
-// < useEffect 안에서 마우스 이벤트 리스너 추가하던 부분 >
-// 현재 호출되지 않는 소스코드라 임시로 빼둔 상태
-
-// (window as any).kakao.maps.event.addListener(
-//   kakaoMap,
-//   'mouseup',
-//   function (mouseEvent) {
-//     // 클릭한 위도, 경도 정보를 가져옵니다
-//     const latlng = mouseEvent.latLng;
-//     if (false) {
-//       marker.setPosition(latlng);
-//       const spotEmoji = {
-//         pos: new (window as any).kakao.maps.LatLng(
-//           latlng.getLat(),
-//           latlng.getLng()
-//         ),
-//         imgSrc: '',
-//         imgSize: new (window as any).kakao.maps.Size(50, 50),
-//         imgOptions: {
-//           spriteOrigin: new (window as any).kakao.maps.Point(0, 0),
-//           spriteSize: new (window as any).kakao.maps.Size(50, 50),
-//         },
-//       };
-//       const emojiImg = new (window as any).kakao.maps.MarkerImage(
-//         spotEmoji.imgSrc,
-//         spotEmoji.imgSize,
-//         spotEmoji.imgOptions
-//       );
-//       const emoji = new (window as any).kakao.maps.Marker({
-//         position: spotEmoji.pos,
-//         image: emojiImg,
-//       });
-//       emoji.setMap(map);
-//     }
-//   }
-// );
